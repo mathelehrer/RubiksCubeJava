@@ -12,7 +12,7 @@ class CycleTest {
     void setUp() {
         cycle=Cycle.randomCycle();
         empty=Cycle.randomCycle(0);
-        one=Cycle.ONE;
+        one=new Cycle(new byte[]{0});
     }
 
     @org.junit.jupiter.api.Test
@@ -47,6 +47,7 @@ class CycleTest {
 
     @org.junit.jupiter.api.Test
     void testToString() {
-        assertEquals(cycle.toString(), Cycle.parse(cycle.toString()).toString());
+        assertEquals(cycle.toString(), Cycle.parse(cycle.toString()).toString()
+        );
     }
 }

@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BaseTest {
-    private Base omega;
+class SetTest {
+    private Set omega;
     private Cycle cycle;
     @BeforeEach
     void setUp() {
-        omega=new Base(10);
+        omega=new Set(10);
         cycle = new Cycle(new byte[]{2,3,4,5});
 
     }

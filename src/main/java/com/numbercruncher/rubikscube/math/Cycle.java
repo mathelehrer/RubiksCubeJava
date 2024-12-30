@@ -1,11 +1,9 @@
 package com.numbercruncher.rubikscube.math;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.*;
 
@@ -20,13 +18,19 @@ import static java.util.Arrays.*;
  * Since: 30/12/2024
  * @version: 30/12/2024
  */
-public class Cycle extends ArrayList<Byte> {
-    public static Cycle ONE = new Cycle();
+public class Cycle extends ArrayList<Byte> implements Comparable<Cycle>{
+    /*************************************
+     *********** Attributes ***************
+     **************************************/
 
     /*************************************
      *********** Constructor ***************
      **************************************/
-    public Cycle(Byte... elements){
+    public Cycle(){
+        super();
+    }
+
+    public Cycle(Byte[] elements){
         super();
         this.addAll(asList(elements));
     }
@@ -57,9 +61,12 @@ public class Cycle extends ArrayList<Byte> {
         return copy;
     }
 
+
+
     /*************************************
      *********** Public Methods ***********
      **************************************/
+
     public Cycle inverse(){
         if (this.size()<3) return this.copy();
         else{
@@ -123,5 +130,10 @@ public class Cycle extends ArrayList<Byte> {
     }
 
 
-
+    @Override
+    public int compareTo(Cycle o) {
+        int one = this.stream().min(Byte::compareTo).orElse((byte)0);
+        int two  =o.stream().min(Byte::compareTo).orElse((byte)0);
+        return one-two;
+    }
 }
