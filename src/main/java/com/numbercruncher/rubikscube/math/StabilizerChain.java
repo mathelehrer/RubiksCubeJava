@@ -116,13 +116,17 @@ public class StabilizerChain {
 
 
         out+=indent;
+        out+="generators: ["+chain.getGenerators().stream().map(Object::toString).collect(Collectors.joining(","))+"]\n";
+        out+=indent;
         out+="orbit: ["+chain.getOrbit().stream().map(Object::toString).collect(Collectors.joining(","))+"]\n";
         out+=indent;
         out+="coset representative: ["+chain.getCosetRepresentatives().entrySet().stream().map(Object::toString).collect(Collectors.joining(","))+"].\n";
 
         if (!chain.isLast()){
             out+=indent;
-            out+="stabilizer: \n"+buildToString(chain.getStabilizer(),depth+1);
+            out+="stabilizer:\n";
+            out+=indent;
+            out+="-----------\n"+buildToString(chain.getStabilizer(),depth+1);
         }
         return out;
     }
@@ -133,6 +137,7 @@ public class StabilizerChain {
 
     public String toString(){
         String out="Stabilizer chain: \n";
+        out+="=================\n";
         out+=buildToString(this,0);
         return out;
 

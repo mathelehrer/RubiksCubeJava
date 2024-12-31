@@ -2,6 +2,7 @@ package com.numbercruncher.rubikscube.math;
 
 import com.numbercruncher.rubikscube.utils.StringUtils;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -94,6 +95,13 @@ public class PermutationGroup {
         }
         return this.stabilizerChain;
     }
+
+    public BigInteger getSize(){
+        StabilizerChain chain = getStabilizerChain();
+        return calcGroupSize(chain);
+    }
+
+
     /*****************************
      **** Setter    **************
      *****************************/
@@ -111,6 +119,10 @@ public class PermutationGroup {
     /*****************************
      **** public methods *********
      *****************************/
+
+    public boolean contains(GroupElement element){
+        return this.contains(element.getPermutation());
+    }
 
     public boolean contains(Permutation perm){
         return checkElement(perm, getStabilizerChain());
@@ -137,9 +149,39 @@ public class PermutationGroup {
         return out;
     }
 
+    public void visualizeStabilizerChain(){
+        StabilizerChain chain = getStabilizerChain();
+        String out = "Stabilizer chain orbit structure:\n";
+        out+= "=================================\n";
+
+        out+=generateOrbitLine(IntStream.range(0,this.degree).boxed().map(v->Byte.parseByte(v+"")).collect(Collectors.toList()))+"\n";
+        for (int i = 0; i < this.degree; i++) {
+            out+="====";
+        }
+        out+="\n";
+
+        List<Byte> orbit = chain.getOrbit();
+        out+=generateOrbitLine(orbit)+"\n";
+
+        out+=visualizeStabilizerChain(chain.getStabilizer());
+        System.out.println(out);
+    }
+
+
+
     /*****************************
      **** private methods  *******
      *****************************/
+
+    private BigInteger calcGroupSize(StabilizerChain chain) {
+        if (chain.isLast()){
+            return BigInteger.ONE;
+        }
+        else{
+            return new BigInteger(String.valueOf(chain.getOrbit().size())).multiply(calcGroupSize(chain.getStabilizer()));
+        }
+    }
+
     private void schreierSims(){
         this.stabilizerChain=new StabilizerChain();
         for (Permutation generator : generators) {
@@ -176,12 +218,12 @@ public class PermutationGroup {
                 for (int i=0;i<oldOrbitSize;i++){
                     byte delta = orbit.get(i);
                     byte gamma = g.action(orbit.get(i));
-                    if (!orbit.contains(gamma)){
+                    if (!orbit.contains(gamma)) {
                         //new orbit element
-                        chain.addOrbitPoint(gamma);
-                        chain.addCosetRepresentative(gamma,chain.getCosetRepresentative(delta).multiply(g));
+                        chain.addCosetRepresentative(gamma, chain.getCosetRepresentative(delta).multiply(g));
                         orbit.add(gamma);
-
+                    }
+                    else{
                         Permutation repGamma= chain.getCosetRepresentative(gamma);
                         Permutation repDelta= chain.getCosetRepresentative(delta);
 
@@ -197,9 +239,11 @@ public class PermutationGroup {
                     for (Permutation generator : chain.getGenerators()) {
                         byte delta = orbit.get(i);
                         byte gamma = generator.action(delta);
-                        if (!orbit.contains(gamma)){
+                        if (!orbit.contains(gamma)) {
                             orbit.add(gamma);//this should make the for loop longer
-                            chain.addOrbitPoint(gamma);
+                            chain.addCosetRepresentative(gamma,chain.getCosetRepresentative(delta).multiply(generator));
+                        }
+                        else{
                             Permutation repGamma= chain.getCosetRepresentative(gamma);
                             Permutation repDelta = chain.getCosetRepresentative(delta);
                             Permutation s = repDelta.multiply(generator.multiply(repGamma.inverse()));
@@ -225,14 +269,14 @@ public class PermutationGroup {
 
         for (Byte b : prefered) {
             byte beta = g.action(b);
-            if (beta!=b) return beta;
+            if (beta!=b) return b;
         }
 
         //fall back to full omega, when the rules cannot be satisfied
 
         for (Byte b : omega) {
             byte beta = g.action(b);
-            if (beta!=b) return beta;
+            if (beta!=b) return b;
         }
 
         return -1;//this case should not occur :-)
@@ -269,6 +313,38 @@ public class PermutationGroup {
 
         }
     }
+
+    private String generateOrbitLine(List<Byte> orbit) {
+        byte first = orbit.get(0);
+        List<Byte> orbitCopy = new ArrayList<>(orbit);
+        Collections.sort(orbitCopy);
+
+        String line="";
+        byte pos = 0;
+        for (byte b : orbitCopy) {
+            for (int tab = pos; tab < b; tab++) {
+                line+="\t";
+            }
+            if (b==first){
+                line+=b+"*\t";
+            }
+            else{
+                line+=b+"\t";
+            }
+            pos=(byte) (b+1);
+        }
+        return line;
+    }
+
+    private String visualizeStabilizerChain(StabilizerChain stabilizer) {
+        if (stabilizer.isLast()){
+            return "\n";
+        }
+        else{
+            return generateOrbitLine(stabilizer.getOrbit())+"\n"+visualizeStabilizerChain(stabilizer.getStabilizer());
+        }
+    }
+
     /*****************************
      **** overrides     **********
      *****************************/
