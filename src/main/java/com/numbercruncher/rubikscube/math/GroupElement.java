@@ -3,7 +3,11 @@ package com.numbercruncher.rubikscube.math;
 import com.numbercruncher.rubikscube.utils.StringUtils;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * The class GroupElement
@@ -18,7 +22,7 @@ public class GroupElement {
     /*****************************
      **** Attributes **************
      *****************************/
-    private Permutation permutation;
+    private final Permutation permutation;
     private String word;
 
     /*****************************
@@ -66,6 +70,17 @@ public class GroupElement {
             word = rule.apply(word);
         }
     }
+
+    public void apply(TreeMap<String, String> rules) {
+        String finalWord = this.getWord();
+        final Predicate<String> selector = s->s.length()<= finalWord.length();
+        TreeMap<String, String> subRules = rules.entrySet().stream().filter(v->selector.test(v.getKey())).collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue,(v1, v2)->v1,TreeMap::new));
+        for (Map.Entry<String,String> entry : subRules.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            this.word = this.word.replace(key,value);
+        }
+    }
     /*****************************
      **** private methods  *******
      *****************************/
@@ -74,9 +89,38 @@ public class GroupElement {
      **** Overrides     **********
      *****************************/
 
+    /**
+     * Provides a string representation of the object. If the length of the word exceeds 5 characters,
+     * the result will be a shortened form using the first and last characters of the word, separated by "...".
+     * Otherwise, the full word is returned.
+     *
+     * @return a string representation of the object, either shortened or the full word.
+     */
     public String toString(){
-        return word+": "+permutation;
+        if (word.length()>5)
+            return word.charAt(0)+"..."+word.substring(word.length()-1);
+        return word;
     }
+
+    /**
+     * Returns the full word representation of the group element.
+     *
+     * @return the full word as a string.
+     */
+    public String toFullWordString(){
+        return word;
+    }
+
+    /**
+     * Provides a detailed string representation of the group element,
+     * including both the word and its associated permutation formatted as "word->permutation".
+     *
+     * @return a string combining the word and permutation in the format "word->permutation".
+     */
+    public String toFullString(){
+        return word+"->"+permutation.toString();
+    }
+
 
     /*****************************
      **** static methods **********

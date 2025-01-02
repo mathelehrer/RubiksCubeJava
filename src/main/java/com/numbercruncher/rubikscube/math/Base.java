@@ -1,6 +1,10 @@
 package com.numbercruncher.rubikscube.math;
 
+import com.numbercruncher.rubikscube.utils.StringUtils;
+
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -18,7 +22,7 @@ import java.util.StringTokenizer;
  * Since: 30/12/2024
  * @version: 30/12/2024
  */
-public class Base {
+public class Base implements Comparable<Base>{
 
     /*************************************
      *********** Attributes ***************
@@ -38,9 +42,20 @@ public class Base {
         this.base = points;
     }
 
+    public Base(List<Byte> points){
+        this.base = new byte[points.size()];
+        for (int i = 0; i < this.base.length; i++) {
+            this.base[i]=points.get(i);
+        }
+    }
+
     /*************************************
      *********** Getter     ***************
      **************************************/
+
+    public byte[] getBase() {
+        return base;
+    }
 
     /*************************************
      *********** Setter      ***************
@@ -51,11 +66,11 @@ public class Base {
      **************************************/
 
     /**
-     apply a cycle to a this base. The action is copied from the mathematica function
+     apply a cycle to this base. The action is copied from the mathematica function
      `PermutationReplace`
 
      The cycle is interpreted as follows:
-     eg.
+     e.g.
 
      the cycle (1 3 7)
      changes the base b=[1,2,3,4,7,8] to [3,2,7,4,1,8]
@@ -71,9 +86,9 @@ public class Base {
      The multiplication is defined as if the product a*b is applied to its set with arbitary elements (first b than a)
      The action on the base is defined as if the product a*b is applied to the base first a than b
 
-
+     @ return: the image of the base under the action of the cycle is returned
      */
-    public void action(Cycle cycle){
+    public Base action(Cycle cycle){
         byte[] result = new byte[this.base.length];
 
         for (int i = 0; i < result.length; i++) {
@@ -85,7 +100,7 @@ public class Base {
                 result[i] = b;
             }
         }
-        this.base=result;
+        return new Base(result);
     }
 
     /**
@@ -95,28 +110,17 @@ public class Base {
      *
      * @param permutation the permutation containing cycles to be applied to the base
      */
-    public void action(Permutation permutation){
+    public Base action(Permutation permutation){
+            Base result = new Base(this.base);
             for (Cycle cycle : permutation.getCycles()) {
-                this.action(cycle);
+                result = result.action(cycle);
             }
+            return result;
     }
 
 
     public static Base parse(String s){
-        s=s.strip();
-        if (s.isEmpty()) {
-            throw new IllegalArgumentException("String is null or empty");
-        }
-
-        if (s.charAt(0) != '[' || s.charAt(s.length() - 1) != ']') {
-            throw new IllegalArgumentException("String does not start with '[' and end with ']'");
-        }
-        StringTokenizer tokens = new StringTokenizer(s.substring(1,s.length()-1),",");
-
-        byte[] points = new byte[tokens.countTokens()];
-        for (int i = 0; i < points.length; i++) {
-            points[i] = Byte.parseByte(tokens.nextToken());
-        }
+        byte[] points = StringUtils.parseByteArray(s);
         return new Base(points);
     }
 
@@ -134,4 +138,28 @@ public class Base {
         return Arrays.toString(base);
     }
 
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(base); // Compute hash based on array contents
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true; // Reference equality
+        if (o == null || getClass() != o.getClass()) return false; // Null/different class
+        Base oBase = (Base) o;
+        return Arrays.equals(base, oBase.base); // Compare contents of the byte arrays
+    }
+
+    @Override
+    public int compareTo(Base o) {
+        if (this.base.length != o.base.length) return this.base.length-o.base.length;
+        else{
+            for (int i = 0; i < this.base.length; i++) {
+                if (this.base[i]!=o.base[i]) return this.base[i]-o.base[i];
+            }
+            return 0;
+        }
+    }
 }

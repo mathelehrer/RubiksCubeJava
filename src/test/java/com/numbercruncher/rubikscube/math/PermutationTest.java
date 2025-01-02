@@ -13,18 +13,14 @@ void action(){
     Permutation b = Permutation.parse("(9 2 4)(1 5 3)");
 
     Base base = Base.parse("[1,2,3,4,7,8]");
-    base.action(a);
-    assertEquals("[3, 2, 7, 4, 8, 1]", base.toString());
-    base.action(b);
-    assertEquals("[1, 4, 7, 9, 8, 5]", base.toString());
-    base.action(a.multiply(b).inverse());
-    assertEquals("[1, 2, 3, 4, 7, 8]", base.toString());
+    assertEquals("[3, 2, 7, 4, 8, 1]", base.action(a).toString());
+    assertEquals("[1, 4, 7, 9, 8, 5]", base.action(a).action(b).toString());
+    assertEquals("[1, 2, 3, 4, 7, 8]", base.action(a).action(b).action(a.multiply(b).inverse()).toString());
 }
     @Test
     void inverse() {
         for (int i = 0; i < 20; i++) {
             Permutation p = Permutation.randomPermutation((int) (Math.random() * i));
-            Permutation inverse = p.inverse();
             assertEquals(p.toString(), p.multiply(p.inverse().multiply(p)).toString());
         }
     }

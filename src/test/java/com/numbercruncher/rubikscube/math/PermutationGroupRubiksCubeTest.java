@@ -5,11 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PermutationGroupRubiksCube {
+class PermutationGroupRubiksCubeTest {
     private PermutationGroup rubiksGroup;
 
     @BeforeEach
@@ -44,6 +45,24 @@ class PermutationGroupRubiksCube {
 
     }
 
+    @Test
+    void getBase(){
+        byte[] base = rubiksGroup.getBaseAsByteArray();
+        assertEquals("[1, 13, 5, 7, 23, 15, 12, 8, 14, 24, 16, 3, 6, 4, 2, 22, 30, 32]", Arrays.toString(base));
+    }
+
+    @Test
+    void createMinkwitzChain(){
+        long start = System.currentTimeMillis();
+        int numberOfElements = 500000;
+        MinkwitzChain chain = rubiksGroup.createMinkwitzChain(numberOfElements);
+        long end = System.currentTimeMillis();
+        rubiksGroup.visualizeMinkwitzChain(chain);
+        System.out.println("Calculated in: " + (end - start) + " ms");
+        System.out.println("Missing: "+chain.getNumberOfMissingElements());
+        System.out.println("Average Word Length: "+chain.getAverageWordLength());
+        chain.save("_"+numberOfElements);
+    }
 
     @Test
     void getDegree() {
@@ -82,4 +101,5 @@ class PermutationGroupRubiksCube {
     void visualizeStabChain() {
         rubiksGroup.visualizeStabilizerChain();
     }
+
 }

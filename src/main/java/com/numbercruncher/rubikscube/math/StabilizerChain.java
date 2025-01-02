@@ -102,9 +102,6 @@ public class StabilizerChain {
     }
 
 
-    public Permutation randomElement(){
-        return null;
-    }
     /*****************************
      **** private methods  *******
      *****************************/
