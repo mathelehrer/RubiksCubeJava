@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stabilizer>
+	<orbit>
+		[0,1,2,3,4]
+	</orbit>
+	<representatives>
+		<representative  of='0'>
+			<permutation>
+				(4)
+			</permutation>
+			<word>
+				
+			</word>
+		</representative>
+		<representative  of='1'>
+			<permutation>
+				(0 1 2 3 4)
+			</permutation>
+			<word>
+				a
+			</word>
+		</representative>
+		<representative  of='2'>
+			<permutation>
+				(0 2 4 1 3)
+			</permutation>
+			<word>
+				aa
+			</word>
+		</representative>
+		<representative  of='3'>
+			<permutation>
+				(0 3 1 4 2)
+			</permutation>
+			<word>
+				AA
+			</word>
+			<permutation>
+				(0 3 2 1)(4)
+			</permutation>
+			<word>
+				Ab
+			</word>
+		</representative>
+		<representative  of='4'>
+			<permutation>
+				(0 4 3 2 1)
+			</permutation>
+			<word>
+				A
+			</word>
+		</representative>
+	</representatives>
+	<stabilizer>
+		<orbit>
+			[3,4,2,1]
+		</orbit>
+		<representatives>
+			<representative  of='1'>
+				<permutation>
+					(1 2 3)(4)
+				</permutation>
+				<word>
+					bAbaa
+				</word>
+			</representative>
+			<representative  of='2'>
+				<permutation>
+					(2 3)(4)
+				</permutation>
+				<word>
+					abA
+				</word>
+			</representative>
+			<representative  of='3'>
+				<permutation>
+					(4)
+				</permutation>
+				<word>
+					
+				</word>
+			</representative>
+			<representative  of='4'>
+				<permutation>
+					(3 4)
+				</permutation>
+				<word>
+					b
+				</word>
+			</representative>
+		</representatives>
+		<stabilizer>
+			<orbit>
+				[2,4,1]
+			</orbit>
+			<representatives>
+				<representative  of='1'>
+					<permutation>
+						(1 4 2)
+					</permutation>
+					<word>
+						bAABa
+					</word>
+					<permutation>
+						(1 2)(4)
+					</permutation>
+					<word>
+						aabAA
+					</word>
+				</representative>
+				<representative  of='2'>
+					<permutation>
+						(4)
+					</permutation>
+					<word>
+						
+					</word>
+				</representative>
+				<representative  of='4'>
+					<permutation>
+						(1 2 4)
+					</permutation>
+					<word>
+						Abaab
+					</word>
+					<permutation>
+						(2 4)
+					</permutation>
+					<word>
+						babAB
+					</word>
+				</representative>
+			</representatives>
+			<stabilizer>
+				<orbit>
+					[1,4]
+				</orbit>
+				<representatives>
+					<representative  of='1'>
+						<permutation>
+							(4)
+						</permutation>
+						<word>
+							
+						</word>
+					</representative>
+					<representative  of='4'>
+						<permutation>
+							(1 4)
+						</permutation>
+						<word>
+							AbAAbAB
+						</word>
+					</representative>
+				</representatives>
+				<stabilizer>
+					<orbit>
+						[]
+					</orbit>
+					<representatives>
+					</representatives>
+				</stabilizer>
+			</stabilizer>
+		</stabilizer>
+	</stabilizer>
+</stabilizer>
+

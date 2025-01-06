@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @version 12/30/24
  */
 
-public class GroupElement {
+public class GroupElement implements Comparable<GroupElement> {
 
     /*****************************
      **** Attributes **************
@@ -31,9 +31,9 @@ public class GroupElement {
 
     public GroupElement(Permutation permutation, String word){
         this.permutation=permutation;
-        if (this.permutation.isIdentity())
-            this.word="";
-        else
+//        if (this.permutation.isIdentity())
+//            this.word="";
+//        else
             this.word=word;
     }
 
@@ -61,24 +61,62 @@ public class GroupElement {
         return new GroupElement(permutation.multiply(factor.permutation),word+factor.word);
     }
 
+    public GroupElement multiply(GroupElement factor,TreeMap<String,String> simplifyingRules){
+        GroupElement product =  new GroupElement(permutation.multiply(factor.permutation),word+factor.word);
+        product.apply(simplifyingRules);
+        return product;
+    }
+
     public GroupElement inverse(){
         return new GroupElement(permutation.inverse(), StringUtils.toggleCase(new StringBuilder(word).reverse().toString()));
     }
 
     public void wordSimplify(List<Function<String,String>> rules){
-        for (Function<String,String> rule : rules) {
-            word = rule.apply(word);
-        }
+        int oldLength;
+        int newLength;
+        do {
+            oldLength = word.length();
+            for (Function<String, String> rule : rules) {
+                word = rule.apply(word);
+            }
+            newLength = word.length();
+        } while (newLength < oldLength);
     }
 
-    public void apply(TreeMap<String, String> rules) {
+
+    public void apply(TreeMap<String,String> rules){
+        this.apply(rules,false,1);
+    }
+
+    public void apply(TreeMap<String,String> rules,boolean verbose){
+        this.apply(rules,verbose,1);
+    }
+
+    public void apply(TreeMap<String, String> rules,boolean verbose,int depth) {
         String finalWord = this.getWord();
         final Predicate<String> selector = s->s.length()<= finalWord.length();
         TreeMap<String, String> subRules = rules.entrySet().stream().filter(v->selector.test(v.getKey())).collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue,(v1, v2)->v1,TreeMap::new));
+
+        int oldLength = word.length();
         for (Map.Entry<String,String> entry : subRules.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            this.word = this.word.replace(key,value);
+            if (verbose && this.word.contains(key)) {
+                System.out.print(this.word+"->");
+                this.word = this.word.replace(key, value);
+                System.out.println(this.word);
+
+            }
+            else this.word = this.word.replace(key, value);
+        }
+        int newLength = word.length();
+
+        if (newLength < oldLength) {
+            if (depth%100==0){
+                //System.out.println(finalWord+"->"+word+" at level "+depth);
+                System.out.println("simplification at level "+depth);
+            }
+            apply(rules, verbose, depth+1);
         }
     }
     /*****************************
@@ -119,6 +157,11 @@ public class GroupElement {
      */
     public String toFullString(){
         return word+"->"+permutation.toString();
+    }
+
+    @Override
+    public int compareTo(GroupElement o) {
+         return this.permutation.compareTo(o.permutation);
     }
 
 

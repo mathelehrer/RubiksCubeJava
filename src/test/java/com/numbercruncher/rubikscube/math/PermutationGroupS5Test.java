@@ -3,10 +3,12 @@ package com.numbercruncher.rubikscube.math;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,12 +68,12 @@ class PermutationGroupS5Test {
 
     @Test
     void createMinkwitzChain(){
-        MinkwitzChain chain = s5.createMinkwitzChain(10);
+        MinkwitzChain chain = s5.getMinkwitzChain(120);
         s5.visualizeMinkwitzChain(chain);
         System.out.println("Average word length: "+chain.getAverageWordLength());
 
         System.out.println("Improved chain:");
-        MinkwitzChain chain2 = s5.createMinkwitzChain(120);
+        MinkwitzChain chain2 = s5.getMinkwitzChain(120);
         s5.visualizeMinkwitzChain(chain2);
         System.out.println("Average word length: "+chain2.getAverageWordLength());
 
@@ -80,6 +82,18 @@ class PermutationGroupS5Test {
         s5.visualizeMinkwitzChain(chain2);
         System.out.println("Average word length: "+chain2.getAverageWordLength());
     }
+
+    @Test
+    void createExtendedMinkwitzChain(){
+        ExtendedMinkwitzChain chain = s5.getExtendedMinkwitzChain(120,120);
+        s5.visualizeExtendedMinkwitzChain(chain);
+        System.out.println("Average word length: "+chain.getAverageWordLength());
+
+        System.out.println(chain);
+
+    }
+
+
 
     @Test
     void getBase(){
@@ -105,6 +119,15 @@ class PermutationGroupS5Test {
 
     @Test
     void generateSimplificationRules(){
-        s5.generateSimplificationRules(120);
+        s5.generateSimplificationRules(120,true);
+    }
+
+    @Test
+    void elementToWord(){
+        int count = 0;
+        for (GroupIterator it = s5.getIterator(); it.hasNext(); ) {
+            GroupElement element = it.next();
+            System.out.println((count++)+" "+element.toFullWordString()+" ["+s5.elementToWordExtended(element.getPermutation(),0,120,35,2,false).stream().map(GroupElement::toFullWordString).collect(Collectors.joining(","))+"]");
+        }
     }
 }

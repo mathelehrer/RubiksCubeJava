@@ -3,9 +3,11 @@ package com.numbercruncher.rubikscube.math;
 import com.numbercruncher.rubikscube.logger.Logger;
 import com.numbercruncher.rubikscube.utils.IOUtils;
 import com.numbercruncher.rubikscube.xml.ErrorHandler;
+import com.numbercruncher.rubikscube.xml.ExtendedMinkwitzParser;
 import com.numbercruncher.rubikscube.xml.MinkwitzParser;
 import org.xml.sax.XMLReader;
 
+import javax.swing.*;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
@@ -15,7 +17,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.numbercruncher.rubikscube.utils.StringUtils.*;
-import static com.numbercruncher.rubikscube.utils.StringUtils.startTag;
 
 /**
  * The class StabilizerChain
@@ -24,7 +25,7 @@ import static com.numbercruncher.rubikscube.utils.StringUtils.startTag;
  * @since 2024-12-30
  * @version 2024-12-30
  */
-public class MinkwitzChain {
+public class ExtendedMinkwitzChain {
 
     /*****************************
      **** Attribute **************
@@ -35,8 +36,9 @@ public class MinkwitzChain {
 
 
     private final List<Byte> orbit;
-    private final Map<Byte,GroupElement> cosetRepresentative;
-    private MinkwitzChain stabilizerChain;
+    private final List<GroupElement> groupGenerators;
+    private final Map<Byte,TreeSet<GroupElement>> cosetRepresentativesMap;
+    private ExtendedMinkwitzChain stabilizerChain;
     private final String name;
 
     /*****************************
@@ -45,49 +47,48 @@ public class MinkwitzChain {
 
 
     /**
-     * Constructs a MinkwitzChain object based on the provided StabilizerChain.
-     * This constructor initializes the `orbit` field from the given StabilizerChain's orbit.
-     * If the given StabilizerChain is not the last in the sequence, it recursively sets the
-     * `stabilizer` field using a new MinkwitzChain created from the StabilizerChain's stabilizer.
-     *
-     * Therefore, the orbit structure of the stabilizer chain is used to construct the structure of hte Minkwitz chain.
-     * The populate algorithm is used to populate the empty generator and representative structure with group elements.
+     * The extended Minkwitz chain contains multiple representatives for each coset. Additionally, it stores the shortest word generators for each stabilizer group
+     * It will be tailored to the Rubik's cube group.
      *
      * @param chain the StabilizerChain object used to initialize the MinkwitzChain's fields.
      *              Must provide valid `orbit` and optionally a `stabilizer`.
      */
-    public MinkwitzChain(StabilizerChain chain, List<GroupElement> generators, String name) {
+    public ExtendedMinkwitzChain(StabilizerChain chain, List<GroupElement> generators, String name) {
         this.name = name;
         GroupElement one = new GroupElement(generators.get(0).multiply(generators.get(0).inverse()).getPermutation(),"");
         this.orbit = chain.getOrbit();
-        this.cosetRepresentative = new HashMap<>();
+        this.cosetRepresentativesMap = new HashMap<>();
+        this.groupGenerators = new ArrayList<>();
+
         if (!this.orbit.isEmpty()) {
             for (Byte b : this.orbit) {
-                this.cosetRepresentative.put(b,null);
+                this.cosetRepresentativesMap.put(b,null);
             }
-            this.cosetRepresentative.put(this.orbit.get(0), one);
-            this.stabilizerChain = new MinkwitzChain(chain.getStabilizer(), generators);
+            TreeSet<GroupElement> cosetList = new TreeSet<>();
+            cosetList.add(one);
+            this.cosetRepresentativesMap.put(this.orbit.get(0), cosetList);
+            this.stabilizerChain = new ExtendedMinkwitzChain(chain.getStabilizer(), generators);
         }
 
     }
 
-    public MinkwitzChain(StabilizerChain chain, List<GroupElement> generators) {
+    public ExtendedMinkwitzChain(StabilizerChain chain, List<GroupElement> generators) {
         this(chain,generators,"UnknownMinkwitzChain");
     }
-
 
 
     /**
      * Trained MinkwitzChain loaded from XML
      * @param orbit
-     * @param cosetRepresentative
+     * @param cosetRepresentativesMap
      * @param stabilizer
      */
-    public MinkwitzChain(List<Byte> orbit, Map<Byte,GroupElement> cosetRepresentative, MinkwitzChain stabilizer,String name){
+    public ExtendedMinkwitzChain(List<Byte> orbit, List<GroupElement> groupGenerators, Map<Byte,TreeSet<GroupElement>> cosetRepresentativesMap, ExtendedMinkwitzChain stabilizer, String name){
         this.name = name;
         this.orbit = orbit;
-        this.cosetRepresentative = cosetRepresentative;
+        this.cosetRepresentativesMap = cosetRepresentativesMap;
         this.stabilizerChain =stabilizer;
+        this.groupGenerators = groupGenerators;
     }
 
 
@@ -100,22 +101,22 @@ public class MinkwitzChain {
         return orbit;
     }
 
-    public GroupElement getCosetRepresentative(Byte point){
-        return cosetRepresentative.get(point);
+    public TreeSet<GroupElement> getCosetRepresentatives(Byte point){
+        return cosetRepresentativesMap.get(point);
     }
 
-    public MinkwitzChain getStabilizerChain(){
+    public ExtendedMinkwitzChain getStabilizerChain(){
         return stabilizerChain;
     }
 
-    public Map<Byte,GroupElement> getCosetRepresentatives(){
-        return cosetRepresentative;
+    public Map<Byte,TreeSet<GroupElement>> getCosetRepresentativesMap(){
+        return cosetRepresentativesMap;
     }
 
     public int getNumberOfMissingElements(){
         int count=0;
-        for (GroupElement value : cosetRepresentative.values()) {
-            if (value == null) {
+        for (TreeSet<GroupElement> value : cosetRepresentativesMap.values()) {
+            if (value ==null || value.isEmpty()) {
                 count++;
             }
         }
@@ -125,6 +126,7 @@ public class MinkwitzChain {
         else
             return count + this.stabilizerChain.getNumberOfMissingElements();
     }
+
 
     public double getAverageWordLength(){
 
@@ -138,9 +140,40 @@ public class MinkwitzChain {
      *****************************/
 
 
-    public void addCosetRepresentative(Byte point,GroupElement permutation){
-        this.cosetRepresentative.put(point,permutation);
+    /**
+     * This method tries to add a representative into the Minkwitz chain
+     *
+     * @param point
+     * @param permutation
+     *
+     *
+     */
+    public void addCosetRepresentative(Byte point,GroupElement permutation,int depth){
+        TreeSet<GroupElement> cosetRepresentatives = cosetRepresentativesMap.get(point);
+        if (cosetRepresentatives == null) {
+            cosetRepresentatives = new TreeSet<>();
+        }
+        if (cosetRepresentatives.isEmpty()) {
+            cosetRepresentatives.add(permutation);
+            this.cosetRepresentativesMap.put(point, cosetRepresentatives);
+        }else{
+            GroupElement rep = cosetRepresentatives.first();
+            if (rep.getWord().length()>permutation.getWord().length()) {
+                //System.out.println(rep.getWord()+"->"+permutation.getWord());
+                cosetRepresentatives.clear();
+                cosetRepresentatives.add(permutation);
+            }
+            else if (rep.getWord().length()==permutation.getWord().length()) {
+                cosetRepresentatives.add(permutation);
+                StringBuilder out= new StringBuilder();
+                for (int i = 0; i < depth; i++) {
+                    out.append("\t");
+                }
+                System.out.println(out.toString()+point+": now list length: "+cosetRepresentatives.size());
+            }
+        }
     }
+
 
     /*****************************
      **** public methods *********
@@ -163,7 +196,7 @@ public class MinkwitzChain {
      * indicating consistency; false otherwise.
      */
     public boolean isConsistent(){
-        return this.cosetRepresentative.size()==this.orbit.size();
+        return this.cosetRepresentativesMap.size()==this.orbit.size();
     }
 
     public void save(){
@@ -171,7 +204,7 @@ public class MinkwitzChain {
     }
 
     public void save(String params){
-        URL dirURL = IOUtils.getResourcePath("minkwitz");
+        URL dirURL = IOUtils.getResourcePath("extended_minkwitz");
         String fileName = dirURL.getFile()+"/"+this.name+params+".xml";
         StringBuilder output = new StringBuilder();
 
@@ -216,7 +249,7 @@ public class MinkwitzChain {
     /*****************************
      **** private methods  *******
      *****************************/
-    private String buildToString(MinkwitzChain chain, int depth){
+    private String buildToString(ExtendedMinkwitzChain chain, int depth){
         String out="";
         String indent="";
         for (int i=0;i<depth;i++)
@@ -225,7 +258,7 @@ public class MinkwitzChain {
         out+=indent;
         out+="orbit: ["+chain.getOrbit().stream().map(Object::toString).collect(Collectors.joining(","))+"]\n";
         out+=indent;
-        out+="coset representative: ["+chain.getCosetRepresentatives().entrySet().stream().map(Object::toString).collect(Collectors.joining(","))+"].\n";
+        out+="coset representative: ["+chain.getCosetRepresentativesMap().entrySet().stream().map(Object::toString).collect(Collectors.joining(","))+"].\n";
 
         if (!chain.isLast()){
             out+=indent;
@@ -236,14 +269,14 @@ public class MinkwitzChain {
         return out;
     }
 
-    private int[] countWordsLetters(MinkwitzChain minkwitzChain) {
+    private int[] countWordsLetters(ExtendedMinkwitzChain minkwitzChain) {
         int letters = 0;
         int words = 0;
 
-        for (GroupElement value : minkwitzChain.getCosetRepresentatives().values()) {
-            if (value != null) {
+        for (TreeSet<GroupElement> list : minkwitzChain.getCosetRepresentativesMap().values()) {
+            if (list != null && !list.isEmpty()) {
 
-                letters += value.getWord().length();
+                letters += list.first().getWord().length();
                 words ++;
             }
         }
@@ -258,27 +291,30 @@ public class MinkwitzChain {
         return new int[]{words, letters};
     }
 
-    private String generateXMLString(MinkwitzChain minkwitzChain) {
+    private String generateXMLString(ExtendedMinkwitzChain minkwitzChain) {
         return this.generateXMLString(minkwitzChain,1);
     }
 
-    private String generateXMLString(MinkwitzChain minkwitzChain,int depth) {
+    private String generateXMLString(ExtendedMinkwitzChain minkwitzChain, int depth) {
         StringBuilder output = new StringBuilder();
         output.append(tabs(depth-1)).append(startTag(Tag.stabilizer.name()));
         output.append(tabs(depth)).append(startTag(Tag.orbit.name()));
         output.append(tabs(depth+1)).append("[").append(minkwitzChain.getOrbit().stream().map(Object::toString).collect(Collectors.joining(","))).append("]\n");
         output.append(tabs(depth)).append(endTag(Tag.orbit.name()));
         output.append(tabs(depth)).append(startTag(Tag.representatives.name()));
-        for (Map.Entry<Byte, GroupElement> entry : minkwitzChain.getCosetRepresentatives().entrySet()) {
+        for (Map.Entry<Byte, TreeSet<GroupElement>> entry : minkwitzChain.getCosetRepresentativesMap().entrySet()) {
             output.append(tabs(depth+1)).append(startTag(Tag.representative.name()," of='"+entry.getKey()+"'"));
-            output.append(tabs(depth+2)).append(startTag(Tag.permutation.name()));
             if (entry.getValue() != null)
-                output.append(tabs(depth+3)).append(entry.getValue().getPermutation().toString()).append("\n");
-            output.append(tabs(depth+2)).append(endTag(Tag.permutation.name()));
-            output.append(tabs(depth+2)).append(startTag(Tag.word.name()));
-            if (entry.getValue() != null)
-                output.append(tabs(depth+3)).append(entry.getValue().getWord()).append("\n");
-            output.append(tabs(depth+2)).append(endTag(Tag.word.name()));
+                for (GroupElement groupElement : entry.getValue()) {
+                    output.append(tabs(depth+2)).append(startTag(Tag.permutation.name()));
+                    if (entry.getValue() != null)
+                        output.append(tabs(depth+3)).append(groupElement.getPermutation().toString()).append("\n");
+                    output.append(tabs(depth+2)).append(endTag(Tag.permutation.name()));
+                    output.append(tabs(depth+2)).append(startTag(Tag.word.name()));
+                    if (entry.getValue() != null)
+                        output.append(tabs(depth+3)).append(groupElement.getWord()).append("\n");
+                    output.append(tabs(depth+2)).append(endTag(Tag.word.name()));
+                }
             output.append(tabs(depth+1)).append(endTag(Tag.representative.name()));
         }
         output.append(tabs(depth)).append(endTag(Tag.representatives.name()));
@@ -287,15 +323,14 @@ public class MinkwitzChain {
         return output.toString();
     }
 
-    private void applyRulesRecursively(MinkwitzChain minkwitzChain, TreeMap<String, String> rules) {
-
-        for (GroupElement element : minkwitzChain.getCosetRepresentatives().values())
-            element.apply(rules);
-
+    private void applyRulesRecursively(ExtendedMinkwitzChain minkwitzChain, TreeMap<String, String> rules) {
+        for (TreeSet<GroupElement> elements : minkwitzChain.getCosetRepresentativesMap().values())
+            for (GroupElement element : elements) {
+                element.apply(rules);
+            }
         if (!minkwitzChain.isLast()) {
             applyRulesRecursively(minkwitzChain.getStabilizerChain(), rules);
         }
-
     }
 
     /*****************************
@@ -314,14 +349,20 @@ public class MinkwitzChain {
      ********* Statics *********
      ***************************/
 
-    public static MinkwitzChain load(String name,int numberOfElements){
-        return load(name,numberOfElements,false);
+    public static ExtendedMinkwitzChain load(String name,int preTraining, int numberOfElements,int maxBranching){
+        return load(name,preTraining,numberOfElements,maxBranching, false);
     }
 
-    public static MinkwitzChain load(String name,int numberOfElements, boolean verbose){
+    public static ExtendedMinkwitzChain load(String name,int preTraining,  int numberOfElements, int maxBranching, boolean verbose){
 
-        URL dirURL = IOUtils.getResourcePath("minkwitz");
-        String fileName = dirURL.getFile()+"/"+name+"_"+numberOfElements+".xml";
+        URL dirURL = IOUtils.getResourcePath("extended_minkwitz");
+        String fileName;
+        if (maxBranching==1)
+            fileName = dirURL.getFile()+"/"+name+"_"+preTraining+"_"+numberOfElements+".xml";
+        else
+            fileName = dirURL.getFile()+"/"+name+"_"+preTraining+"_"+numberOfElements+"_"+maxBranching+".xml";
+        int i=0;
+        i++;
         try{
             SAXParserFactory spf = SAXParserFactory.newInstance();
             spf.setNamespaceAware(true);
@@ -329,13 +370,13 @@ public class MinkwitzChain {
 
             XMLReader xmlReader = saxParser.getXMLReader();
 
-            MinkwitzParser minkwitzParser = new MinkwitzParser(name,verbose);
-            xmlReader.setContentHandler(minkwitzParser);
+            ExtendedMinkwitzParser extendedMinkwitzParser = new ExtendedMinkwitzParser(name,verbose);
+            xmlReader.setContentHandler(extendedMinkwitzParser);
             xmlReader.setErrorHandler(new ErrorHandler(System.err));
             xmlReader.parse(fileName);
             if (verbose) System.out.println("success!");
 
-            return minkwitzParser.getMinkwitzChain();
+            return extendedMinkwitzParser.getExtendedMinkwitzChain();
         }
         catch(Exception ex){
             ex.getStackTrace();

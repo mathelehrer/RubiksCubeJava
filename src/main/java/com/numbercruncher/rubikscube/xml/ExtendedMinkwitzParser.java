@@ -1,6 +1,7 @@
 package com.numbercruncher.rubikscube.xml;
 
 import com.numbercruncher.rubikscube.logger.Logger;
+import com.numbercruncher.rubikscube.math.ExtendedMinkwitzChain;
 import com.numbercruncher.rubikscube.math.GroupElement;
 import com.numbercruncher.rubikscube.math.MinkwitzChain;
 import com.numbercruncher.rubikscube.math.Permutation;
@@ -12,19 +13,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * The class MinkwitzParser
- *
- * @author NumberCruncher
- * Since 1/2/25
- * @version 1/2/25
- */
 
-// Container that collect the raw data from the XML file
-class StabilizerContainer{
+class ExtendedStabilizerContainer{
     private byte[] orbit;
-    private RepresentativesContainer representatives;
-    private StabilizerContainer stabilizer;
+    private ExtendedRepresentativesContainer representatives;
+    private ExtendedStabilizerContainer stabilizer;
 
     public void addOrbit(byte[] orbit){
         this.orbit=orbit;
@@ -36,23 +29,23 @@ class StabilizerContainer{
         return list;
     }
 
-    public void addRepresentatives(RepresentativesContainer representatives){
+    public void addRepresentatives(ExtendedRepresentativesContainer representatives){
         this.representatives=representatives;
     }
 
-    public void setStabilizer(StabilizerContainer stabilizer){
+    public void setStabilizer(ExtendedStabilizerContainer stabilizer){
         this.stabilizer=stabilizer;
     }
 
-    public StabilizerContainer getStabilizer(){
+    public ExtendedStabilizerContainer getStabilizer(){
         return stabilizer;
     }
 
-    public Map<Byte,GroupElement> getRepresentatives(){
+    public Map<Byte,TreeSet<GroupElement>> getRepresentativesMap(){
         return this.representatives.getRepresentatives();
     }
 
-    private static String buildString(StabilizerContainer container){
+    private static String buildString(ExtendedStabilizerContainer container){
         if (container.stabilizer==null)
             return Arrays.toString(container.orbit);
         else
@@ -62,40 +55,41 @@ class StabilizerContainer{
     public String toString(){
         return buildString(this);
     }
-
 }
 
-class RepresentativesContainer{
-    Map<Byte,GroupElement> representatives;
+class ExtendedRepresentativesContainer{
+    Map<Byte,TreeSet<GroupElement>> representatives;
 
-    public RepresentativesContainer() {
+    public ExtendedRepresentativesContainer() {
         representatives=new HashMap<>();
     }
 
-    public void addRepresentative(RepresentativeContainer representative){
-        representatives.put(representative.getOrbitPoint(),representative.getGroupElement());
+    public void addRepresentatives(ExtendedRepresentativeContainer representative){
+        byte orbitPoint = representative.getOrbitPoint();
+        representatives.put(orbitPoint,representative.getGroupElements());
     }
 
-    public Map<Byte, GroupElement> getRepresentatives() {
-            return representatives;
+    public Map<Byte, TreeSet<GroupElement>> getRepresentatives() {
+        return representatives;
     }
 
     @Override
     public String toString() {
         return "RepresentativesContainer{" +
-                "representatives=[" + representatives.entrySet().stream().map(v->v.getKey()+"->"+v.getValue()).collect(Collectors.joining(",")) +
+                "representatives=[" + representatives.entrySet().stream().map(v->v.getKey()+"->{"+v.getValue().stream().map(GroupElement::toString).collect(Collectors.joining(","))+"}").collect(Collectors.joining(",")) +
                 "]}";
     }
 }
 
 
-class RepresentativeContainer{
+class ExtendedRepresentativeContainer{
     Byte orbitPoint;
     Permutation permutation;
-    String word;
+    TreeSet<GroupElement> groupElements;
 
-    public RepresentativeContainer(Byte orbitPoint) {
+    public ExtendedRepresentativeContainer(Byte orbitPoint) {
         this.orbitPoint = orbitPoint;
+        groupElements = new TreeSet<>();
     }
 
     public void setPermutation(Permutation permutation){
@@ -103,11 +97,11 @@ class RepresentativeContainer{
     }
 
     public void setWord(String word){
-        this.word=word;
+        groupElements.add(new GroupElement(this.permutation,word));
     }
 
-    public GroupElement getGroupElement(){
-        return new GroupElement(permutation,word);
+    public TreeSet<GroupElement> getGroupElements(){
+        return this.groupElements;
     }
 
     public Byte getOrbitPoint(){
@@ -117,31 +111,27 @@ class RepresentativeContainer{
     public String toString(){
         return "RepresentativeContainer{" +
                 "orbitPoint=" + orbitPoint +
-                ", permutation=" + permutation +
-                ", word='" + word + '\'' +
-                '}';
+                ": ["+ this.groupElements.stream().map(GroupElement::toString).collect(Collectors.joining(",")) +"]}";
     }
-
-
 }
 
-public class MinkwitzParser extends DefaultHandler {
+public class ExtendedMinkwitzParser extends DefaultHandler {
 
     private final Stack<String> elementStack = new Stack<String>();
     private final Stack<Object> objectStack  = new Stack<Object>();
 
-    private MinkwitzChain chain;
-    private StabilizerContainer stabilizerContainer;
+    private ExtendedMinkwitzChain chain;
+    private ExtendedStabilizerContainer stabilizerContainer;
 
     private final String name;
     private boolean verbose;
 
-    public MinkwitzParser(String name,boolean verbose) {
+    public ExtendedMinkwitzParser(String name, boolean verbose) {
         this.name=name;
         this.verbose =verbose;
     }
 
-    public MinkwitzChain getMinkwitzChain(){
+    public ExtendedMinkwitzChain getExtendedMinkwitzChain(){
         buildChain();
         return this.chain;
     }
@@ -150,15 +140,15 @@ public class MinkwitzParser extends DefaultHandler {
         this.chain = buildChain(stabilizerContainer,0);
     }
 
-    private MinkwitzChain buildChain(StabilizerContainer container,int depth){
+    private ExtendedMinkwitzChain buildChain(ExtendedStabilizerContainer container,int depth){
         String name = "";
         if (depth==0){
             name=this.name;
         }
         if (container.getStabilizer()==null)
-            return new MinkwitzChain(container.getOrbit(),container.getRepresentatives(),null,name);
+            return new ExtendedMinkwitzChain(container.getOrbit(),null,container.getRepresentativesMap(),null,name);
         else
-            return new MinkwitzChain(container.getOrbit(),container.getRepresentatives(),buildChain(container.getStabilizer(),depth+1),name);
+            return new ExtendedMinkwitzChain(container.getOrbit(),null,container.getRepresentativesMap(),buildChain(container.getStabilizer(),depth+1),name);
     }
 
     public void startDocument() throws SAXException {
@@ -175,23 +165,22 @@ public class MinkwitzParser extends DefaultHandler {
                              Attributes atts) throws SAXException {
 
         this.elementStack.push(qName);
-
         switch (MinkwitzChain.Tag.valueOf(qName)){
             case stabilizer:
                 //placeholder for stabilizer chain
-                this.objectStack.push(new StabilizerContainer());
+                this.objectStack.push(new ExtendedStabilizerContainer());
                 break;
             case orbit:
                 //placeholder for orbit data
                 this.objectStack.push(new StringBuilder());
                 break;
             case representatives:
-                this.objectStack.push(new RepresentativesContainer());
+                this.objectStack.push(new ExtendedRepresentativesContainer());
                 break;
             case representative:
                 Byte orbitPoint = atts.getValue("of") == null ? 0 : Byte.parseByte(atts.getValue("of"));
                 if (verbose) Logger.logging(Logger.Level.info,"Reading orbit point "+orbitPoint);
-                this.objectStack.push(new RepresentativeContainer(orbitPoint));
+                this.objectStack.push(new ExtendedRepresentativeContainer(orbitPoint));
                 break;
             case permutation, word:
                 this.objectStack.push(new StringBuilder());
@@ -211,14 +200,13 @@ public class MinkwitzParser extends DefaultHandler {
             parentObj=this.objectStack.peek();
         }
 
-
         switch (MinkwitzChain.Tag.valueOf(qName)) {
             case stabilizer:
-                StabilizerContainer newStabilizer = (StabilizerContainer) obj;
-                if (parentObj instanceof StabilizerContainer parentChain) {
+                ExtendedStabilizerContainer newStabilizer = (ExtendedStabilizerContainer) obj;
+                if (parentObj instanceof ExtendedStabilizerContainer parentChain) {
                     parentChain.setStabilizer(newStabilizer);
                     if (verbose) {
-                        Logger.logging(Logger.Level.info, "stabilizer container " + newStabilizer);
+                        Logger.logging(Logger.Level.info, "extended stabilizer container " + newStabilizer);
                         Logger.logging(Logger.Level.info, "added to parent " + parentChain);
                     }
                 }
@@ -231,25 +219,26 @@ public class MinkwitzParser extends DefaultHandler {
                 break;
             case orbit:
                 byte[] orbit = StringUtils.parseByteArray(((StringBuilder) obj).toString());
-                if (parentObj!=null) ((StabilizerContainer) parentObj).addOrbit(orbit);
+                if (parentObj!=null) ((ExtendedStabilizerContainer) parentObj).addOrbit(orbit);
                 break;
             case representatives:
-                RepresentativesContainer reps = (RepresentativesContainer) obj;
-                if (parentObj!=null) ((StabilizerContainer) parentObj).addRepresentatives(reps);
-                if (verbose) Logger.logging(Logger.Level.info,"Adding representatives "+reps);
+                ExtendedRepresentativesContainer reps = (ExtendedRepresentativesContainer) obj;
+                if (parentObj!=null) ((ExtendedStabilizerContainer) parentObj).addRepresentatives(reps);
+                if (verbose) Logger.logging(Logger.Level.info,"Adding extended representatives "+reps);
                 break;
             case representative:
-                RepresentativeContainer rep = (RepresentativeContainer) obj;
-                if (parentObj!=null) ((RepresentativesContainer) parentObj).addRepresentative(rep);
-                if (verbose) Logger.logging(Logger.Level.info,"Adding representative "+rep);
+                //nothing to do here, the representative is added to the list automatically, one the word is parsed
+                ExtendedRepresentativeContainer rep = (ExtendedRepresentativeContainer) obj;
+                if (parentObj!=null) ((ExtendedRepresentativesContainer) parentObj).addRepresentatives(rep);
+//                if (verbose) Logger.logging(Logger.Level.info,"Adding representative "+rep);
                 break;
             case permutation:
                 Permutation perm = Permutation.parse(((StringBuilder) obj).toString());
-                if (parentObj!=null) ((RepresentativeContainer) parentObj).setPermutation(perm);
+                if (parentObj!=null) ((ExtendedRepresentativeContainer) parentObj).setPermutation(perm);
                 break;
             case word:
                 String word = ((StringBuilder) obj).toString();
-                if (parentObj!=null) ((RepresentativeContainer) parentObj).setWord(word);
+                if (parentObj!=null) ((ExtendedRepresentativeContainer) parentObj).setWord(word);
                 break;
         }
     }
@@ -262,8 +251,8 @@ public class MinkwitzParser extends DefaultHandler {
         String value = new String(ch, start, length).trim();
         if(value.isEmpty()) return; // ignore white space
 
-        MinkwitzChain.Tag elementTag =MinkwitzChain.Tag.valueOf(this.currentElement());
-        MinkwitzChain.Tag parentTag =MinkwitzChain.Tag.valueOf(this.currentElementParent());
+        ExtendedMinkwitzChain.Tag elementTag =ExtendedMinkwitzChain.Tag.valueOf(this.currentElement());
+        ExtendedMinkwitzChain.Tag parentTag =ExtendedMinkwitzChain.Tag.valueOf(this.currentElementParent());
 
         switch (elementTag) {
             //only between these three tags actual data can be collected from the file

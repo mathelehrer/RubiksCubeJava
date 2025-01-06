@@ -73,7 +73,8 @@ public class GroupIterator implements Iterator<GroupElement> {
         GroupElement element=queue.poll();
 
         //if the queue once exceeds the maximum number of elements we can stop generating new elements
-        if (queue.size()>maxElements) limitReached=true;
+        if (elements.size()>maxElements)
+            limitReached=true;
 
         if (maxElements == -1 || !limitReached)
             //make sure that the queue is extended with every possible child of the element that is extracted from the queue
@@ -84,13 +85,13 @@ public class GroupIterator implements Iterator<GroupElement> {
 
                 //only queue new elements when necessary
 
-                    if (!elements.contains(nextBase)) {
-                        queue.offer(next);
-                        elements.add(nextBase);
-                    }
+                if (!elements.contains(nextBase)&&!limitReached) {
+                    queue.offer(next);
+                    elements.add(nextBase);
+                }
 
-                if (elements.size()%100==0)
-                    System.out.println(elements.size());
+                if (elements.size()>maxElements)
+                    limitReached=true;
 
             }
 

@@ -35,7 +35,7 @@ public class Cycle extends ArrayList<Byte> implements Comparable<Cycle>{
         this.addAll(asList(elements));
     }
 
-    public Cycle(byte[] elements){
+    public Cycle(byte... elements){
         super();
         this.addAll(
                 IntStream.range(0,elements.length)

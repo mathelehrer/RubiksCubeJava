@@ -5,7 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -55,13 +56,30 @@ class PermutationGroupRubiksCubeTest {
     void createMinkwitzChain(){
         long start = System.currentTimeMillis();
         int numberOfElements = 500000;
-        MinkwitzChain chain = rubiksGroup.createMinkwitzChain(numberOfElements);
+        MinkwitzChain chain = rubiksGroup.getMinkwitzChain(numberOfElements);
         long end = System.currentTimeMillis();
         rubiksGroup.visualizeMinkwitzChain(chain);
         System.out.println("Calculated in: " + (end - start) + " ms");
         System.out.println("Missing: "+chain.getNumberOfMissingElements());
         System.out.println("Average Word Length: "+chain.getAverageWordLength());
-        chain.save("_"+numberOfElements);
+    }
+
+    @Test
+    void createExtendedMinkwitzChain(){
+        long start = System.currentTimeMillis();
+        int preTraining = 0;
+        int numberOfElements = 16000000;
+        int maxBranching = 1;
+        int simplificationRules =850;
+        ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(preTraining,numberOfElements,simplificationRules,maxBranching,true);
+
+        long end = System.currentTimeMillis();
+
+        rubiksGroup.visualizeExtendedMinkwitzChain(chain);
+        System.out.println("Calculated in: " + (end - start) + " ms");
+        System.out.println("Missing: "+chain.getNumberOfMissingElements());
+        System.out.println("Average Word Length: "+chain.getAverageWordLength());
+
     }
 
     @Test
@@ -102,4 +120,120 @@ class PermutationGroupRubiksCubeTest {
         rubiksGroup.visualizeStabilizerChain();
     }
 
+    @Test
+    void superflip(){
+        //try to get the word of the super flip;
+        int preTraining = 16000000;
+        int numberOfElements = 8000000;
+        int maxBranching = 1;
+        int simplificationRules = 2840;
+        PermutationGroup rubiksCube = PermutationGroup.RubiksGroup();
+        Permutation superFlip = Permutation.parse("(2 34)(4 10)(6 26)(8 18)(12 38)(14 20)(16 44)(22 28)(24 42)(30 36)(32 46)(40 48)");
+        System.out.println(superFlip);
+        System.out.println("Element test: "+rubiksCube.contains(superFlip));
+        String word = rubiksCube.elementToWord(superFlip,numberOfElements,simplificationRules,true);
+        System.out.println(word+"\nMy word representation of the super flip with "+word.length()+" words: ");
+        GroupElement reconstruction = rubiksCube.wordToElement(word);
+        System.out.println(reconstruction.toFullString());
+        System.out.println(reconstruction.getPermutation());
+    }
+
+
+    @Test
+    void superflipExtended(){
+        //try to get the word of the super flip;
+
+        Permutation superFlip = Permutation.parse("(2 34)(4 10)(6 26)(8 18)(12 38)(14 20)(16 44)(22 28)(24 42)(30 36)(32 46)(40 48)");
+        System.out.println(superFlip);
+        System.out.println("Element test: "+rubiksGroup.contains(superFlip));
+        int preTraining = 16000000;
+        int numberOfElements = 8000000;
+        int maxBranching = 1;
+        int simplificationRules = 2840;
+        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,preTraining, numberOfElements,simplificationRules,maxBranching,10,true);
+        System.out.println("My word representation of the super flip with "+elements.size()+" versions! ");
+        for (GroupElement element : elements) {
+            element.apply(rubiksGroup.getSimplifyingRules(simplificationRules));
+        }
+        TreeMap<Integer,String> sorted = new TreeMap<>();
+        for (GroupElement element : elements) {
+            sorted.put(element.toFullWordString().length(),element.toFullWordString());
+        }
+        int count=0;
+        for (Map.Entry<Integer, String> integerStringEntry : sorted.entrySet()) {
+            if (count++<100)
+                System.out.println(integerStringEntry.getKey()+": "+integerStringEntry.getValue());
+        }
+        System.out.println("Amount of simplification rules: "+rubiksGroup.getSimplifyingRules(simplificationRules).size());
+        rubiksGroup.saveSimplificationRules();;
+    }
+
+    @Test
+    void getFirst10000Elements  () {
+        PermutationGroup rubiksCube = PermutationGroup.RubiksGroup();
+        int count =0;
+        for (GroupIterator it = rubiksCube.getIterator(10000); it.hasNext(); ) {
+            GroupElement element = it.next();
+            count++;
+            System.out.println(count+": "+element.toFullWordString());
+            if (count==10000)
+                break;
+
+        }
+    }
+
+    @Test
+    void applySimplifications(){
+        int numberOfSimplificationRules = 6659;
+        int preTraining = 0;
+        int numberOfElements = 1000000;
+        ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(preTraining, numberOfElements, numberOfSimplificationRules,1);
+        rubiksGroup.visualizeExtendedMinkwitzChain(chain);
+        System.out.println("Average Word Length: "+chain.getAverageWordLength());
+        chain.applyRules(rubiksGroup.getSimplifyingRules(numberOfSimplificationRules));
+        System.out.println("Average Word Length: "+chain.getAverageWordLength());
+        Permutation superFlip = Permutation.parse("(2 34)(4 10)(6 26)(8 18)(12 38)(14 20)(16 44)(22 28)(24 42)(30 36)(32 46)(40 48)");
+        System.out.println(superFlip);
+        System.out.println("Element test: "+rubiksGroup.contains(superFlip));
+        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip, preTraining, numberOfElements, numberOfSimplificationRules,1, 10,true);
+        System.out.println("My word representation of the super flip with "+elements.size()+" versions! ");
+        System.out.println("Amount of simplification rules: "+rubiksGroup.getSimplifyingRules(numberOfSimplificationRules).size());
+        for (GroupElement element : elements) {
+            element.apply(rubiksGroup.getSimplifyingRules(numberOfSimplificationRules));
+        }
+
+        List<GroupElement> elements2 =elements.stream().filter(e->e.toFullWordString().length()<100).toList();
+
+        for (GroupElement element : elements2) {
+            System.out.println(element.toFullWordString().length()+": "+element.toFullString());
+        }
+
+        rubiksGroup.saveSimplificationRules();;
+    }
+
+
+    @Test
+    void applySimplifications2(){
+        ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(7000001,7000001,3394,1);
+        rubiksGroup.visualizeExtendedMinkwitzChain(chain);
+        System.out.println("Average Word Length: "+chain.getAverageWordLength());
+        chain.applyRules(rubiksGroup.getSimplifyingRules(3394));
+        System.out.println("Average Word Length: "+chain.getAverageWordLength());
+        Permutation superFlip = Permutation.parse("(2 34)(4 10)(6 26)(8 18)(12 38)(14 20)(16 44)(22 28)(24 42)(30 36)(32 46)(40 48)");
+        System.out.println(superFlip);
+        System.out.println("Element test: "+rubiksGroup.contains(superFlip));
+        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,7000001, 7000001,3394,1, true);
+        System.out.println("My word representation of the super flip with "+elements.size()+" versions! ");
+        System.out.println("Amount of simplification rules: "+rubiksGroup.getSimplifyingRules(3394).size());
+        for (GroupElement element : elements) {
+            System.out.println(element.toFullWordString().length()+": "+element.toFullString());
+        }
+        rubiksGroup.saveSimplificationRules();;
+    }
+
+    @Test
+    void saveSimplificationRules(){
+        System.out.println(rubiksGroup.getSimplifyingRules(4670).size());
+        rubiksGroup.saveSimplificationRules();
+    }
 }

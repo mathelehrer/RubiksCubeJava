@@ -15,7 +15,7 @@ import java.util.List;
  * Since: 30/12/2024
  * Version: 1.0
  */
-public class Permutation {
+public class Permutation implements Comparable<Permutation> {
     /*************************************
      *********** Attributes ***************
      **************************************/
@@ -330,4 +330,14 @@ public class Permutation {
         return new Permutation(cycles);
     }
 
+    @Override
+    public int compareTo(Permutation o) {
+        if (this.cycles.size() != o.cycles.size())
+            return this.cycles.size() - o.cycles.size();
+        for (int i = 0; i < this.cycles.size(); i++) {
+            int diff = this.cycles.get(i).compareTo(o.cycles.get(i));
+            if (diff != 0) return diff;
+        }
+        return 0;
+    }
 }

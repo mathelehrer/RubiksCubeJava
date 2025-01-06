@@ -1,0 +1,2191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stabilizer>
+	<orbit>
+		[1,3,7,5,17,21,9,41,29,45,33,11,43,39,37,35,25,15,47,13,27,23,19,31]
+	</orbit>
+	<representatives>
+		<representative  of='1'>
+			<permutation>
+				(48)
+			</permutation>
+			<word>
+				
+			</word>
+		</representative>
+		<representative  of='33'>
+			<permutation>
+				(1 33 39 7 23 47)(2 48)(3 45 19 43 37 35)(6 22 46 36 38)(9 27 13 25 29 31)(12 26 28 32 30)(34 40)
+			</permutation>
+			<word>
+				BBr
+			</word>
+		</representative>
+		<representative  of='3'>
+			<permutation>
+				(1 3 7 5)(2 6 8 4)(9 33 25 17)(10 34 26 18)(11 35 27 19)(48)
+			</permutation>
+			<word>
+				T
+			</word>
+		</representative>
+		<representative  of='35'>
+			<permutation>
+				(1 35 9)(2 30 48 12 4 8 6)(3 31 45 17 25 33 37 39 11 19 27 47 13 5 7)(10 18 26 34 36 40 38)
+			</permutation>
+			<word>
+				bt
+			</word>
+		</representative>
+		<representative  of='5'>
+			<permutation>
+				(1 5 7 3)(2 4 8 6)(9 17 25 33)(10 18 26 34)(11 19 27 35)(48)
+			</permutation>
+			<word>
+				t
+			</word>
+		</representative>
+		<representative  of='37'>
+			<permutation>
+				(1 37 33 35 31 3 9 47 27)(2 12 46 42 44 48 30)(13 43 41 45 23 15 39 29 21)(16 40 36 34 38 32 24)
+			</permutation>
+			<word>
+				Bd
+			</word>
+		</representative>
+		<representative  of='7'>
+			<permutation>
+				(1 7)(2 8)(3 5)(4 6)(9 25)(10 26)(11 27)(17 33)(18 34)(19 35)(48)
+			</permutation>
+			<word>
+				TT
+			</word>
+		</representative>
+		<representative  of='39'>
+			<permutation>
+				(1 39 41 17)(4 38 44 20)(5 35 45 21)(9 13 15 11)(10 12 16 14)(48)
+			</permutation>
+			<word>
+				l
+			</word>
+		</representative>
+		<representative  of='9'>
+			<permutation>
+				(1 9 35)(2 10 14 16 12 48 30)(3 11 15 13 47 27 17 41 39 37 33 5 21 45 31)(4 20 44 38 40 36 34)
+			</permutation>
+			<word>
+				BL
+			</word>
+		</representative>
+		<representative  of='41'>
+			<permutation>
+				(1 41)(4 44)(5 45)(9 15)(10 16)(11 13)(12 14)(17 39)(20 38)(21 35)(48)
+			</permutation>
+			<word>
+				LL
+			</word>
+		</representative>
+		<representative  of='11'>
+			<permutation>
+				(1 11 13 47 27 41)(2 14 12 48 30)(3 15 9 5 45 31)(4 44)(10 16)(17 39 37 33 21 35)(20 38 40 36 34)
+			</permutation>
+			<word>
+				BLL
+			</word>
+		</representative>
+		<representative  of='43'>
+			<permutation>
+				(1 43 41 45 3 47)(2 46 42 44 48)(9 23 15 39 33 31)(12 30)(13 27 37 35 29 21)(16 40 34 32 24)(36 38)
+			</permutation>
+			<word>
+				BBd
+			</word>
+		</representative>
+		<representative  of='45'>
+			<permutation>
+				(1 45 3 41 43 47)(2 44 42 46 48)(9 39 33 15 23 31)(12 30)(13 27 21 29 37 35)(16 24 32 40 34)(36 38)
+			</permutation>
+			<word>
+				BBD
+			</word>
+		</representative>
+		<representative  of='13'>
+			<permutation>
+				(1 13 47 27)(2 12 48 30)(3 9 45 31)(33 35 39 37)(34 38 40 36)
+			</permutation>
+			<word>
+				B
+			</word>
+		</representative>
+		<representative  of='15'>
+			<permutation>
+				(1 15 11 9 21 5 35 41 17)(2 16 14 10 12 48 30)(3 13 47 27 39 37 33 45 31)(4 38 40 36 34 44 20)
+			</permutation>
+			<word>
+				Bl
+			</word>
+		</representative>
+		<representative  of='47'>
+			<permutation>
+				(1 47)(2 48)(3 45)(9 31)(12 30)(13 27)(33 39)(34 40)(35 37)(36 38)
+			</permutation>
+			<word>
+				BB
+			</word>
+		</representative>
+		<representative  of='17'>
+			<permutation>
+				(1 17 41 39)(4 20 44 38)(5 21 45 35)(9 11 15 13)(10 14 16 12)(48)
+			</permutation>
+			<word>
+				L
+			</word>
+		</representative>
+		<representative  of='19'>
+			<permutation>
+				(1 19 11 35 25 17 9 7 5)(2 22 46 36 6 8 4)(3 23 47 33 29 31 27 43 37)(10 34 28 32 30 26 18)(48)
+			</permutation>
+			<word>
+				Tr
+			</word>
+		</representative>
+		<representative  of='21'>
+			<permutation>
+				(1 21 29 37 33 35 15 23 31 3 9 41 43 47 27)(2 12 44 42 46 48 30)(13 45 39)(16 24 32 40 36 34 38)
+			</permutation>
+			<word>
+				BD
+			</word>
+		</representative>
+		<representative  of='23'>
+			<permutation>
+				(1 23 7 33 39 47)(2 48)(3 45 37 35 43 19)(6 36 38 46 22)(9 29 25 27 13 31)(12 32 28 26 30)(34 40)
+			</permutation>
+			<word>
+				BBR
+			</word>
+		</representative>
+		<representative  of='25'>
+			<permutation>
+				(1 25 33 9 19 27 35 7 3)(2 4 20 44 38 8 6)(5 21 45 11 15 13 17 41 39)(10 14 16 12 18 26 34)(48)
+			</permutation>
+			<word>
+				Lt
+			</word>
+		</representative>
+		<representative  of='27'>
+			<permutation>
+				(1 27 47 13)(2 30 48 12)(3 31 45 9)(33 37 39 35)(34 36 40 38)
+			</permutation>
+			<word>
+				b
+			</word>
+		</representative>
+		<representative  of='29'>
+			<permutation>
+				(1 29 13 41 47 27)(2 12 42 48 30)(3 9 43 45 15 31)(16 32)(21 37 33 35 23 39)(24 40 36 34 38)(44 46)
+			</permutation>
+			<word>
+				BDD
+			</word>
+		</representative>
+		<representative  of='31'>
+			<permutation>
+				(1 31 45 9 37 39 35 47 13)(2 6 8 4 30 48 12)(3 7 5 27 19 11 33 25 17)(10 36 40 38 34 26 18)
+			</permutation>
+			<word>
+				Tb
+			</word>
+		</representative>
+	</representatives>
+	<stabilizer>
+		<orbit>
+			[13,21,29,37,17,45,19,41,11,15,43,39,7,23,47,5,31,25,3,33,27]
+		</orbit>
+		<representatives>
+			<representative  of='33'>
+				<permutation>
+					(3 13 33 45 27 39)(6 12 48 26 38 40)(22 46 36 28 32 30)(23 47 43 37 29 31)
+				</permutation>
+				<word>
+					tBTr
+				</word>
+			</representative>
+			<representative  of='3'>
+				<permutation>
+					(3 19 43 41 45 33 7 23 15 39 27 25 29 21 13)(6 22 46 42 44 48 36)(16 40 30 26 28 32 24)(31 47 37)
+				</permutation>
+				<word>
+					dr
+				</word>
+			</representative>
+			<representative  of='37'>
+				<permutation>
+					(13 37 29 21)(15 39 31 23)(16 40 32 24)(41 45 47 43)(42 44 48 46)
+				</permutation>
+				<word>
+					d
+				</word>
+			</representative>
+			<representative  of='5'>
+				<permutation>
+					(4 40 14 10 48 20)(5 39 11 45 17 13)(15 23 21 29 41 43)(16 24 32 44 42 46)
+				</permutation>
+				<word>
+					DblB
+				</word>
+			</representative>
+			<representative  of='39'>
+				<permutation>
+					(5 31 23 15 19 17 37 29 21 7 11 47 43 41 25)(8 38 48 46 42 44 20)(12 40 32 24 16 14 18)(13 39 45)
+				</permutation>
+				<word>
+					Tldt
+				</word>
+			</representative>
+			<representative  of='7'>
+				<permutation>
+					(5 15 31 43 45 25)(7 11 41 47 29 13)(8 14 42 48 28)(16 32)(17 21 37 23 39 19)(18 20 24 40 22)(44 46)
+				</permutation>
+				<word>
+					DDf
+				</word>
+			</representative>
+			<representative  of='41'>
+				<permutation>
+					(5 25 43 45 15 31)(7 29 13 41 47 11)(8 28 42 48 14)(16 32)(17 19 23 39 21 37)(18 22 24 40 20)(44 46)
+				</permutation>
+				<word>
+					DDF
+				</word>
+			</representative>
+			<representative  of='11'>
+				<permutation>
+					(5 43 45)(7 41 47)(8 42 48)(11 29 13)(14 28)(15 31 25)(16 32)(17 23 39)(18 24 40)(19 21 37)(20 22)(44 46)
+				</permutation>
+				<word>
+					DDFF
+				</word>
+			</representative>
+			<representative  of='43'>
+				<permutation>
+					(3 37 25 27 31 7 33 47 19)(6 36 46 42 44 48 22)(13 43 41 45 23 15 39 29 21)(16 40 28 26 30 32 24)
+				</permutation>
+				<word>
+					dR
+				</word>
+			</representative>
+			<representative  of='13'>
+				<permutation>
+					(48)
+				</permutation>
+				<word>
+					
+				</word>
+			</representative>
+			<representative  of='45'>
+				<permutation>
+					(5 25 41 43 47 11 7 21 29 37 17 19 15 23 31)(8 20 44 42 46 48 38)(12 18 14 16 24 32 40)(13 45 39)
+				</permutation>
+				<word>
+					TDLt
+				</word>
+			</representative>
+			<representative  of='15'>
+				<permutation>
+					(5 39 41 25)(7 11 45 21)(8 38 44 20)(12 16 14 18)(13 15 19 17)(48)
+				</permutation>
+				<word>
+					Tlt
+				</word>
+			</representative>
+			<representative  of='47'>
+				<permutation>
+					(3 13 47 19)(6 12 48 30)(7 33 45 31)(25 27 39 37)(26 38 40 36)
+				</permutation>
+				<word>
+					tBT
+				</word>
+			</representative>
+			<representative  of='17'>
+				<permutation>
+					(5 25 43 47 45 11 7 29 37 13 17 19 23 31 39)(8 28 42 46 48 44 14)(15 21 41)(16 20 18 22 24 32 40)
+				</permutation>
+				<word>
+					DF
+				</word>
+			</representative>
+			<representative  of='19'>
+				<permutation>
+					(5 43 47 45 7 41)(8 42 46 48 44)(11 29 37 13 19 21)(14 28)(15 17 23 31 39 25)(16 18 24 32 40)(20 22)
+				</permutation>
+				<word>
+					DFF
+				</word>
+			</representative>
+			<representative  of='21'>
+				<permutation>
+					(13 21 29 37)(15 23 31 39)(16 24 32 40)(41 43 47 45)(42 46 48 44)
+				</permutation>
+				<word>
+					D
+				</word>
+			</representative>
+			<representative  of='23'>
+				<permutation>
+					(5 15 19 17 21 7 11 41 25)(8 14 42 46 48 44 28)(13 23 31 39 43 47 45 29 37)(16 22 18 20 24 32 40)
+				</permutation>
+				<word>
+					Df
+				</word>
+			</representative>
+			<representative  of='25'>
+				<permutation>
+					(3 37 21 43 45 19)(6 36 46 44 22)(7 33 47 41 23 39)(13 25 27 31 15 29)(16 28 26 30 32)(24 40)(42 48)
+				</permutation>
+				<word>
+					DDR
+				</word>
+			</representative>
+			<representative  of='27'>
+				<permutation>
+					(3 43 45)(6 46 44)(7 47 41)(13 27 29)(15 25 31)(16 26 32)(19 37 21)(22 36)(23 39 33)(24 40)(28 30)(42 48)
+				</permutation>
+				<word>
+					DDRR
+				</word>
+			</representative>
+			<representative  of='29'>
+				<permutation>
+					(13 29)(15 31)(16 32)(21 37)(23 39)(24 40)(41 47)(42 48)(43 45)(44 46)
+				</permutation>
+				<word>
+					DD
+				</word>
+			</representative>
+			<representative  of='31'>
+				<permutation>
+					(3 19 43 45 37 21)(6 22 46 44 36)(7 23 39 47 41 33)(13 31 15 27 25 29)(16 30 26 28 32)(24 40)(42 48)
+				</permutation>
+				<word>
+					DDr
+				</word>
+			</representative>
+		</representatives>
+		<stabilizer>
+			<orbit>
+				[5,25,47,23,43,21,11,15,17,7,19,37,29,31,41,27,33,3]
+			</orbit>
+			<representatives>
+				<representative  of='33'>
+					<permutation>
+						(2 20 26 34 14 6)(3 17 27 5 33 11)(7 29 25 43 19 23)(8 28 42 18 22 24)(48)
+					</permutation>
+					<word>
+						FltL
+					</word>
+				</representative>
+				<representative  of='3'>
+					<permutation>
+						(3 43 5)(6 46)(7 41 47)(8 42)(11 27 29)(14 30 28)(15 31 25)(17 33 23)(18 24)(19 21 37)(20 36 22)(26 32)(48)
+					</permutation>
+					<word>
+						FFRR
+					</word>
+				</representative>
+				<representative  of='5'>
+					<permutation>
+						(48)
+					</permutation>
+					<word>
+						
+					</word>
+				</representative>
+				<representative  of='37'>
+					<permutation>
+						(3 19 21 43 5 37)(6 22 20 46 36)(7 41 23 17 47 33)(8 42)(11 31 27 25 15 29)(14 32 30 26 28)(18 24)(48)
+					</permutation>
+					<word>
+						FFr
+					</word>
+				</representative>
+				<representative  of='7'>
+					<permutation>
+						(3 17 25 37)(4 8 6 30)(5 7 31 27)(10 18 26 36)(11 19 47 33)(48)
+					</permutation>
+					<word>
+						Btb
+					</word>
+				</representative>
+				<representative  of='41'>
+					<permutation>
+						(3 23 17 15 25 37)(5 41 7 31 27 43)(6 24 18 46 36)(8 32 30 26 42)(11 21 19 47 33 29)(14 28)(20 22)(48)
+					</permutation>
+					<word>
+						FrF
+					</word>
+				</representative>
+				<representative  of='43'>
+					<permutation>
+						(5 43)(7 41)(8 42)(11 29)(14 28)(15 25)(17 23)(18 24)(19 21)(20 22)(48)
+					</permutation>
+					<word>
+						FF
+					</word>
+				</representative>
+				<representative  of='11'>
+					<permutation>
+						(3 21 23 19 47 33 41 29 7 31 27 15 43 25 37)(4 14 42 28 8 6 30)(5 11 17)(10 20 24 22 18 26 36)(48)
+					</permutation>
+					<word>
+						Btfb
+					</word>
+				</representative>
+				<representative  of='47'>
+					<permutation>
+						(3 19 17 31 43)(5 47 29 27 25)(6 22 36 8 46)(7 11 37 23 33)(18 32 26 28 30)(48)
+					</permutation>
+					<word>
+						trTr
+					</word>
+				</representative>
+				<representative  of='15'>
+					<permutation>
+						(5 15 43 25)(7 11 41 29)(8 14 42 28)(17 21 23 19)(18 20 24 22)(48)
+					</permutation>
+					<word>
+						f
+					</word>
+				</representative>
+				<representative  of='17'>
+					<permutation>
+						(3 37 25 43 15 27 31 7 29 41 33 47 19 23 21)(4 30 6 8 28 42 14)(5 17 11)(10 36 26 18 22 24 20)(48)
+					</permutation>
+					<word>
+						BFTb
+					</word>
+				</representative>
+				<representative  of='19'>
+					<permutation>
+						(3 37 43 5 19 21)(6 36 46 22 20)(7 41 33 47 23 17)(8 42)(11 25 15 27 31 29)(14 26 30 32 28)(18 24)(48)
+					</permutation>
+					<word>
+						FFR
+					</word>
+				</representative>
+				<representative  of='21'>
+					<permutation>
+						(2 18 26 34 8 6)(3 19 27 25 33 7)(4 20 44 10 14 16)(5 21 17 41 11 15)(48)
+					</permutation>
+					<word>
+						BLbt
+					</word>
+				</representative>
+				<representative  of='23'>
+					<permutation>
+						(5 23 47 25)(7 11 43 37)(8 22 46 36)(17 29 31 19)(18 28 32 30)(48)
+					</permutation>
+					<word>
+						trT
+					</word>
+				</representative>
+				<representative  of='25'>
+					<permutation>
+						(5 25 43 15)(7 29 41 11)(8 28 42 14)(17 19 23 21)(18 22 24 20)(48)
+					</permutation>
+					<word>
+						F
+					</word>
+				</representative>
+				<representative  of='27'>
+					<permutation>
+						(3 37 43 15 5 27 31 29 41 11 33 47 23 21 17)(6 36 46 22 24 20 18)(7 25 19)(8 26 30 32 28 42 14)(48)
+					</permutation>
+					<word>
+						FR
+					</word>
+				</representative>
+				<representative  of='29'>
+					<permutation>
+						(3 19 47 33 7 31 27 25 37)(5 29 41 11 23 21 17 43 15)(6 22 24 20 18 46 36)(8 32 30 26 28 42 14)(48)
+					</permutation>
+					<word>
+						Fr
+					</word>
+				</representative>
+				<representative  of='31'>
+					<permutation>
+						(3 43 15 5 31 25)(6 46)(7 27 29 41 11 47)(8 30 28 42 14)(17 37 19 33 23 21)(18 36 22 24 20)(26 32)(48)
+					</permutation>
+					<word>
+						FRR
+					</word>
+				</representative>
+			</representatives>
+			<stabilizer>
+				<orbit>
+					[7,31,19,47,25,37,15,29,41,23,21,43,33,3,27]
+				</orbit>
+				<representatives>
+					<representative  of='33'>
+						<permutation>
+							(3 37 43 19)(6 36 46 22)(7 33 47 23)(25 27 31 29)(26 30 32 28)(48)
+						</permutation>
+						<word>
+							R
+						</word>
+					</representative>
+					<representative  of='3'>
+						<permutation>
+							(2 18 26 34 8 6)(3 19 27 25 33 7)(14 22 24 20 28 42)(15 23 21 29 41 43)(48)
+						</permutation>
+						<word>
+							ltLF
+						</word>
+					</representative>
+					<representative  of='37'>
+						<permutation>
+							(6 40 28 26 48 22)(7 37 25 47 19 31)(15 43 41 29 21 23)(16 46 42 44 32 24)
+						</permutation>
+						<word>
+							dBRb
+						</word>
+					</representative>
+					<representative  of='7'>
+						<permutation>
+							(48)
+						</permutation>
+						<word>
+							
+						</word>
+					</representative>
+					<representative  of='41'>
+						<permutation>
+							(3 29 37 7 41)(6 28 14 38 44 18 24 32 40)(8 42 46 48 26 22 20 12 16)(15 33 43 47 25)(19 21 27 23 31)
+						</permutation>
+						<word>
+							DFTlFt
+						</word>
+					</representative>
+					<representative  of='43'>
+						<permutation>
+							(3 37 15 7 43)(6 36 46 24 20 26 30 32 42 14)(19 29 27 31 41)(21 25 23 33 47)(22 28)(48)
+						</permutation>
+						<word>
+							RTFt
+						</word>
+					</representative>
+					<representative  of='47'>
+						<permutation>
+							(3 43)(6 46)(7 47)(19 37)(22 36)(23 33)(25 31)(26 32)(27 29)(28 30)(48)
+						</permutation>
+						<word>
+							RR
+						</word>
+					</representative>
+					<representative  of='15'>
+						<permutation>
+							(3 19 41 29)(6 14 42 28)(7 15 43 33)(20 24 22 26)(21 23 27 25)(48)
+						</permutation>
+						<word>
+							Tft
+						</word>
+					</representative>
+					<representative  of='19'>
+						<permutation>
+							(3 41 37 43 33 15 47 23 27 21 31 29)(6 18 44 28 32 40 42 36)(7 19 25)(8 16 22 46 48 24 30 26)
+						</permutation>
+						<word>
+							DrlfL
+						</word>
+					</representative>
+					<representative  of='21'>
+						<permutation>
+							(7 21 25 41 19 15)(8 28 44 18 22 16)(23 47 43 37 29 31)(24 48 46 42 40 32)
+						</permutation>
+						<word>
+							lFLd
+						</word>
+					</representative>
+					<representative  of='23'>
+						<permutation>
+							(3 19 43 37)(6 22 46 36)(7 23 47 33)(25 29 31 27)(26 28 32 30)(48)
+						</permutation>
+						<word>
+							r
+						</word>
+					</representative>
+					<representative  of='25'>
+						<permutation>
+							(3 29 31 21 27 23 47 15 33 43 37 41)(6 36 42 40 32 28 44 18)(7 25 19)(8 26 30 24 48 46 22 16)
+						</permutation>
+						<word>
+							lFLRd
+						</word>
+					</representative>
+					<representative  of='27'>
+						<permutation>
+							(3 41 29 31 25)(6 26)(7 27 21 23 47)(14 42 28 32 30 20 24 22 46 36)(15 43 37 19 33)(48)
+						</permutation>
+						<word>
+							rTft
+						</word>
+					</representative>
+					<representative  of='29'>
+						<permutation>
+							(7 29 25 43 19 23)(8 28 42 18 22 24)(14 40 32 20 48 46)(15 37 41 31 21 47)
+						</permutation>
+						<word>
+							LdlF
+						</word>
+					</representative>
+					<representative  of='31'>
+						<permutation>
+							(6 22 48 26 28 40)(7 31 19 47 25 37)(15 23 21 29 41 43)(16 24 32 44 42 46)
+						</permutation>
+						<word>
+							BrbD
+						</word>
+					</representative>
+				</representatives>
+				<stabilizer>
+					<orbit>
+						[23,43,29,15,41,21,33,3,27,47,37,31]
+					</orbit>
+					<representatives>
+						<representative  of='33'>
+							<permutation>
+								(2 30 26 42 38 4 16 22 46 40)(3 23 33 29 27 43)(6 24 12 10 44 28 32 48 34 36)(31 47 37)
+							</permutation>
+							<word>
+								rFDLfdb
+							</word>
+						</representative>
+						<representative  of='3'>
+							<permutation>
+								(3 37 15 23)(16 24 32 36)(21 29 33 47)(27 31 41 43)(30 44 42 46)(48)
+							</permutation>
+							<word>
+								bDB
+							</word>
+						</representative>
+						<representative  of='21'>
+							<permutation>
+								(3 31 27 47 33 37)(6 32 30 26 46 36)(14 22 24 20 28 42)(15 23 21 29 41 43)(48)
+							</permutation>
+							<word>
+								TFtr
+							</word>
+						</representative>
+						<representative  of='37'>
+							<permutation>
+								(3 15)(16 32)(21 33)(23 37)(24 36)(27 41)(29 47)(30 42)(31 43)(44 46)(48)
+							</permutation>
+							<word>
+								bDDB
+							</word>
+						</representative>
+						<representative  of='23'>
+							<permutation>
+								(48)
+							</permutation>
+							<word>
+								
+							</word>
+						</representative>
+						<representative  of='41'>
+							<permutation>
+								(14 46 24 40)(15 23 41 43 21 29)(20 32 42 48)(31 37 47)
+							</permutation>
+							<word>
+								fdFDLDl
+							</word>
+						</representative>
+						<representative  of='43'>
+							<permutation>
+								(4 26 48 46 28 20 24 16 36 8)(6 40 32 22 14 42 44 30 18 10)(15 37 21 47 41 31)(23 43 29)
+							</permutation>
+							<word>
+								dBRTbrf
+							</word>
+						</representative>
+						<representative  of='27'>
+							<permutation>
+								(2 22 46 48 12 6 8 34 28 32 40 38 26 18)(3 23 27 43 33 29)(15 47 21 31 41 37)(16 24 30 44 42 36)
+							</permutation>
+							<word>
+								LTlbDr
+							</word>
+						</representative>
+						<representative  of='29'>
+							<permutation>
+								(4 8 36 16 24 20 28 46 48 26)(6 10 18 30 44 42 14 22 32 40)(15 31 41 47 21 37)(23 29 43)
+							</permutation>
+							<word>
+								FRBtrbD
+							</word>
+						</representative>
+						<representative  of='15'>
+							<permutation>
+								(3 23 15 37)(16 36 32 24)(21 47 33 29)(27 43 41 31)(30 46 42 44)(48)
+							</permutation>
+							<word>
+								bdB
+							</word>
+						</representative>
+						<representative  of='47'>
+							<permutation>
+								(3 15 33 21 27 41)(8 24 46 18 42 32)(14 36 48 20 30 40)(23 47 43 37 29 31)
+							</permutation>
+							<word>
+								RfLDlr
+							</word>
+						</representative>
+						<representative  of='31'>
+							<permutation>
+								(3 41 27 21 33 15)(8 32 42 18 46 24)(14 40 30 20 48 36)(23 31 29 37 43 47)
+							</permutation>
+							<word>
+								RLdlFr
+							</word>
+						</representative>
+					</representatives>
+					<stabilizer>
+						<orbit>
+							[15,41,21,3,27,33,31,47,37]
+						</orbit>
+						<representatives>
+							<representative  of='33'>
+								<permutation>
+									(2 4 16 46 14 40 6 12 18)(3 37 41)(8 34 10 44 32 20 48 26 38)(15 33 47)(21 27 31)
+								</permutation>
+								<word>
+									LtRBrfdF
+								</word>
+							</representative>
+							<representative  of='3'>
+								<permutation>
+									(3 21 33 41 27 15)(6 32 20 28 42 44 26 46 14 22 24 16)(30 36)(31 47 37)(48)
+								</permutation>
+								<word>
+									bdBTFtr
+								</word>
+							</representative>
+							<representative  of='21'>
+								<permutation>
+									(3 37 27 31 33 47)(6 36 46 16 40 14 24 8 38 28)(12 22 26 30 32 44 48 20 42 18)(15 21 41)
+								</permutation>
+								<word>
+									FFdRTFLtF
+								</word>
+							</representative>
+							<representative  of='37'>
+								<permutation>
+									(2 12 36 34 38 30)(3 41 31)(4 28 42 32 6 10 22 24 46 26)(15 37 33)(21 47 27)(48)
+								</permutation>
+								<word>
+									RDBdfrtF
+								</word>
+							</representative>
+							<representative  of='41'>
+								<permutation>
+									(3 47 33 31 27 37)(6 28 38 8 24 14 40 16 46 36)(12 18 42 20 48 44 32 30 26 22)(15 41 21)
+								</permutation>
+								<word>
+									fTlftrDff
+								</word>
+							</representative>
+							<representative  of='27'>
+								<permutation>
+									(3 15 27 41 33 21)(6 16 24 22 14 46 26 44 42 28 20 32)(30 36)(31 37 47)(48)
+								</permutation>
+								<word>
+									RTftbDB
+								</word>
+							</representative>
+							<representative  of='15'>
+								<permutation>
+									(48)
+								</permutation>
+								<word>
+									
+								</word>
+							</representative>
+							<representative  of='31'>
+								<permutation>
+									(2 44 28 40 42 14 18 26 46 36)(3 27 33)(6 32 30 34 16 22 48 24 20 8)(15 31 21 37 41 47)
+								</permutation>
+								<word>
+									rltLFDlfL
+								</word>
+							</representative>
+							<representative  of='47'>
+								<permutation>
+									(2 18 12 6 40 14 46 16 4)(3 41 37)(8 38 26 48 20 32 44 10 34)(15 47 33)(21 31 27)
+								</permutation>
+								<word>
+									fDFRbrTl
+								</word>
+							</representative>
+						</representatives>
+						<stabilizer>
+							<orbit>
+								[12,32,14,24,18,40,16,26,10,34,28,30,38,8,22,20,46,42,48,44,4,6,2,36]
+							</orbit>
+							<representatives>
+								<representative  of='32'>
+									<permutation>
+										(2 40 38 46 22)(12 32 28 34 48)
+									</permutation>
+									<word>
+										bTRtDbdB
+									</word>
+								</representative>
+								<representative  of='34'>
+									<permutation>
+										(2 18 42 26 38)(6 12 34 8 24)(48)
+									</permutation>
+									<word>
+										LTLrfllR
+									</word>
+								</representative>
+								<representative  of='2'>
+									<permutation>
+										(2 32 28 36 12)(22 30 38 34 46)(48)
+									</permutation>
+									<word>
+										TRtDbd
+									</word>
+								</representative>
+								<representative  of='4'>
+									<permutation>
+										(4 26 46 18 12)(6 32 8 38 10)(48)
+									</permutation>
+									<word>
+										btFbRbbf
+									</word>
+								</representative>
+								<representative  of='36'>
+									<permutation>
+										(2 12 36 28 32)(22 46 34 38 30)(48)
+									</permutation>
+									<word>
+										DBdTrt
+									</word>
+								</representative>
+								<representative  of='38'>
+									<permutation>
+										(2 40 22 6 14)(4 36 32 44 24 10 30 46 16 42)(12 38)(20 34 48 28 26)
+									</permutation>
+									<word>
+										dTlBdRlbfbdB
+									</word>
+								</representative>
+								<representative  of='6'>
+									<permutation>
+										(6 32 28 36 12)(22 30 38 26 46)(48)
+									</permutation>
+									<word>
+										RDtbTd
+									</word>
+								</representative>
+								<representative  of='40'>
+									<permutation>
+										(8 28 20 12 40)(14 38 48 18 22)
+									</permutation>
+									<word>
+										DDFTdldt
+									</word>
+								</representative>
+								<representative  of='8'>
+									<permutation>
+										(8 42 12)(18 24 38)(48)
+									</permutation>
+									<word>
+										FTdLLtDF
+									</word>
+								</representative>
+								<representative  of='10'>
+									<permutation>
+										(4 16 46 14 38)(10 44 32 20 12)(48)
+									</permutation>
+									<word>
+										LBfdbF
+									</word>
+								</representative>
+								<representative  of='42'>
+									<permutation>
+										(4 20 12 42 40)(10 14 38 24 48)
+									</permutation>
+									<word>
+										DfBdFbLd
+									</word>
+								</representative>
+								<representative  of='12'>
+									<permutation>
+										(48)
+									</permutation>
+									<word>
+										
+									</word>
+								</representative>
+								<representative  of='44'>
+									<permutation>
+										(6 24 12 44 32)(16 46 26 42 38)(48)
+									</permutation>
+									<word>
+										BDBfrbbF
+									</word>
+								</representative>
+								<representative  of='14'>
+									<permutation>
+										(12 14 28)(20 22 38)(48)
+									</permutation>
+									<word>
+										DFFTdllt
+									</word>
+								</representative>
+								<representative  of='46'>
+									<permutation>
+										(6 22 30 38 32)(12 46 26 28 36)(48)
+									</permutation>
+									<word>
+										rDtBTd
+									</word>
+								</representative>
+								<representative  of='16'>
+									<permutation>
+										(8 28 20 12 16)(14 38 44 18 22)(48)
+									</permutation>
+									<word>
+										DFTdlt
+									</word>
+								</representative>
+								<representative  of='48'>
+									<permutation>
+										(6 22 30 38 40)(12 48 26 28 36)
+									</permutation>
+									<word>
+										drDtBT
+									</word>
+								</representative>
+								<representative  of='18'>
+									<permutation>
+										(8 24 22 14 38)(12 18 42 28 20)(48)
+									</permutation>
+									<word>
+										fdTLDt
+									</word>
+								</representative>
+								<representative  of='20'>
+									<permutation>
+										(8 16 12 20 28)(14 22 18 44 38)(48)
+									</permutation>
+									<word>
+										TLDtfd
+									</word>
+								</representative>
+								<representative  of='22'>
+									<permutation>
+										(6 12 22 30 32)(26 38 28 36 46)(48)
+									</permutation>
+									<word>
+										RRDtbTdr
+									</word>
+								</representative>
+								<representative  of='24'>
+									<permutation>
+										(8 28 20 12 24)(14 38 42 18 22)(48)
+									</permutation>
+									<word>
+										FTdltD
+									</word>
+								</representative>
+								<representative  of='26'>
+									<permutation>
+										(2 12 26 28 40)(6 22 48 34 38)
+									</permutation>
+									<word>
+										BdrtDBTb
+									</word>
+								</representative>
+								<representative  of='28'>
+									<permutation>
+										(12 28 30)(22 36 38)(48)
+									</permutation>
+									<word>
+										DBBdTrrt
+									</word>
+								</representative>
+								<representative  of='30'>
+									<permutation>
+										(12 30 28)(22 38 36)(48)
+									</permutation>
+									<word>
+										TRRtDbbd
+									</word>
+								</representative>
+							</representatives>
+							<stabilizer>
+								<orbit>
+									[8,46,42,20,48,44,6,4,2,22,36,28,18,24,32,14,16,10,40,26,34,30]
+								</orbit>
+								<representatives>
+									<representative  of='32'>
+										<permutation>
+											(8 32 30 22 14)(18 46 36 28 20)(48)
+										</permutation>
+										<word>
+											trTdFD
+										</word>
+									</representative>
+									<representative  of='2'>
+										<permutation>
+											(2 42 8)(18 34 24)(48)
+										</permutation>
+										<word>
+											lTTLrffR
+										</word>
+									</representative>
+									<representative  of='34'>
+										<permutation>
+											(2 20 26 42 18)(6 24 8 34 14)(48)
+										</permutation>
+										<word>
+											rFRltL
+										</word>
+									</representative>
+									<representative  of='4'>
+										<permutation>
+											(4 26 46 36 8)(6 32 30 18 10)(48)
+										</permutation>
+										<word>
+											BTFbrf
+										</word>
+									</representative>
+									<representative  of='36'>
+										<permutation>
+											(4 8 36 46 26)(6 10 18 30 32)(48)
+										</permutation>
+										<word>
+											FRBftb
+										</word>
+									</representative>
+									<representative  of='6'>
+										<permutation>
+											(2 18 26 4 16)(6 10 44 34 8)(48)
+										</permutation>
+										<word>
+											tBfLbF
+										</word>
+									</representative>
+									<representative  of='8'>
+										<permutation>
+											(48)
+										</permutation>
+										<word>
+											
+										</word>
+									</representative>
+									<representative  of='40'>
+										<permutation>
+											(6 18 48 44 32)(8 40 16 46 26)
+										</permutation>
+										<word>
+											FFDfBrfb
+										</word>
+									</representative>
+									<representative  of='42'>
+										<permutation>
+											(8 42 48)(18 24 40)
+										</permutation>
+										<word>
+											LDDlRffr
+										</word>
+									</representative>
+									<representative  of='10'>
+										<permutation>
+											(4 16 46 48 18)(8 10 44 32 40)
+										</permutation>
+										<word>
+											bflBfDff
+										</word>
+									</representative>
+									<representative  of='44'>
+										<permutation>
+											(8 44 48 22 14)(16 40 28 20 18)
+										</permutation>
+										<word>
+											FrdRlFLf
+										</word>
+									</representative>
+									<representative  of='46'>
+										<permutation>
+											(4 40 8 46 16)(10 48 18 32 44)
+										</permutation>
+										<word>
+											FFDFblFB
+										</word>
+									</representative>
+									<representative  of='14'>
+										<permutation>
+											(8 14 46 48 24)(18 20 32 40 42)
+										</permutation>
+										<word>
+											LDlRfr
+										</word>
+									</representative>
+									<representative  of='48'>
+										<permutation>
+											(8 48 42)(18 40 24)
+										</permutation>
+										<word>
+											RFFrLddl
+										</word>
+									</representative>
+									<representative  of='16'>
+										<permutation>
+											(8 16 22 48 24)(18 44 28 40 42)
+										</permutation>
+										<word>
+											rDRlfL
+										</word>
+									</representative>
+									<representative  of='18'>
+										<permutation>
+											(2 14 46 40 34 20 32 48)(4 28 36 16)(8 18)(10 22 30 44)
+										</permutation>
+										<word>
+											LtFbrDtbfr
+										</word>
+									</representative>
+									<representative  of='20'>
+										<permutation>
+											(2 18 14 6 40)(8 20 26 48 34)
+										</permutation>
+										<word>
+											RLLbLrTL
+										</word>
+									</representative>
+									<representative  of='22'>
+										<permutation>
+											(2 18 28 4 16)(8 22 10 44 34)(48)
+										</permutation>
+										<word>
+											RtBfLbFr
+										</word>
+									</representative>
+									<representative  of='24'>
+										<permutation>
+											(8 24 48 46 14)(18 42 40 32 20)
+										</permutation>
+										<word>
+											RFrLdl
+										</word>
+									</representative>
+									<representative  of='26'>
+										<permutation>
+											(6 32 44 48 18)(8 26 46 16 40)
+										</permutation>
+										<word>
+											BFRbFdff
+										</word>
+									</representative>
+									<representative  of='28'>
+										<permutation>
+											(8 28 44 48 24)(16 40 42 18 22)
+										</permutation>
+										<word>
+											rdRlFL
+										</word>
+									</representative>
+									<representative  of='30'>
+										<permutation>
+											(6 32 20 18 36)(8 30 26 46 14)(48)
+										</permutation>
+										<word>
+											RtrTdFDr
+										</word>
+									</representative>
+								</representatives>
+								<stabilizer>
+									<orbit>
+										[14,32,24,40,16,26,10,34,28,30,46,20,22,42,48,44,4,6,2,36]
+									</orbit>
+									<representatives>
+										<representative  of='32'>
+											<permutation>
+												(4 30 20 46 26)(6 10 36 14 32)(48)
+											</permutation>
+											<word>
+												FFrBfTfb
+											</word>
+										</representative>
+										<representative  of='34'>
+											<permutation>
+												(2 6 10 44 20)(4 16 14 34 26)(48)
+											</permutation>
+											<word>
+												FTBflb
+											</word>
+										</representative>
+										<representative  of='2'>
+											<permutation>
+												(2 4 26 42 14)(6 24 20 34 10)(48)
+											</permutation>
+											<word>
+												TltLrFRt
+											</word>
+										</representative>
+										<representative  of='4'>
+											<permutation>
+												(4 26 46 36 14)(6 32 30 20 10)(48)
+											</permutation>
+											<word>
+												BFTFbrff
+											</word>
+										</representative>
+										<representative  of='36'>
+											<permutation>
+												(4 40 14 36 16)(10 48 20 30 44)
+											</permutation>
+											<word>
+												RfDFblBr
+											</word>
+										</representative>
+										<representative  of='6'>
+											<permutation>
+												(6 24 30 22 14)(20 26 42 36 28)(48)
+											</permutation>
+											<word>
+												DrdTFt
+											</word>
+										</representative>
+										<representative  of='40'>
+											<permutation>
+												(4 16 46 14 40)(10 44 32 20 48)
+											</permutation>
+											<word>
+												bLBfdF
+											</word>
+										</representative>
+										<representative  of='10'>
+											<permutation>
+												(4 16 46 48 20)(10 44 32 40 14)
+											</permutation>
+											<word>
+												blBfDF
+											</word>
+										</representative>
+										<representative  of='42'>
+											<permutation>
+												(6 36 28 20 24)(14 42 26 30 22)(48)
+											</permutation>
+											<word>
+												DRTdft
+											</word>
+										</representative>
+										<representative  of='44'>
+											<permutation>
+												(6 36 28 20 16)(14 44 26 30 22)(48)
+											</permutation>
+											<word>
+												DDRTdfdt
+											</word>
+										</representative>
+										<representative  of='14'>
+											<permutation>
+												(48)
+											</permutation>
+											<word>
+												
+											</word>
+										</representative>
+										<representative  of='46'>
+											<permutation>
+												(4 40 14 46 16)(10 48 20 32 44)
+											</permutation>
+											<word>
+												fDFblB
+											</word>
+										</representative>
+										<representative  of='16'>
+											<permutation>
+												(2 20 44 10 6)(4 26 34 14 16)(48)
+											</permutation>
+											<word>
+												BLFbtf
+											</word>
+										</representative>
+										<representative  of='48'>
+											<permutation>
+												(6 36 28 20 40)(14 48 26 30 22)
+											</permutation>
+											<word>
+												dRTdfddt
+											</word>
+										</representative>
+										<representative  of='20'>
+											<permutation>
+												(2 22 34 28)(14 20)(32 40)(46 48)
+											</permutation>
+											<word>
+												DfRlTfRTLrfr
+											</word>
+										</representative>
+										<representative  of='22'>
+											<permutation>
+												(6 14 22 30 24)(20 28 36 42 26)(48)
+											</permutation>
+											<word>
+												TftDRd
+											</word>
+										</representative>
+										<representative  of='24'>
+											<permutation>
+												(2 32 20 42 40)(14 24 48 34 46)
+											</permutation>
+											<word>
+												LDLrbllR
+											</word>
+										</representative>
+										<representative  of='26'>
+											<permutation>
+												(6 32 44 48 20)(14 26 46 16 40)
+											</permutation>
+											<word>
+												BFFRbFdF
+											</word>
+										</representative>
+										<representative  of='28'>
+											<permutation>
+												(14 28 30)(20 22 36)(48)
+											</permutation>
+											<word>
+												RRdTFFDt
+											</word>
+										</representative>
+										<representative  of='30'>
+											<permutation>
+												(14 30 28)(20 36 22)(48)
+											</permutation>
+											<word>
+												TdfftDrr
+											</word>
+										</representative>
+									</representatives>
+									<stabilizer>
+										<orbit>
+											[24,32,40,16,26,10,34,28,30,22,48,46,42,6,44,4,36,2]
+										</orbit>
+										<representatives>
+											<representative  of='32'>
+												<permutation>
+													(4 40 42 46 16)(10 48 24 32 44)
+												</permutation>
+												<word>
+													DFblBf
+												</word>
+											</representative>
+											<representative  of='34'>
+												<permutation>
+													(2 48 42)(24 34 40)
+												</permutation>
+												<word>
+													RDDrLbbl
+												</word>
+											</representative>
+											<representative  of='2'>
+												<permutation>
+													(2 10 44 32 24)(4 16 46 42 34)(48)
+												</permutation>
+												<word>
+													FBLBfdbb
+												</word>
+											</representative>
+											<representative  of='4'>
+												<permutation>
+													(4 16 46 48 24)(10 44 32 40 42)
+												</permutation>
+												<word>
+													FblBfD
+												</word>
+											</representative>
+											<representative  of='36'>
+												<permutation>
+													(4 26 46 16 40 42 30)(6 32 44 48 24 36 10)
+												</permutation>
+												<word>
+													fBtRbFdR
+												</word>
+											</representative>
+											<representative  of='6'>
+												<permutation>
+													(6 32 44 30 24)(16 36 42 26 46)(48)
+												</permutation>
+												<word>
+													fRFbdB
+												</word>
+											</representative>
+											<representative  of='40'>
+												<permutation>
+													(2 42 48)(24 40 34)
+												</permutation>
+												<word>
+													LBBlRddr
+												</word>
+											</representative>
+											<representative  of='10'>
+												<permutation>
+													(2 24 10 6 32)(4 26 46 34 42)(48)
+												</permutation>
+												<word>
+													FFTbFrFB
+												</word>
+											</representative>
+											<representative  of='42'>
+												<permutation>
+													(2 48 44 28 36 10 6 34 40 16 22 30 4 26)(24 42)
+												</permutation>
+												<word>
+													DfBRDtBBdbFR
+												</word>
+											</representative>
+											<representative  of='44'>
+												<permutation>
+													(2 24 44 10 6)(4 26 34 42 16)(48)
+												</permutation>
+												<word>
+													BFLFbtff
+												</word>
+											</representative>
+											<representative  of='46'>
+												<permutation>
+													(2 24 46 26 4)(6 10 34 42 32)(48)
+												</permutation>
+												<word>
+													bfrBfTff
+												</word>
+											</representative>
+											<representative  of='16'>
+												<permutation>
+													(6 36 42 44 32)(16 46 26 30 24)(48)
+												</permutation>
+												<word>
+													bdBfRF
+												</word>
+											</representative>
+											<representative  of='48'>
+												<permutation>
+													(4 16 46 42 40)(10 44 32 24 48)
+												</permutation>
+												<word>
+													FbLBfd
+												</word>
+											</representative>
+											<representative  of='22'>
+												<permutation>
+													(4 26 46 16 40 42 28)(6 32 44 48 24 22 10)
+												</permutation>
+												<word>
+													fBTRbFdr
+												</word>
+											</representative>
+											<representative  of='24'>
+												<permutation>
+													(48)
+												</permutation>
+												<word>
+													
+												</word>
+											</representative>
+											<representative  of='26'>
+												<permutation>
+													(2 40 42 6 16)(24 26 44 34 48)
+												</permutation>
+												<word>
+													RLblRDrr
+												</word>
+											</representative>
+											<representative  of='28'>
+												<permutation>
+													(2 40 42 22 16)(24 28 44 34 48)
+												</permutation>
+												<word>
+													RRLblRDR
+												</word>
+											</representative>
+											<representative  of='30'>
+												<permutation>
+													(6 24 30 44 32)(16 46 26 42 36)(48)
+												</permutation>
+												<word>
+													bDBfrF
+												</word>
+											</representative>
+										</representatives>
+										<stabilizer>
+											<orbit>
+												[16,32,40,26,10,34,28,30,48,22,44,46,6,4,2,36]
+											</orbit>
+											<representatives>
+												<representative  of='32'>
+													<permutation>
+														(4 44 46)(10 16 32)(48)
+													</permutation>
+													<word>
+														fDDFbllB
+													</word>
+												</representative>
+												<representative  of='34'>
+													<permutation>
+														(2 22 6 32 44)(16 34 28 26 46)(48)
+													</permutation>
+													<word>
+														bRFbdbbf
+													</word>
+												</representative>
+												<representative  of='2'>
+													<permutation>
+														(2 40 28 36 16)(22 30 44 34 48)
+													</permutation>
+													<word>
+														FLblRDrf
+													</word>
+												</representative>
+												<representative  of='4'>
+													<permutation>
+														(4 40 28 46 16)(10 48 22 32 44)
+													</permutation>
+													<word>
+														FDFblBff
+													</word>
+												</representative>
+												<representative  of='36'>
+													<permutation>
+														(6 32 44 30 22)(16 36 28 26 46)(48)
+													</permutation>
+													<word>
+														RFbdBf
+													</word>
+												</representative>
+												<representative  of='6'>
+													<permutation>
+														(6 32 28 36 16)(22 30 44 26 46)(48)
+													</permutation>
+													<word>
+														RRFbdBfr
+													</word>
+												</representative>
+												<representative  of='40'>
+													<permutation>
+														(6 32 44 48 22)(16 40 28 26 46)
+													</permutation>
+													<word>
+														BRFbdf
+													</word>
+												</representative>
+												<representative  of='10'>
+													<permutation>
+														(4 46 44)(10 32 16)(48)
+													</permutation>
+													<word>
+														bLLBfddF
+													</word>
+												</representative>
+												<representative  of='44'>
+													<permutation>
+														(4 46 48 22)(6 36 26 30)(10 32 40 28)(16 44)
+													</permutation>
+													<word>
+														FFblfdBfRBRb
+													</word>
+												</representative>
+												<representative  of='46'>
+													<permutation>
+														(6 22 48 44 32)(16 46 26 28 40)
+													</permutation>
+													<word>
+														FDBfrb
+													</word>
+												</representative>
+												<representative  of='16'>
+													<permutation>
+														(48)
+													</permutation>
+													<word>
+														
+													</word>
+												</representative>
+												<representative  of='48'>
+													<permutation>
+														(6 46 26 32)(16 48 44 40)
+													</permutation>
+													<word>
+														bDBDfBrbrF
+													</word>
+												</representative>
+												<representative  of='22'>
+													<permutation>
+														(6 32 44 28 40)(16 22 48 26 46)
+													</permutation>
+													<word>
+														BrFbDf
+													</word>
+												</representative>
+												<representative  of='26'>
+													<permutation>
+														(6 46 44)(16 26 32)(48)
+													</permutation>
+													<word>
+														bDDBfrrF
+													</word>
+												</representative>
+												<representative  of='28'>
+													<permutation>
+														(2 6 10 44 22)(4 16 28 34 26)(48)
+													</permutation>
+													<word>
+														fTBflbff
+													</word>
+												</representative>
+												<representative  of='30'>
+													<permutation>
+														(16 30 28)(22 44 36)(48)
+													</permutation>
+													<word>
+														rFbddBfr
+													</word>
+												</representative>
+											</representatives>
+											<stabilizer>
+												<orbit>
+													[3,33,27,37,47,31]
+												</orbit>
+												<representatives>
+													<representative  of='33'>
+														<permutation>
+															(3 33 27)(6 36 40)(26 30 48)(31 47 37)
+														</permutation>
+														<word>
+															bdBRTFtBTftrbD
+														</word>
+													</representative>
+													<representative  of='3'>
+														<permutation>
+															(48)
+														</permutation>
+														<word>
+															
+														</word>
+													</representative>
+													<representative  of='37'>
+														<permutation>
+															(3 37)(6 22 30 40)(26 28 36 48)(27 31)(33 47)
+														</permutation>
+														<word>
+															FDDbdBdfBrbDbdB
+														</word>
+													</representative>
+													<representative  of='27'>
+														<permutation>
+															(3 27 33)(6 40 36)(26 48 30)(31 37 47)
+														</permutation>
+														<word>
+															dBRTFtbTftrbDB
+														</word>
+													</representative>
+													<representative  of='47'>
+														<permutation>
+															(2 46 22 6 34 32 28 26)(3 47)(27 37)(30 36)(31 33)(48)
+														</permutation>
+														<word>
+															RRBtbTbrrdRDB
+														</word>
+													</representative>
+													<representative  of='31'>
+														<permutation>
+															(3 31)(22 48)(27 47)(28 40)(33 37)
+														</permutation>
+														<word>
+															BRbRtBTRtbTrr
+														</word>
+													</representative>
+												</representatives>
+												<stabilizer>
+													<orbit>
+														[6,46,48,4,2,36,22,28,40,32,26,10,34,30]
+													</orbit>
+													<representatives>
+														<representative  of='32'>
+															<permutation>
+																(4 26 46 22 30)(6 32 28 36 10)(48)
+															</permutation>
+															<word>
+																BftbFR
+															</word>
+														</representative>
+														<representative  of='2'>
+															<permutation>
+																(2 28 36 10 6)(4 26 34 22 30)(48)
+															</permutation>
+															<word>
+																rbRfBtFR
+															</word>
+														</representative>
+														<representative  of='34'>
+															<permutation>
+																(2 36 10 46 26)(4 32 6 34 30)(48)
+															</permutation>
+															<word>
+																RRfTbFrBrr
+															</word>
+														</representative>
+														<representative  of='4'>
+															<permutation>
+																(4 46 6)(10 32 26)(48)
+															</permutation>
+															<word>
+																BTTFbrrf
+															</word>
+														</representative>
+														<representative  of='36'>
+															<permutation>
+																(4 32 6 36 28)(10 46 26 30 22)(48)
+															</permutation>
+															<word>
+																RRfBtFbr
+															</word>
+														</representative>
+														<representative  of='6'>
+															<permutation>
+																(48)
+															</permutation>
+															<word>
+																
+															</word>
+														</representative>
+														<representative  of='40'>
+															<permutation>
+																(2 30 10 6 40)(4 26 48 34 36)
+															</permutation>
+															<word>
+																trTRlbLT
+															</word>
+														</representative>
+														<representative  of='10'>
+															<permutation>
+																(4 30 22 46 26)(6 10 36 28 32)(48)
+															</permutation>
+															<word>
+																rfBTFb
+															</word>
+														</representative>
+														<representative  of='46'>
+															<permutation>
+																(4 6 46)(10 26 32)(48)
+															</permutation>
+															<word>
+																FRRBfttb
+															</word>
+														</representative>
+														<representative  of='48'>
+															<permutation>
+																(4 6 48)(10 26 40)
+															</permutation>
+															<word>
+																TTDBfllbFd
+															</word>
+														</representative>
+														<representative  of='22'>
+															<permutation>
+																(4 32 6 22 30)(10 46 26 28 36)(48)
+															</permutation>
+															<word>
+																RRfBTFbR
+															</word>
+														</representative>
+														<representative  of='26'>
+															<permutation>
+																(2 40 30 34 48 36)(6 26)
+															</permutation>
+															<word>
+																FrBDtBdrTbRTft
+															</word>
+														</representative>
+														<representative  of='28'>
+															<permutation>
+																(4 26 22 46 36)(6 28 32 30 10)(48)
+															</permutation>
+															<word>
+																trTRDBTbdr
+															</word>
+														</representative>
+														<representative  of='30'>
+															<permutation>
+																(4 46 22 6 30)(10 32 28 26 36)(48)
+															</permutation>
+															<word>
+																DBtbdrtRTR
+															</word>
+														</representative>
+													</representatives>
+													<stabilizer>
+														<orbit>
+															[4,46,48,2,36,22,28,40,32,10,34,30]
+														</orbit>
+														<representatives>
+															<representative  of='48'>
+																<permutation>
+																	(4 48 46 36 28)(10 40 32 30 22)
+																</permutation>
+																<word>
+																	RBrBfTbbFr
+																</word>
+															</representative>
+															<representative  of='32'>
+																<permutation>
+																	(2 30 22 10 46)(4 32 34 36 28)(48)
+																</permutation>
+																<word>
+																	RbRfBtFr
+																</word>
+															</representative>
+															<representative  of='2'>
+																<permutation>
+																	(2 46 36 28 4)(10 34 32 30 22)(48)
+																</permutation>
+																<word>
+																	RbrBfTFr
+																</word>
+															</representative>
+															<representative  of='34'>
+																<permutation>
+																	(2 48 10)(4 34 40)
+																</permutation>
+																<word>
+																	fBBDFblbbLBfdF
+																</word>
+															</representative>
+															<representative  of='4'>
+																<permutation>
+																	(48)
+																</permutation>
+																<word>
+																	
+																</word>
+															</representative>
+															<representative  of='36'>
+																<permutation>
+																	(4 36 22)(10 30 28)(48)
+																</permutation>
+																<word>
+																	RBfTTbFR
+																</word>
+															</representative>
+															<representative  of='22'>
+																<permutation>
+																	(4 22 36)(10 28 30)(48)
+																</permutation>
+																<word>
+																	rfBttFbr
+																</word>
+															</representative>
+															<representative  of='40'>
+																<permutation>
+																	(2 22 46 4 40)(10 48 34 28 32)
+																</permutation>
+																<word>
+																	bDBTLBldrt
+																</word>
+															</representative>
+															<representative  of='10'>
+																<permutation>
+																	(4 10)(22 30 32 28 36 46)(48)
+																</permutation>
+																<word>
+																	RBftLflbFTFt
+																</word>
+															</representative>
+															<representative  of='28'>
+																<permutation>
+																	(2 46 10 22 30)(4 28 36 34 32)(48)
+																</permutation>
+																<word>
+																	RfTbFrBr
+																</word>
+															</representative>
+															<representative  of='46'>
+																<permutation>
+																	(4 46 22)(10 32 28)(48)
+																</permutation>
+																<word>
+																	TRtrtrtRTR
+																</word>
+															</representative>
+															<representative  of='30'>
+																<permutation>
+																	(2 32 10 36 40)(4 30 48 34 46)
+																</permutation>
+																<word>
+																	rtrTlRbLTR
+																</word>
+															</representative>
+														</representatives>
+														<stabilizer>
+															<orbit>
+																[2,46,48,36,22,40,28,34,32,30]
+															</orbit>
+															<representatives>
+																<representative  of='48'>
+																	<permutation>
+																		(2 48 28)(22 34 40)
+																	</permutation>
+																	<word>
+																		FRDDrLbblf
+																	</word>
+																</representative>
+																<representative  of='32'>
+																	<permutation>
+																		(2 32 40)(34 46 48)
+																	</permutation>
+																	<word>
+																		FDfLrDbdlR
+																	</word>
+																</representative>
+																<representative  of='2'>
+																	<permutation>
+																		(48)
+																	</permutation>
+																	<word>
+																		
+																	</word>
+																</representative>
+																<representative  of='34'>
+																	<permutation>
+																		(2 34)(22 32 36 28 46 30)(48)
+																	</permutation>
+																	<word>
+																		TBRbtrtbTRTRtDbd
+																	</word>
+																</representative>
+																<representative  of='36'>
+																	<permutation>
+																		(2 36 40)(30 48 34)
+																	</permutation>
+																	<word>
+																		bDBdrLBtbTlR
+																	</word>
+																</representative>
+																<representative  of='22'>
+																	<permutation>
+																		(2 22 30)(28 36 34)(48)
+																	</permutation>
+																	<word>
+																		BftbFRbrBfTF
+																	</word>
+																</representative>
+																<representative  of='40'>
+																	<permutation>
+																		(2 40 28 32 30)(22 46 36 34 48)
+																	</permutation>
+																	<word>
+																		BDBTdrtb
+																	</word>
+																</representative>
+																<representative  of='28'>
+																	<permutation>
+																		(2 28 48)(22 40 34)
+																	</permutation>
+																	<word>
+																		FLBBlRddrf
+																	</word>
+																</representative>
+																<representative  of='46'>
+																	<permutation>
+																		(2 46 36 28 40)(22 48 34 32 30)
+																	</permutation>
+																	<word>
+																		BTrDtBdb
+																	</word>
+																</representative>
+																<representative  of='30'>
+																	<permutation>
+																		(2 30 32 28 40)(22 48 34 36 46)
+																	</permutation>
+																	<word>
+																		BTRDtbdb
+																	</word>
+																</representative>
+															</representatives>
+															<stabilizer>
+																<orbit>
+																	[22,48,36,46,40,28,32,30]
+																</orbit>
+																<representatives>
+																	<representative  of='48'>
+																		<permutation>
+																			(22 48 30)(28 40 36)
+																		</permutation>
+																		<word>
+																			tLBlTdBrbD
+																		</word>
+																	</representative>
+																	<representative  of='32'>
+																		<permutation>
+																			(22 32 48)(28 46 40)
+																		</permutation>
+																		<word>
+																			FLBDblfrdR
+																		</word>
+																	</representative>
+																	<representative  of='36'>
+																		<permutation>
+																			(22 36 32)(28 30 46)(48)
+																		</permutation>
+																		<word>
+																			fBTFbrrfBTFb
+																		</word>
+																	</representative>
+																	<representative  of='22'>
+																		<permutation>
+																			(48)
+																		</permutation>
+																		<word>
+																			
+																		</word>
+																	</representative>
+																	<representative  of='40'>
+																		<permutation>
+																			(22 40 30)(28 48 36)
+																		</permutation>
+																		<word>
+																			RtbdTRDrDtBTdr
+																		</word>
+																	</representative>
+																	<representative  of='28'>
+																		<permutation>
+																			(22 28)(30 36)(48)
+																		</permutation>
+																		<word>
+																			dTrdRDtbDBRBRRbFddfr
+																		</word>
+																	</representative>
+																	<representative  of='46'>
+																		<permutation>
+																			(22 46 30)(28 32 36)(48)
+																		</permutation>
+																		<word>
+																			bDBdTrdRDt
+																		</word>
+																	</representative>
+																	<representative  of='30'>
+																		<permutation>
+																			(22 30 46)(28 36 32)(48)
+																		</permutation>
+																		<word>
+																			TdrDRtDbdB
+																		</word>
+																	</representative>
+																</representatives>
+																<stabilizer>
+																	<orbit>
+																		[30,40,32,36,48,46]
+																	</orbit>
+																	<representatives>
+																		<representative  of='32'>
+																			<permutation>
+																				(30 32 40)(36 46 48)
+																			</permutation>
+																			<word>
+																				bDBRLBDbdlrd
+																			</word>
+																		</representative>
+																		<representative  of='48'>
+																			<permutation>
+																				(30 48 46)(32 36 40)
+																			</permutation>
+																			<word>
+																				RFLBDblfrd
+																			</word>
+																		</representative>
+																		<representative  of='36'>
+																			<permutation>
+																				(30 36)(40 48)
+																			</permutation>
+																			<word>
+																				rLtBTbRlDbdBRFDfLrDbdl
+																			</word>
+																		</representative>
+																		<representative  of='40'>
+																			<permutation>
+																				(30 40 32)(36 48 46)
+																			</permutation>
+																			<word>
+																				DRLDBdblrbdB
+																			</word>
+																		</representative>
+																		<representative  of='30'>
+																			<permutation>
+																				(48)
+																			</permutation>
+																			<word>
+																				
+																			</word>
+																		</representative>
+																		<representative  of='46'>
+																			<permutation>
+																				(30 46 48)(32 40 36)
+																			</permutation>
+																			<word>
+																				DRFLBdblfr
+																			</word>
+																		</representative>
+																	</representatives>
+																	<stabilizer>
+																		<orbit>
+																			[32,46]
+																		</orbit>
+																		<representatives>
+																			<representative  of='32'>
+																				<permutation>
+																					(48)
+																				</permutation>
+																				<word>
+																					
+																				</word>
+																			</representative>
+																			<representative  of='46'>
+																				<permutation>
+																					(32 46)(40 48)
+																				</permutation>
+																				<word>
+																					RFLBBRlddrfrrLDBdRlFdf
+																				</word>
+																			</representative>
+																		</representatives>
+																		<stabilizer>
+																			<orbit>
+																				[]
+																			</orbit>
+																			<representatives>
+																			</representatives>
+																		</stabilizer>
+																	</stabilizer>
+																</stabilizer>
+															</stabilizer>
+														</stabilizer>
+													</stabilizer>
+												</stabilizer>
+											</stabilizer>
+										</stabilizer>
+									</stabilizer>
+								</stabilizer>
+							</stabilizer>
+						</stabilizer>
+					</stabilizer>
+				</stabilizer>
+			</stabilizer>
+		</stabilizer>
+	</stabilizer>
+</stabilizer>
+
