@@ -38,6 +38,10 @@ public class PermutationGroup {
     private final Permutation one;
     private TreeMap<String, String> simplifyingRules;
 
+    //load the data of shortest words from a file
+    //each list of bytes encodes
+    private List<String> shortestWords;
+
     /*****************************
      **** Konstruktor*************
      *****************************/
@@ -123,6 +127,10 @@ public class PermutationGroup {
         return this.stabilizerChain;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public BigInteger getSize(){
         StabilizerChain chain = getStabilizerChain();
         return calcGroupSize(chain);
@@ -137,6 +145,10 @@ public class PermutationGroup {
 
     public byte[] getBaseAsByteArray(){
         return this.getBase().getBase();
+    }
+
+    public List<GroupElement> getGroupElementGenerators(){
+        return this.groupElementGenerators;
     }
 
     public TreeMap<String,String> getSimplifyingRules(int numberOfRules){
@@ -213,7 +225,7 @@ public class PermutationGroup {
     }
 
     public GroupIterator getIterator(int numberOfElements){
-        return new GroupIterator(this.groupElementGenerators, this.getBase(), numberOfElements);
+        return new GroupIterator(this, numberOfElements);
     }
 
     public boolean contains(GroupElement element){

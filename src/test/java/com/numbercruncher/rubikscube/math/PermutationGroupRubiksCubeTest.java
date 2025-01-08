@@ -68,9 +68,9 @@ class PermutationGroupRubiksCubeTest {
     void createExtendedMinkwitzChain(){
         long start = System.currentTimeMillis();
         int preTraining = 0;
-        int numberOfElements = 16000000;
+        int numberOfElements = 17000000;
         int maxBranching = 1;
-        int simplificationRules =850;
+        int simplificationRules =2840;
         ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(preTraining,numberOfElements,simplificationRules,maxBranching,true);
 
         long end = System.currentTimeMillis();
@@ -123,7 +123,7 @@ class PermutationGroupRubiksCubeTest {
     @Test
     void superflip(){
         //try to get the word of the super flip;
-        int preTraining = 16000000;
+        int preTraining = 0;
         int numberOfElements = 8000000;
         int maxBranching = 1;
         int simplificationRules = 2840;
@@ -146,11 +146,11 @@ class PermutationGroupRubiksCubeTest {
         Permutation superFlip = Permutation.parse("(2 34)(4 10)(6 26)(8 18)(12 38)(14 20)(16 44)(22 28)(24 42)(30 36)(32 46)(40 48)");
         System.out.println(superFlip);
         System.out.println("Element test: "+rubiksGroup.contains(superFlip));
-        int preTraining = 16000000;
-        int numberOfElements = 8000000;
+        int preTraining = 0;
+        int numberOfElements = 17000000;
         int maxBranching = 1;
-        int simplificationRules = 2840;
-        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,preTraining, numberOfElements,simplificationRules,maxBranching,10,true);
+        int simplificationRules = 8710;
+        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,preTraining, numberOfElements,simplificationRules,maxBranching,20,true);
         System.out.println("My word representation of the super flip with "+elements.size()+" versions! ");
         for (GroupElement element : elements) {
             element.apply(rubiksGroup.getSimplifyingRules(simplificationRules));
@@ -172,13 +172,11 @@ class PermutationGroupRubiksCubeTest {
     void getFirst10000Elements  () {
         PermutationGroup rubiksCube = PermutationGroup.RubiksGroup();
         int count =0;
-        for (GroupIterator it = rubiksCube.getIterator(10000); it.hasNext(); ) {
+        for (GroupIterator it = rubiksCube.getIterator(17000000); it.hasNext(); ) {
             GroupElement element = it.next();
             count++;
-            System.out.println(count+": "+element.toFullWordString());
-            if (count==10000)
-                break;
-
+            if (count%10000==0)
+                System.out.println(count+": "+element.toFullWordString());
         }
     }
 
@@ -236,4 +234,5 @@ class PermutationGroupRubiksCubeTest {
         System.out.println(rubiksGroup.getSimplifyingRules(4670).size());
         rubiksGroup.saveSimplificationRules();
     }
+    
 }
