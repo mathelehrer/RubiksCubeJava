@@ -2,6 +2,7 @@ package com.numbercruncher.rubikscube.utils;
 
 import com.numbercruncher.rubikscube.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -65,5 +66,13 @@ public class StringUtils {
         }
 
         return points;
+    }
+
+    public static List<String> subWords(String word, int length){
+        List<String> subWords = new ArrayList<>();
+        for (int i = 0; i <= word.length() - length; i++) {
+            subWords.add(word.substring(i, i + length));
+        }
+        return subWords;
     }
 }

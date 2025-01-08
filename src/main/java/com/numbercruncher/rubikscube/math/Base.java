@@ -56,6 +56,9 @@ public class Base implements Comparable<Base>{
     public byte[] getBase() {
         return base;
     }
+    public int length() {
+        return base.length;
+    }
 
     /*************************************
      *********** Setter      ***************

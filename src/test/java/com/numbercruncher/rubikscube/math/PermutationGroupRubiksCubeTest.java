@@ -149,8 +149,8 @@ class PermutationGroupRubiksCubeTest {
         int preTraining = 0;
         int numberOfElements = 17000000;
         int maxBranching = 1;
-        int simplificationRules = 8710;
-        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,preTraining, numberOfElements,simplificationRules,maxBranching,20,true);
+        int simplificationRules = 2840;
+        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,preTraining, numberOfElements,simplificationRules,maxBranching,2,true);
         System.out.println("My word representation of the super flip with "+elements.size()+" versions! ");
         for (GroupElement element : elements) {
             element.apply(rubiksGroup.getSimplifyingRules(simplificationRules));
@@ -172,7 +172,7 @@ class PermutationGroupRubiksCubeTest {
     void getFirst10000Elements  () {
         PermutationGroup rubiksCube = PermutationGroup.RubiksGroup();
         int count =0;
-        for (GroupIterator it = rubiksCube.getIterator(17000000); it.hasNext(); ) {
+        for (GroupIterator it = rubiksCube.getIterator(8000000); it.hasNext(); ) {
             GroupElement element = it.next();
             count++;
             if (count%10000==0)
@@ -233,6 +233,11 @@ class PermutationGroupRubiksCubeTest {
     void saveSimplificationRules(){
         System.out.println(rubiksGroup.getSimplifyingRules(4670).size());
         rubiksGroup.saveSimplificationRules();
+    }
+
+    @Test
+    void simplifyWord(){
+        rubiksGroup.simplifyWord("flBLrtRFBTTFbrrfRFbdfBdrbFDBfDbDtlldLFbtRfdrlbFdLrbT",8000000);
     }
     
 }

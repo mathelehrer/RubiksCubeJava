@@ -13,6 +13,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.numbercruncher.rubikscube.utils.StringUtils.subWords;
+
 public class PermutationGroup {
 
     /*****************************
@@ -482,6 +484,56 @@ public class PermutationGroup {
 
     public void saveSimplificationRules(){
         saveSimplificationRules(true,this.simplifyingRules.size());
+    }
+
+    /**
+     * This method tries to simplify the parameter word.
+     * It creates all possible partitions of various length and tries to find replacements
+     * elements of the first shortest words that generate the same basis image
+     * @param word
+     * @return
+     */
+    public String simplifyWord(String word, int nShortestWords){
+        System.out.println(word+" is replaced by: ");
+        String simplerWord="";
+
+        Base base = this.getBase();
+        int baseLength = base.length();
+        TreeMap<Base,String> baseImageMap =  new TreeMap<>();
+
+        int count = 0;
+        for (GroupIterator it = this.getIterator(nShortestWords); it.hasNext(); ) {
+            GroupElement g = it.next();
+            baseImageMap.put(base.action(g.getPermutation()),g.toFullWordString());
+
+        }
+
+        String oldWord = word;
+        String newWord = "";
+        while (oldWord.length()>newWord.length()) {
+            boolean replaced = false;
+            for (int i = word.length(); i > 1; i--) {
+                List<String> parts = subWords(word, i);
+                for (String part : parts) {
+                    GroupElement element = wordToElement(part);
+                    Base image = base.action(element.getPermutation());
+                    if (baseImageMap.containsKey(image)) {
+                        String replacement = baseImageMap.get(image);
+                        if (part.length() > replacement.length()) {
+                            newWord = oldWord.replace(part, replacement);
+                            replaced = true;
+                            System.out.println(oldWord.length()+"->"+newWord.length());
+                            oldWord = newWord;
+                            break;
+                        }
+                    }
+                    if (replaced) break;
+                }
+            }
+        }
+
+        System.out.println(newWord);
+        return simplerWord;
     }
 
     /*****************************
