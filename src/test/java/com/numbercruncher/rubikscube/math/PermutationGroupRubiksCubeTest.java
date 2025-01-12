@@ -26,6 +26,7 @@ class PermutationGroupRubiksCubeTest {
         //the order of the generators matters for the stabilizer chain
         //this way, it is almost possible to first stabilize all corners and then all edges
         String[] labels = {"T", "D", "L","R",  "F", "B"};
+        //A
         rubiksGroup = new PermutationGroup("Rubik's Cube Group", labels, t,d, l, r, f,  b );
 
         for (String label : labels) {
@@ -68,7 +69,7 @@ class PermutationGroupRubiksCubeTest {
     void createExtendedMinkwitzChain(){
         long start = System.currentTimeMillis();
         int preTraining = 0;
-        int numberOfElements = 17000000;
+        int numberOfElements = 8000001;
         int maxBranching = 1;
         int simplificationRules =2840;
         ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(preTraining,numberOfElements,simplificationRules,maxBranching,true);
@@ -146,23 +147,18 @@ class PermutationGroupRubiksCubeTest {
         Permutation superFlip = Permutation.parse("(2 34)(4 10)(6 26)(8 18)(12 38)(14 20)(16 44)(22 28)(24 42)(30 36)(32 46)(40 48)");
         System.out.println(superFlip);
         System.out.println("Element test: "+rubiksGroup.contains(superFlip));
-        int preTraining = 0;
-        int numberOfElements = 17000000;
+        int preTraining = 8000000;
+        int numberOfElements = 8000000;
         int maxBranching = 1;
-        int simplificationRules = 2840;
-        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,preTraining, numberOfElements,simplificationRules,maxBranching,2,true);
+        int simplificationRules = 10982;
+        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,preTraining, numberOfElements,simplificationRules,maxBranching,20,true);
         System.out.println("My word representation of the super flip with "+elements.size()+" versions! ");
         for (GroupElement element : elements) {
             element.apply(rubiksGroup.getSimplifyingRules(simplificationRules));
         }
-        TreeMap<Integer,String> sorted = new TreeMap<>();
-        for (GroupElement element : elements) {
-            sorted.put(element.toFullWordString().length(),element.toFullWordString());
-        }
-        int count=0;
-        for (Map.Entry<Integer, String> integerStringEntry : sorted.entrySet()) {
-            if (count++<100)
-                System.out.println(integerStringEntry.getKey()+": "+integerStringEntry.getValue());
+        List<String> subList = elements.stream().filter(v->v.toFullWordString().length()<60).map(GroupElement::toFullWordString).toList();
+        for (String s : subList) {
+            System.out.println(s);
         }
         System.out.println("Amount of simplification rules: "+rubiksGroup.getSimplifyingRules(simplificationRules).size());
         rubiksGroup.saveSimplificationRules();;
@@ -237,7 +233,54 @@ class PermutationGroupRubiksCubeTest {
 
     @Test
     void simplifyWord(){
-        rubiksGroup.simplifyWord("flBLrtRFBTTFbrrfRFbdfBdrbFDBfDbDtlldLFbtRfdrlbFdLrbT",8000000);
+        rubiksGroup.simplifyWord("flBLrtRFBTTFbrrfRFbdfBdrbFDBfDbDtlldLFbtRfdrlbFdLrbT",17000000);
+        rubiksGroup.simplifyWord("RBrBfTbbFFbdBfDFLRdldrffRFDfdFbLBdrFFRlttLDtbfRltBfl",17000000);
+        rubiksGroup.simplifyWord("RBftFbFLrblRDFTBflfbfLrdBfrlTdfDtRRTdfRDtBRlDfBL",17000000);
+        rubiksGroup.simplifyWord("DRFLBdblfbrBfTFrTlRbbLrTDrLBBRlDbtDLLTdbFRltLrBLrDFbLtDF",17000000);
+        rubiksGroup.simplifyWord("rFbDBdfBRbrTRlbbLrTRTlRbbLrTfRRFbdtLLTdbFRltLrBLrDFbLtDF",17000000);
+        rubiksGroup.simplifyWord("rBRDLTbtldRfTbFrBrBtDBTdrbDDFbLLBfLtLTdbDlFRltLrBLrDFbLtDF",17000000);
+        rubiksGroup.simplifyWord("DLTBtldrbRRftFbRBrBtDBTdrbDDFbLLBfLtLTdbDlFRltLrBLrDFbLtDF",17000000);
+        rubiksGroup.simplifyWord("rFbDBdfBRbTRtrtrtRTRftBfLbTBflfbfLrdBfrlTdFFRlTTLDtBRlDfBL",17000000);
+        rubiksGroup.simplifyWord("BTrtDBdbRbRBftFrDtLblTdrbFDFLflBfDfDFblBFFRlTTLrdTbRltdbFl",17000000);
+        rubiksGroup.simplifyWord("FFdFtRFrTfDFBLBFbbflfbffLLFLrbLRfLdRlTrdBFtbTfrDbRLDbFRlDt",17000000);
     }
-    
+
+    @Test
+    void forVideo(){
+        ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(7000001,7000001,3394,1);
+        rubiksGroup.visualizeExtendedMinkwitzChain(chain);
+        System.out.println("Average Word Length: "+chain.getAverageWordLength());
+        Permutation currentState = Permutation.parse("(1 33 47 21 43 11 19 13 9 27 31 41 23 5 7 45 35 3 37 15 29 17 25 39)(2 38 44)(4 32 26 20 36)(6 14 30 10 46)(8 42 28 40 18 24 22 48)(12 16 34)");
+        System.out.println(currentState);
+        System.out.println("Element test: "+rubiksGroup.contains(currentState));
+        List<GroupElement> elements = rubiksGroup.elementToWordExtended(currentState,7000001, 7000001,3394,1, true);
+        System.out.println("My word representation of the super flip with "+elements.size()+" versions! ");
+        for (GroupElement element : elements) {
+            System.out.println(element.toFullWordString().length()+": "+element.toFullString());
+        }
+    }
+
+    @Test
+    void forVideo2(){
+        rubiksGroup.visualizeStabilizerChain();
+        System.out.println("");
+        Permutation currentState = Permutation.parse("(1 33 47 21 43 11 19 13 9 27 31 41 23 5 7 45 35 3 37 15 29 17 25 39)(2 38 44)(4 32 26 20 36)(6 14 30 10 46)(8 42 28 40 18 24 22 48)(12 16 34)");
+        //Permutation currentState = Permutation.parse("(9 33 47 21 43 11 19 13)(17 27 31 41 23 5 7 45 35 3 37 15 29)(1 25 39)(2 38 44)(4 32 26 20 36)(6 14 30 10 46)(8 42 28 40 18 24 22 48)(12 16 34)");
+        System.out.println(rubiksGroup.contains(currentState,true));
+//        String word = rubiksGroup.elementToWord(currentState,500000,2840);
+//        System.out.println(word);
+//        GroupElement reconstruction = rubiksGroup.wordToElement(word);
+//        System.out.println(currentState);
+//        System.out.println(reconstruction.getPermutation());
+    }
+
+    @Test
+    void randomElements(){
+        for (int i = 0; i < 100; i++) {
+            GroupElement element = rubiksGroup.randomElement(20);
+            System.out.println(element.getPermutation());
+            System.out.println("-------------------------------------------------------");
+        }
+    }
+
 }

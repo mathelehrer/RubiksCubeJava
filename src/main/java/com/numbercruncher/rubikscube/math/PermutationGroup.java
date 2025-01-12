@@ -204,6 +204,7 @@ public class PermutationGroup {
         return wordGeneratorMap;
     }
 
+
     /*****************************
      **** Setter    **************
      *****************************/
@@ -232,6 +233,10 @@ public class PermutationGroup {
 
     public boolean contains(GroupElement element){
         return this.contains(element.getPermutation());
+    }
+
+    public boolean contains(Permutation perm,boolean verbose){
+        return checkElement(perm,getStabilizerChain(),verbose);
     }
 
     public boolean contains(Permutation perm){
@@ -330,8 +335,8 @@ public class PermutationGroup {
             max++;
         }
 
-        if (maxBranching==0)
-            extendedMinkwitzChain.save("_"+preTraining+"_"+max);
+        if (maxBranching==1)
+            extendedMinkwitzChain.save("_"+preTraining+"_"+(max-1));
         else
             extendedMinkwitzChain.save("_"+preTraining+"_"+max+"_"+maxBranching);
 
@@ -509,8 +514,11 @@ public class PermutationGroup {
         }
 
         String oldWord = word;
-        String newWord = "";
-        while (oldWord.length()>newWord.length()) {
+        String newWord = word;
+        boolean first =  true;
+        while (first || oldWord.length()>newWord.length()) {
+            first = false;
+            oldWord = newWord;
             boolean replaced = false;
             for (int i = word.length(); i > 1; i--) {
                 List<String> parts = subWords(word, i);
@@ -520,10 +528,21 @@ public class PermutationGroup {
                     if (baseImageMap.containsKey(image)) {
                         String replacement = baseImageMap.get(image);
                         if (part.length() > replacement.length()) {
-                            newWord = oldWord.replace(part, replacement);
+                            newWord = newWord.replace(part, replacement);
                             replaced = true;
                             System.out.println(oldWord.length()+"->"+newWord.length());
-                            oldWord = newWord;
+                            break;
+                        }
+                    }
+                    Base ivImage = base.action(element.getPermutation().inverse());
+                    if (baseImageMap.containsKey(ivImage)) {
+                        String replacement = baseImageMap.get(ivImage);
+                        if (part.length() > replacement.length()) {
+                            replacement = StringUtils.toggleCase(replacement);
+                            replacement = new StringBuilder(replacement).reverse().toString();
+                            newWord = newWord.replace(part, replacement);
+                            replaced = true;
+                            System.out.println(oldWord.length()+"->"+newWord.length());
                             break;
                         }
                     }
@@ -673,30 +692,42 @@ public class PermutationGroup {
      * @return true if the permutation belongs to the group, false otherwise
      */
     private boolean checkElement(Permutation perm, StabilizerChain chain){
+       return checkElement(perm,chain,false);
+    }
+
+    private boolean checkElement(Permutation perm, StabilizerChain chain,boolean verbose){
         if (chain.isLast()){
             if (perm.isIdentity())
                 return true;
-            else
+            else {
+                if (verbose){
+                    System.out.println("Element test failed at the last chain: " + chain);
+                    System.out.println("The permutation at this point has the form: "+perm);
+                }
                 return false;
+            }
         }
         else{
             List<Byte> orbit = chain.getOrbit();
             byte omega = chain.getOrbit().get(0);
             byte delta = perm.action(omega);
 
-            if (!orbit.contains(delta))
+            if (!orbit.contains(delta)) {
+                if (verbose) System.out.println("Element test failed at " + chain);
                 return false;
+            }
             else{
                 Permutation rep = chain.getCosetRepresentative(delta);
                 perm=perm.multiply(rep.inverse());
                 if (perm.isIdentity())
                     return true;
                 else
-                    return checkElement(perm,chain.getStabilizer());
+                    return checkElement(perm,chain.getStabilizer(),verbose);
             }
 
         }
     }
+
 
     private String generateOrbitLine(List<Byte> orbit) {
         return generateOrbitLine(orbit, 1);
@@ -1065,6 +1096,9 @@ public class PermutationGroup {
             }
         }
 
+//        System.out.println(depth+": "+chain.getOrbit());
+//        System.out.println(chain.getOrbit().isEmpty());
+//        System.out.println(chain.isLast());
         if (chain.isLast()){
             return rep;
         }
@@ -1122,6 +1156,9 @@ public class PermutationGroup {
             }
         }
 
+//        System.out.println(depth+": "+chain.getOrbit());
+//        System.out.println(chain.getOrbit().isEmpty());
+//        System.out.println(chain.isLast());
         if (chain.isLast()){
             return rep;
         }
@@ -1129,10 +1166,14 @@ public class PermutationGroup {
             List<GroupElement> allElements = new ArrayList<>();
             for (GroupElement element : rep) {
                 List<GroupElement> levelLower;
-                if (depth<maxDepth)
-                    levelLower = elementToWordRecursiveExtended(permutation.multiply(element.getPermutation().inverse()), chain.getStabilizerChain(),depth+1,maxDepth);
-                else
-                    levelLower = new ArrayList(elementToWordRecursiveExtended2(permutation.multiply(element.getPermutation().inverse()), chain.getStabilizerChain(),depth+1));
+                if (depth<maxDepth) {
+                    levelLower = elementToWordRecursiveExtended(permutation.multiply(element.getPermutation().inverse()), chain.getStabilizerChain(), depth + 1, maxDepth);
+                    System.out.println(levelLower.size()+" elements at "+depth+" depth");
+                }
+                else {
+                    levelLower = new ArrayList(elementToWordRecursiveExtended2(permutation.multiply(element.getPermutation().inverse()), chain.getStabilizerChain(), depth + 1));
+                    System.out.println(levelLower.size()+" elements at "+depth+" depth");
+                }
                 for (GroupElement part : levelLower) {
                     GroupElement next = part.multiply(element, simplifyingRules);
                     allElements.add(next);
