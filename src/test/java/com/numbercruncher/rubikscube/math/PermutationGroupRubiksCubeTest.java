@@ -283,4 +283,9 @@ class PermutationGroupRubiksCubeTest {
         }
     }
 
+    @Test
+    void simplifyExtendedMinkwitzChain(){
+        rubiksGroup.simplifyExtendedMinkwitzChain(0,17000000,17000000);
+    }
+
 }

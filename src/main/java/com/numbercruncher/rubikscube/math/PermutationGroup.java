@@ -492,6 +492,19 @@ public class PermutationGroup {
     }
 
     /**
+     * this method tries to replace group elements of the extended minkwitz chain by shorter words.
+     * This only makes sense, when the chain hasn't been trained by as many elements
+     *
+     * @param preTraining
+     * @param numberOfElements
+     * @param nShortestWords
+     */
+    public void simplifyExtendedMinkwitzChain(int preTraining,int numberOfElements, int nShortestWords){
+        ExtendedMinkwitzChain chain = getExtendedMinkwitzChain(preTraining,numberOfElements);
+        recursivelySimplify(chain,nShortestWords);
+    }
+
+    /**
      * This method tries to simplify the parameter word.
      * It creates all possible partitions of various length and tries to find replacements
      * elements of the first shortest words that generate the same basis image
@@ -558,6 +571,17 @@ public class PermutationGroup {
     /*****************************
      **** private methods  *******
      *****************************/
+
+    private void recursivelySimplify(ExtendedMinkwitzChain chain, int nShortestWords) {
+        for (Map.Entry<Byte, TreeSet<GroupElement>> reps : chain.getCosetRepresentativesMap().entrySet()) {
+            for (GroupElement element : reps.getValue()) {
+                simplifyWord(element.getWord(),nShortestWords);
+            }
+        }
+        if (!chain.isLast())
+            recursivelySimplify(chain.getStabilizerChain(),nShortestWords);
+    }
+
 
     private void computeBase(){
         List<Byte> basePoints = new ArrayList<>(getBasePoints(this.getStabilizerChain()));
