@@ -250,7 +250,7 @@ class PermutationGroupRubiksCubeTest {
         ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(7000001,7000001,3394,1);
         rubiksGroup.visualizeExtendedMinkwitzChain(chain);
         System.out.println("Average Word Length: "+chain.getAverageWordLength());
-        Permutation currentState = Permutation.parse("(1 33 47 21 43 11 19 13 9 27 31 41 23 5 7 45 35 3 37 15 29 17 25 39)(2 38 44)(4 32 26 20 36)(6 14 30 10 46)(8 42 28 40 18 24 22 48)(12 16 34)");
+        Permutation currentState = Permutation.parse("(1 27 37 21 5 7 9 3 47 41 17 25 35 33 31 15 11 19)(2 12 44)(4 46 26 14 36)(6 20 30 10 32)(8 24 22 40 18 42 28 48)(13 29 39 23 45 43)(16 34 38)");
         System.out.println(currentState);
         System.out.println("Element test: "+rubiksGroup.contains(currentState));
         List<GroupElement> elements = rubiksGroup.elementToWordExtended(currentState,7000001, 7000001,3394,1, true);
@@ -264,14 +264,54 @@ class PermutationGroupRubiksCubeTest {
     void forVideo2(){
         rubiksGroup.visualizeStabilizerChain();
         System.out.println("");
-        Permutation currentState = Permutation.parse("(1 33 47 21 43 11 19 13 9 27 31 41 23 5 7 45 35 3 37 15 29 17 25 39)(2 38 44)(4 32 26 20 36)(6 14 30 10 46)(8 42 28 40 18 24 22 48)(12 16 34)");
-        //Permutation currentState = Permutation.parse("(9 33 47 21 43 11 19 13)(17 27 31 41 23 5 7 45 35 3 37 15 29)(1 25 39)(2 38 44)(4 32 26 20 36)(6 14 30 10 46)(8 42 28 40 18 24 22 48)(12 16 34)");
-        System.out.println(rubiksGroup.contains(currentState,true));
-//        String word = rubiksGroup.elementToWord(currentState,500000,2840);
+
+        Permutation currentState = Permutation.parse("(1 27 37 21 5 7 9 3 47 41 17 25 35 33 31 15 11 19)(2 12 44)(4 46 26 14 36)(6 20 30 10 32)(8 24 22 40 18 42 28 48)(13 29 39 23 45 43)(16 34 38)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState = Permutation.parse("(1 27 37 21 5 25 35 33 31 15 11 7 9 3 47 41 17 19)(2 12 44)(4 46 26 14 36)(6 20 30 10 32)(8 24 22 40 18 42 28 48)(13 29 39 23 45 43)(16 34 38)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState= Permutation.parse("(1 27 37 21 5 19)(2 12 44)(3 47 41 17 7 9)(4 46 26 14 36)(6 20 30 10 32)(8 24 22 40 18 42 28 48)(11 25 35 33 31 15)(13 29 39 23 45 43)(16 34 38)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState=Permutation.parse("(1 27 37 21 5 7 9 3 47 41 17 25 35 33 31 15 11 19)(2 12 44)(4 32 6 20 30 10 46 26 14 36)(8 24 22 40 18 42 28 48)(13 29 39 23 45 43)(16 34 38)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState=Permutation.parse("(1 27 37 21 5 25 35 33 31 15 11 7 9 3 47 41 17 19)(2 12 44)(4 32 6 20 30 10 46 26 14 36)(8 24 22 40 18 42 28 48)(13 29 39 23 45 43)(16 34 38)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState=Permutation.parse("(1 27 37 21 5 19)(2 12 44)(3 47 41 17 7 9)(4 32 6 20 30 10 46 26 14 36)(8 24 22 40 18 42 28 48)(11 25 35 33 31 15)(13 29 39 23 45 43)(16 34 38)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState=Permutation.parse("(1 27 37 21 5 7 9 3 47 41 17 25 35 33 31 15 11 19)(2 12 44 18 42 28 48 34 38 16 8 24 22 40)(4 46 26 14 36)(6 20 30 10 32)(13 29 39 23 45 43)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState=Permutation.parse("(1 27 37 21 5 25 35 33 31 15 11 7 9 3 47 41 17 19)(2 12 44 18 42 28 48 34 38 16 8 24 22 40)(4 46 26 14 36)(6 20 30 10 32)(13 29 39 23 45 43)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState=Permutation.parse("(1 27 37 21 5 19)(2 12 44 18 42 28 48 34 38 16 8 24 22 40)(3 47 41 17 7 9)(4 46 26 14 36)(6 20 30 10 32)(11 25 35 33 31 15)(13 29 39 23 45 43)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState=Permutation.parse("(1 27 37 21 5 19)(2 12 44 18 42 28 48 34 38 16 8 24 22 40)(3 47 41 17 7 9)(4 32 6 20 30 10 46 26 14 36)(11 25 35 33 31 15)(13 29 39 23 45 43)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+        currentState=Permutation.parse("(1 27 37 21 5 25 35 33 31 15 11 7 9 3 47 41 17 19)(2 12 44 18 42 28 48 34 38 16 8 24 22 40)(4 32 6 20 30 10 46 26 14 36)(13 29 39 23 45 43)");
+        System.out.println("Element test: "+rubiksGroup.contains(currentState,true));
+
+        //        String word = rubiksGroup.elementToWord(currentState,500000,2840);
 //        System.out.println(word);
 //        GroupElement reconstruction = rubiksGroup.wordToElement(word);
 //        System.out.println(currentState);
 //        System.out.println(reconstruction.getPermutation());
+    }
+
+    @Test
+    void forVideo3(){
+        String[] perms = {
+        "(1 27 37 21 5 7 9 3 47 41 17 25 35 33 31 15 11 19)(2 12 44 18 40 20)(4 24 22 26 46 30 10 42 28 6 32 36)(8 48 14 34 38 16)(13 29 39 23 45 43)",
+                "(1 27 37 21 5 25 35 33 31 15 11 7 9 3 47 41 17 19)(2 12 44 18 40 20)(4 24 22 26 46 30 10 42 28 6 32 36)(8 48 14 34 38 16)(13 29 39 23 45 43)",
+                "(1 27 37 21 5 19)(2 12 44 18 40 20)(3 47 41 17 7 9)(4 24 22 26 46 30 10 42 28 6 32 36)(8 48 14 34 38 16)(11 25 35 33 31 15)(13 29 39 23 45 43)",
+                "(1 27 37 21 5 19)(2 12 44 18 40 20)(3 47 41 17 7 9)(4 42 28 6 32 36)(8 48 14 34 38 16)(10 24 22 26 46 30)(11 25 35 33 31 15)(13 29 39 23 45 43)",
+               "(1 27 37 21 5 7 9 3 47 41 17 25 35 33 31 15 11 19)(2 12 44 18 40 20)(4 42 28 6 32 36)(8 48 14 34 38 16)(10 24 22 26 46 30)(13 29 39 23 45 43)"};
+
+        for (String perm : perms) {
+            Permutation currentState = Permutation.parse(perm);
+            boolean result = rubiksGroup.contains(currentState, false);
+            System.out.println("Element test: " + result);
+            if (result){
+                rubiksGroup.elementToWordExtended(currentState,8000000,8000000,2840,1,0,true);
+            }
+        }
     }
 
     @Test
