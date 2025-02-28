@@ -73,7 +73,7 @@ public class GroupIterator implements Iterator<GroupElement> {
         this.groupName=group.getName();
         boolean success = load_from_file(maxElements);
         if (!success)
-            System.out.println("Error loading group from file");
+            System.out.println("Warning: Could not load group from file. A new file will be generated instead.");
         else {
             loaded = true;
         }
@@ -124,8 +124,19 @@ public class GroupIterator implements Iterator<GroupElement> {
 
     @Override
     public boolean hasNext() {
-        if (!loaded)
-            return !queue.isEmpty();
+        if (!loaded) {
+            boolean hasNext =  !queue.isEmpty();
+            if (hasNext)
+                return true;
+            else{
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return false;
+            }
+        }
         else
             return !shortestWords.isEmpty();
     }
@@ -141,7 +152,9 @@ public class GroupIterator implements Iterator<GroupElement> {
                 String fileName = dirURL.getFile()+"/"+this.groupName+"_"+maxElements+".txt";
                 try{
                     out=new BufferedOutputStream(new FileOutputStream(fileName));
-                } catch (FileNotFoundException e) {
+                    //add identity
+                    out.write(" \n".getBytes());
+                } catch (IOException e) {
                     Logger.logging(Logger.Level.warning,"Error, couldn't open file to save generated words: "+
                             e.getMessage()+"\n");
                 }
@@ -152,8 +165,9 @@ public class GroupIterator implements Iterator<GroupElement> {
             GroupElement element = queue.poll();
 
             //if the queue once exceeds the maximum number of elements we can stop generating new elements
-            if (elements.size() > maxElements)
+            if (elements.size() > maxElements) {
                 limitReached = true;
+            }
 
             if (maxElements == -1 || !limitReached)
                 //make sure that the queue is extended with every possible child of the element that is extracted from the queue
@@ -174,9 +188,9 @@ public class GroupIterator implements Iterator<GroupElement> {
                         }
                     }
 
-                    if (elements.size() > maxElements)
+                    if (elements.size() > maxElements) {
                         limitReached = true;
-
+                    }
                 }
 
             return element;

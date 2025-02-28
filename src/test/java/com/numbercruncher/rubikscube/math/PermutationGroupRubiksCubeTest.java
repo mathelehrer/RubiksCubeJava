@@ -309,8 +309,21 @@ class PermutationGroupRubiksCubeTest {
             boolean result = rubiksGroup.contains(currentState, false);
             System.out.println("Element test: " + result);
             if (result){
-                rubiksGroup.elementToWordExtended(currentState,8000000,8000000,2840,1,0,true);
+                System.out.println(rubiksGroup.elementToWord(currentState, 500000, 2840));
             }
+        }
+    }
+
+    @Test
+    void debugging(){
+        rubiksGroup.visualizeMinkwitzChain(rubiksGroup.getMinkwitzChain(500000));
+
+        String perm = "(1 27 37 21 5 7 9 3 47 41 17 25 35 33 31 15 11 19)(2 12 44 18 40 20)(4 42 28 6 32 36)(8 48 14 34 38 16)(10 24 22 26 46 30)(13 29 39 23 45 43)";
+        String perm2 = "(1 27 37 21 5 7 9 3 47 41 17 25 35 33 31 15 11 19)(2 12 44 18 40 20)(4 42 28 6 32 36)(8 48 14 34 38 16)(10 24 22 26 46 30)(13 29 39 23 45 43)";
+        Permutation currentState = Permutation.parse(perm);
+        boolean result = rubiksGroup.contains(currentState, false);
+        if (result){
+            System.out.println(rubiksGroup.elementToWord(currentState, 500000, 2840));
         }
     }
 

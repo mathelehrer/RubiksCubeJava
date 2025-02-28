@@ -159,6 +159,11 @@ public class GroupElement implements Comparable<GroupElement> {
         return word+"->"+permutation.toString();
     }
 
+    public String toTabString(int tabs){
+        int wordtabs = word.length()/4;
+        return word+StringUtils.tabs(tabs-wordtabs)+"->"+permutation.toString();
+    }
+
     @Override
     public int compareTo(GroupElement o) {
          return this.permutation.compareTo(o.permutation);
