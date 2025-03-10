@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -121,6 +123,32 @@ class PermutationGroupCoxB3 {
             count++;
             System.out.println(count+": "+element.toTabString(3));
         }
+    }
+
+    @Test
+    void createCosetTable(){
+        //System.out.println(coxB3.getStabilizerChain().getOrbit());
+       // System.out.println(coxB3.getStabilizerChain().getCosetRepresentatives());
+
+
+        Collection<Permutation> reps = coxB3.getStabilizerChain().getCosetRepresentatives().values();
+        //get elements of stabilizer group
+        Collection<Permutation> stabilizer = new ArrayList<>();
+
+        for (GroupIterator it =coxB3.getIterator(48);it.hasNext();) {
+            GroupElement element = it.next();
+            if (element.getPermutation().action(Byte.parseByte("1"))==Byte.parseByte("1")){
+                stabilizer.add(element.getPermutation());
+            }
+        }
+
+        for (Permutation permutation : stabilizer) {
+            for (Permutation rep : reps) {
+                System.out.print(permutation.multiply(rep)+"\t");
+            }
+            System.out.println();
+        }
+
     }
 
 
