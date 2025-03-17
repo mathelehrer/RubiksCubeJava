@@ -124,14 +124,14 @@ class PermutationGroupRubiksCubeTest {
         System.out.println();
 
         StabilizerChain chain = rubiksGroup.getStabilizerChain();
-        while(chain.getOrbit().size()>0){
+        while(!chain.getOrbit().isEmpty()){
             Map<Byte,Permutation> coset_res = chain.getCosetRepresentatives();
             for (int i = 0; i < 48; i++) {
                 if (chain.getOrbit().contains(Byte.parseByte(String.valueOf(i+1)) )){
                     if (!coset_res.get(Byte.parseByte(String.valueOf(i+1))).isIdentity())
                         System.out.print((i+1)+"\t");
                     else
-                        System.out.print("\033[0;1m" +(i+1)+"\t"+ "\033[0m");
+                        System.out.print("\033[0;1m" +(i+1)+"*\t"+ "\033[0m");
                 }
                 else{
                     System.out.print("\t");
