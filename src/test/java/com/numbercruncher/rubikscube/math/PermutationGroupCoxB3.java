@@ -151,5 +151,29 @@ class PermutationGroupCoxB3 {
 
     }
 
+    @Test
+    void cosetDictionary(){
+        Collection<Permutation> reps = coxB3.getStabilizerChain().getCosetRepresentatives().values();
+        //get elements of stabilizer group
+        Collection<Permutation> stabilizer = new ArrayList<>();
+
+        for (GroupIterator it =coxB3.getIterator(48);it.hasNext();) {
+            GroupElement element = it.next();
+            if (element.getPermutation().action(Byte.parseByte("1"))==Byte.parseByte("1")){
+                stabilizer.add(element.getPermutation());
+            }
+        }
+
+        int s =1;
+        for (Permutation permutation : stabilizer) {
+            int c=1;
+            for (Permutation rep : reps) {
+                System.out.println("(" + s + "," + c + ")" + ":" + permutation.multiply(rep));
+                c++;
+            }
+            s++;
+        }
+    }
+
 
 }

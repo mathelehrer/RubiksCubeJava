@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PermutationGroupRubiksCubeTest {
     private PermutationGroup rubiksGroup;
+    private String[] randomLabels;
 
     @BeforeEach
     void setUp() {
@@ -23,11 +24,28 @@ class PermutationGroupRubiksCubeTest {
         Permutation b = Permutation.parse("(1 13 47 27)(2 12 48 30)(3 9 45 31)(33 35 39 37)(34 38 40 36)");
         Permutation d = Permutation.parse("(13 21 29 37)(15 23 31 39)(16 24 32 40)(41 43 47 45)(42 46 48 44)");
 
+        Permutation[] generators = {t,d, l, r,  f,  b};
+
         //the order of the generators matters for the stabilizer chain
         //this way, it is almost possible to first stabilize all corners and then all edges
         String[] labels = {"T", "D", "L","R",  "F", "B"};
         //A
-        rubiksGroup = new PermutationGroup("Rubik's Cube Group", labels, t,d, l, r, f,  b );
+
+        int[] indices = new int[]{0,1,2,3,4,5};
+        List<Integer> indexList = new ArrayList<>();
+        for (int i : indices) indexList.add(i);
+        Collections.shuffle(indexList);
+
+        randomLabels = new String[6];
+        Permutation[] randomGenerators = new Permutation[6];
+
+        int count = 0;
+        for (Integer i : indexList) {
+            randomLabels[count]=labels[i];
+            randomGenerators[count++]=generators[i];
+        }
+
+        rubiksGroup = new PermutationGroup("Rubik's Cube Group",randomLabels,randomGenerators);
 
         for (String label : labels) {
             rubiksGroup.addWordRule(s->{
@@ -95,6 +113,33 @@ class PermutationGroupRubiksCubeTest {
         long end = System.currentTimeMillis();
         System.out.println(chain);
         System.out.println("Calculated in: " + (end - start) + " ms");
+    }
+
+    @Test
+    void getNiceStabilizerChain(){
+
+        for (String randomLabel : randomLabels) {
+            System.out.print(randomLabel+" ");
+        }
+        System.out.println();
+
+        StabilizerChain chain = rubiksGroup.getStabilizerChain();
+        while(chain.getOrbit().size()>0){
+            Map<Byte,Permutation> coset_res = chain.getCosetRepresentatives();
+            for (int i = 0; i < 48; i++) {
+                if (chain.getOrbit().contains(Byte.parseByte(String.valueOf(i+1)) )){
+                    if (!coset_res.get(Byte.parseByte(String.valueOf(i+1))).isIdentity())
+                        System.out.print((i+1)+"\t");
+                    else
+                        System.out.print("\033[0;1m" +(i+1)+"\t"+ "\033[0m");
+                }
+                else{
+                    System.out.print("\t");
+                }
+            }
+            System.out.println();
+            chain = chain.getStabilizer();
+        }
     }
 
     @Test
