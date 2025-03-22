@@ -120,6 +120,26 @@ class PermutationGroupRubiksCubeNiceStabChain {
     }
 
     @Test
+    void getNiceStabChainData(){
+        long start = System.currentTimeMillis();
+        int preTraining = 0;
+        int numberOfElements = 800000;
+        int maxBranching = 1;
+        int simplificationRules =800;
+        ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(preTraining,numberOfElements,simplificationRules,maxBranching,true);
+
+        int count = 0;
+        while(chain.getOrbit().size()>0){
+            Map<Byte,TreeSet<GroupElement>> coset_res = chain.getCosetRepresentativesMap();
+            for (Map.Entry<Byte, TreeSet<GroupElement>> entry : coset_res.entrySet()) {
+                System.out.println("("+entry.getKey()+",0,-"+count+"):"+entry.getValue().first().getWord());
+            }
+            count++;
+            chain = chain.getStabilizerChain();
+        }
+    }
+
+    @Test
     void contains() {
         for (int i = 0; i < 200; i++) {
            GroupElement element = rubiksGroup.randomElement(20);
