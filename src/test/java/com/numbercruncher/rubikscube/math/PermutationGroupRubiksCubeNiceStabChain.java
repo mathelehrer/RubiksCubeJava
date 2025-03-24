@@ -132,7 +132,7 @@ class PermutationGroupRubiksCubeNiceStabChain {
         while(chain.getOrbit().size()>0){
             Map<Byte,TreeSet<GroupElement>> coset_res = chain.getCosetRepresentativesMap();
             for (Map.Entry<Byte, TreeSet<GroupElement>> entry : coset_res.entrySet()) {
-                System.out.println("("+entry.getKey()+",0,-"+count+"):"+entry.getValue().first().getWord());
+                System.out.println("("+entry.getKey()+",0,-"+1.5*count+"):"+entry.getValue().first().getWord());
             }
             count++;
             chain = chain.getStabilizerChain();
