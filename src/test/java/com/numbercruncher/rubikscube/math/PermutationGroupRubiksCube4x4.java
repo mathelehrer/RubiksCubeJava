@@ -5,28 +5,39 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PermutationGroupRubiksCubeNiceStabChain {
+class PermutationGroupRubiksCube4x4 {
     private PermutationGroup rubiksGroup;
 
     @BeforeEach
     void setUp() {
-        Permutation t = Permutation.parse("(1 3 7 5)(2 6 8 4)(9 33 25 17)(10 34 26 18)(11 35 27 19)(48)");
-        Permutation l = Permutation.parse("(1 17 41 39)(4 20 44 38)(5 21 45 35)(9 11 15 13)(10 14 16 12)(48)");
-        Permutation f = Permutation.parse("(5 25 43 15)(7 29 41 11)(8 28 42 14)(17 19 23 21)(18 22 24 20)(48)");
-        Permutation r = Permutation.parse("(3 37 43 19)(6 36 46 22)(7 33 47 23)(25 27 31 29)(26 30 32 28)(48)");
-        Permutation b = Permutation.parse("(1 13 47 27)(2 12 48 30)(3 9 45 31)(33 35 39 37)(34 38 40 36)");
-        Permutation d = Permutation.parse("(13 21 29 37)(15 23 31 39)(16 24 32 40)(41 43 47 45)(42 46 48 44)");
+        //arabic letters turn the outer plane
+        //greek letters turn the second row planes
+        Permutation t = Permutation.parse("(1 13 9 5)(2 14 10 6)(3 15 11 7)(4 16 12 8)(17 45 57 77)(29 41 53 73)(30 42 54 74)(31 43 55 75)(96)");
+        Permutation τ = Permutation.parse("(18 46 58 78)(20 48 60 80)(27 39 51 71)(32 44 56 76)(96)");
+        Permutation r = Permutation.parse("(1 33 89 73)(13 45 85 69)(14 46 86 70)(15 47 87 71)(49 61 57 53)(50 62 58 54)(51 63 59 55)(52 64 60 56)(96)");
+        Permutation ρ = Permutation.parse("(2 34 90 74)(4 36 92 76)(11 43 83 67)(16 48 88 72)(96)");
+        Permutation f = Permutation.parse("(1 17 81 49)(2 18 82 50)(3 19 83 51)(5 21 85 53)(33 45 41 37)(34 46 42 38)(35 47 43 39)(36 48 44 40)(96)");
+        Permutation φ = Permutation.parse("(4 20 84 52)(6 22 86 54)(8 24 88 56)(15 31 95 63)(96)");
+        Permutation l = Permutation.parse("(5 77 93 37)(6 78 94 38)(7 79 95 39)(9 65 81 41)(17 29 25 21)(18 30 26 22)(19 31 27 23)(20 32 28 24)(96)");
+        Permutation λ = Permutation.parse("(3 75 91 35)(8 80 96 40)(10 66 82 42)(12 68 84 44)");
+        Permutation b = Permutation.parse("(9 57 89 25)(10 58 90 26)(11 59 91 27)(13 61 93 29)(65 77 73 69)(66 78 74 70)( 67 79 75 71)(68 80 76 72)(96)");
+        Permutation β = Permutation.parse("(7 55 87 23)(12 60 92 28)(14 62 94 30)(16 64 96 20)");
+        Permutation d = Permutation.parse("(21 65 61 33)(22 66 62 34)(23 67 73 35)(25 69 49 37)(81 93 89 85)(82 94 90 86)(83 95 91 87)(84 96 92 88)");
+        Permutation δ = Permutation.parse("(19 79 59 47)(24 68 64 36)(26 70 50 38)(28 72 52 40)(96)");
 
         //With the following choice of generator sequence the white face is stabilized completely first
         //if you want to try out other variants have a look at
         //PermutationGroupRubiksCubeTest.getNiceStabilizerChain()
-        String[] labels = {"B","F","R","L","T","D"};
-        Permutation[] generators = {b,f,r,l,t,d};
+        String[] labels = {"T","Τ","L","Λ","F","Φ","R","Ρ","B","Β","D","Δ"};
+        Permutation[] generators = {t,τ,l,λ,f,φ,r,ρ,b,β,d,δ};
 
         rubiksGroup = new PermutationGroup("RubikNice",labels,generators);
 
@@ -49,9 +60,32 @@ class PermutationGroupRubiksCubeNiceStabChain {
     }
 
     @Test
+    void consistencyCheck(){
+        List<GroupElement>generators= rubiksGroup.getGroupElementGenerators();
+        for (GroupElement generator : generators) {
+            System.out.println(generator.multiply(generator).multiply(generator).multiply(generator).toFullString());
+        }
+        StabilizerChain chain = rubiksGroup.getStabilizerChain();
+        List<Byte> orbit0 = chain.getOrbit();
+        List<Byte> orbit = chain.getStabilizer().getOrbit();
+        System.out.println(orbit0.size());
+        System.out.println(orbit.size());
+    }
+
+    @Test
+    void multiplyPermutations() {
+        List<GroupElement> generators = rubiksGroup.getGroupElementGenerators();
+        for (GroupElement generator : generators) {
+            for (GroupElement groupElement : generators) {
+                System.out.println(generator.multiply(groupElement));
+            }
+        }
+    }
+
+    @Test
     void getBase(){
         byte[] base = rubiksGroup.getBaseAsByteArray();
-        assertEquals("[1, 5, 3, 7, 14, 6, 8, 15, 4, 2, 13, 22, 12, 16, 24, 30, 23, 32]", Arrays.toString(base));
+        assertEquals("[1, 27, 5, 31, 19, 24, 39, 28, 51, 44, 71, 7, 23, 79, 20, 48, 56, 60, 32, 11, 9, 75, 13, 21, 3, 4, 43, 55, 15, 35, 8, 91, 12, 40, 16, 68, 76, 80, 25, 83, 36, 47, 63, 52, 84, 59, 64, 87, 33, 67, 72, 88, 73, 22, 62, 70, 50, 34, 66, 82, 54, 14, 2, 42, 57, 89, 49, 61, 69, 85, 86, 65, 93, 81, 37, 10, 77, 29, 74, 26, 90, 30, 58, 46, 18, 38, 6, 41, 17, 78, 53, 45]", Arrays.toString(base));
     }
 
     @Test
@@ -87,7 +121,7 @@ class PermutationGroupRubiksCubeNiceStabChain {
 
     @Test
     void getDegree() {
-        assertEquals(49,rubiksGroup.getDegree());
+        assertEquals(97,rubiksGroup.getDegree());
     }
 
     @Test
@@ -156,7 +190,9 @@ class PermutationGroupRubiksCubeNiceStabChain {
 
     @Test
     void getSize() {
-        assertTrue(rubiksGroup.getSize().divide(new BigInteger("43252003274489856000")).equals(BigInteger.ONE));
+        BigInteger size = rubiksGroup.getSize();
+        System.out.println(size);
+        assertTrue(size.divide(new BigInteger("43252003274489856000")).equals(BigInteger.ONE));
     }
 
     @Test
@@ -208,13 +244,13 @@ class PermutationGroupRubiksCubeNiceStabChain {
     }
 
     @Test
-    void getFirst10000Elements  () {
+    void getFirst1000Elements  () {
 
         int count =0;
-        for (GroupIterator it = this.rubiksGroup.getIterator(8000000); it.hasNext(); ) {
+        for (GroupIterator it = this.rubiksGroup.getIterator(1000); it.hasNext(); ) {
             GroupElement element = it.next();
             count++;
-            if (count%10000==0)
+            if (count%100==0)
                 System.out.println(count+": "+element.toFullWordString());
         }
     }

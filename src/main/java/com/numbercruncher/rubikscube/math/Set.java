@@ -1,5 +1,6 @@
 package com.numbercruncher.rubikscube.math;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -40,6 +41,19 @@ public class Set {
     }
 
     public Set(byte[] set){
+        //check set for completeness
+        java.util.List<Byte> indices = new ArrayList<>();
+        for (byte i=0;i<set.length;i++){
+            indices.add(i);
+        }
+        for (int i=0;i<set.length;i++){
+            if (indices.contains(set[i])){
+                indices.remove((Byte) set[i]);
+            }
+        }
+        if (!indices.isEmpty()){
+            throw new IllegalArgumentException("Set is missing the following elements: "+indices);
+        }
         this.set=new Byte[set.length];
         for (int i = 0; i < set.length; i++) {
             this.set[i]=set[i];
