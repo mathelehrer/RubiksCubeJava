@@ -5,10 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,16 +27,29 @@ class PermutationGroupRubiksCube4x4 {
         Permutation λ = Permutation.parse("(3 75 91 35)(8 80 96 40)(10 66 82 42)(12 68 84 44)");
         Permutation b = Permutation.parse("(9 57 89 25)(10 58 90 26)(11 59 91 27)(13 61 93 29)(65 77 73 69)(66 78 74 70)( 67 79 75 71)(68 80 76 72)(96)");
         Permutation β = Permutation.parse("(7 55 87 23)(12 60 92 28)(14 62 94 30)(16 64 96 20)");
-        Permutation d = Permutation.parse("(21 65 61 33)(22 66 62 34)(23 67 73 35)(25 69 49 37)(81 93 89 85)(82 94 90 86)(83 95 91 87)(84 96 92 88)");
+        Permutation d = Permutation.parse("(21 65 61 33)(22 66 62 34)(23 67 63 35)(25 69 49 37)(81 93 89 85)(82 94 90 86)(83 95 91 87)(84 92 96 88)");
         Permutation δ = Permutation.parse("(19 79 59 47)(24 68 64 36)(26 70 50 38)(28 72 52 40)(96)");
 
-        //With the following choice of generator sequence the white face is stabilized completely first
-        //if you want to try out other variants have a look at
-        //PermutationGroupRubiksCubeTest.getNiceStabilizerChain()
+
+        int[] indices = new int[]{0,1,2,3,4,5,6,7,8,9,10,11};
+        List<Integer> indexList = new ArrayList<>();
+        for (int i : indices) indexList.add(i);
+        Collections.shuffle(indexList);
+
+        String[] randomLabels = new String[12];
+        Permutation[] randomGenerators = new Permutation[12];
+
         String[] labels = {"T","Τ","L","Λ","F","Φ","R","Ρ","B","Β","D","Δ"};
         Permutation[] generators = {t,τ,l,λ,f,φ,r,ρ,b,β,d,δ};
 
-        rubiksGroup = new PermutationGroup("RubikNice",labels,generators);
+        int count = 0;
+        for (Integer i : indexList) {
+            randomLabels[count]=labels[i];
+            randomGenerators[count++]=generators[i];
+        }
+
+        System.out.println("Generator sequence: " + Arrays.asList(randomLabels) + ": ");
+        rubiksGroup = new PermutationGroup("Rubik's Cube Group",randomLabels,randomGenerators);
 
         for (String label : labels) {
             rubiksGroup.addWordRule(s->{
@@ -138,7 +148,7 @@ class PermutationGroupRubiksCube4x4 {
         StabilizerChain chain = rubiksGroup.getStabilizerChain();
         while(chain.getOrbit().size()>0){
             Map<Byte,Permutation> coset_res = chain.getCosetRepresentatives();
-            for (int i = 0; i < 48; i++) {
+            for (int i = 0; i < rubiksGroup.getDegree(); i++) {
                 if (chain.getOrbit().contains(Byte.parseByte(String.valueOf(i+1)) )){
                     if (!coset_res.get(Byte.parseByte(String.valueOf(i+1))).isIdentity())
                         System.out.print((i+1)+"\t");
@@ -192,7 +202,7 @@ class PermutationGroupRubiksCube4x4 {
     void getSize() {
         BigInteger size = rubiksGroup.getSize();
         System.out.println(size);
-        assertTrue(size.divide(new BigInteger("43252003274489856000")).equals(BigInteger.ONE));
+        assertTrue(size.divide(new BigInteger("16972688908618238933770849245964147960401887232000000000")).equals(BigInteger.ONE));
     }
 
     @Test

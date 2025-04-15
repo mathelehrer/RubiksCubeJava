@@ -10,7 +10,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PermutationGroupRubiksCubeNiceStabChain {
+class PermutationGroupRubiksCubeForVideo {
     private PermutationGroup rubiksGroup;
 
     @BeforeEach
@@ -28,7 +28,7 @@ class PermutationGroupRubiksCubeNiceStabChain {
         String[] labels = {"B","F","R","L","T","D"};
         Permutation[] generators = {b,f,r,l,t,d};
 
-        rubiksGroup = new PermutationGroup("RubikNice",labels,generators);
+        rubiksGroup = new PermutationGroup("RubikForVideo",labels,generators);
 
         for (String label : labels) {
             rubiksGroup.addWordRule(s->{
@@ -51,14 +51,26 @@ class PermutationGroupRubiksCubeNiceStabChain {
     @Test
     void getBase(){
         byte[] base = rubiksGroup.getBaseAsByteArray();
-        assertEquals("[1, 5, 3, 7, 14, 6, 8, 15, 4, 2, 13, 22, 12, 16, 24, 30, 23, 32]", Arrays.toString(base));
+        assertEquals("[1, 5, 3, 7, 15, 23, 22, 6, 24, 14, 8, 30, 13, 2, 12, 4, 16, 32]", Arrays.toString(base));
     }
 
+    /**
+     * here is an empirical testing result
+     *
+     * number of elements   | time  | missing elements  | average word length
+     * 200                  | 10 s  |      10           |  13.7
+     * 400                  | 35 s  |       1           |  10.9
+     * 800                  | 96 s  |       0           |   8.9
+     * 1600                 | 240   |       0           |   8.0
+     * 6400                 | 1.1k  |       0           |   7.16
+     * 25600                | 5.8k  |       0           |   6.78
+     *
+     */
     @Test
     void createMinkwitzChain(){
         long start = System.currentTimeMillis();
-        int numberOfElements = 20000;
-        MinkwitzChain chain = rubiksGroup.getMinkwitzChain(numberOfElements);
+        int numberOfElements = 25600;
+        MinkwitzChain chain = rubiksGroup.getMinkwitzChain(numberOfElements,true);
         long end = System.currentTimeMillis();
         rubiksGroup.visualizeMinkwitzChain(chain);
         System.out.println("Calculated in: " + (end - start) + " ms");
@@ -68,12 +80,38 @@ class PermutationGroupRubiksCubeNiceStabChain {
     }
 
     @Test
+    void myConfigflip(){
+        //try to get the word of my configuration;
+        int numberOfElements = 25600;
+        int simplificationRules = 850;
+        Permutation myConfig = Permutation.parse("(12 42 38 24)(13 41 29 31)(14 30)(15 43 37 45)(20 36)(21 23 47 39)(22 48 28 40)(48)");
+
+        System.out.println("Is contained?: " + rubiksGroup.contains(myConfig));
+
+        String word = rubiksGroup.elementToWord(myConfig, numberOfElements,simplificationRules, true);
+        System.out.println("Word: " + word+" with length "+word.length());
+
+    }
+
+
+    @Test
+    /**
+     * here is an empirical testing result
+     *
+     * number of elements   | time  | missing elements  | average word length
+     * 10k                  | 10 s  |      0            |  7.4
+     * 20k                  | 22 s  |       0           |  7.0
+     * 100k                 |113 s  |       0           |   6.4
+     * 1M                   |1.19k  |       0           |   6.15
+     * 8M                   | 9.9k  |       0           |   5.09
+     *
+     */
     void createExtendedMinkwitzChain(){
         long start = System.currentTimeMillis();
         int preTraining = 0;
-        int numberOfElements = 800000;
+        int numberOfElements = 8000000;
         int maxBranching = 1;
-        int simplificationRules =800;
+        int simplificationRules =850;
         ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(preTraining,numberOfElements,simplificationRules,maxBranching,true);
 
         long end = System.currentTimeMillis();
@@ -84,6 +122,54 @@ class PermutationGroupRubiksCubeNiceStabChain {
         System.out.println("Average Word Length: "+chain.getAverageWordLength());
 
     }
+
+    /**
+     * so far smallest configuration:
+     * with number of elements: 8 000 000
+     * TRlbLBrLtl FlBdbDbLfL BlDLTdbtDR FLrdldFDFb lBfLTbdltB RDrdb
+     * LbLBfdBdFb DLrblBRdFl bLfLBlbLBf dFFLfBdbdR DBrbrFDRfr f
+     * LbLBfdBdFb DLrblBRdFl bLfLBlbLBf dFFLfBdbdr frFDRFDRfr f
+     * with number of elements: 1 000 000
+     * FlBdbDbLfL BDlTdBtldR FrLdlDFbLB fddTlDtFbr bRDBdBRDrd b
+     * FlBdbDbLfL BDlTdBtlBt DlTdBBdFbL fTdrtDbrbR DBdBLBldb
+     *  with 2 M
+     * BdBrbRbDbL BDlTdBtldR FrLdlDFbLB fddTltDFbr bRDBdBRDrdb
+     * BdBrbRbDbL BDlTdBtlBt DlTdBBdFbL fdTrtDbrbR DBdbdrBRB
+     */
+    @Test
+    void myConfigExtended(){
+        //try to get the word of my configuration;
+
+        Permutation myConfig = Permutation.parse("(12 42 38 24)(13 41 29 31)(14 30)(15 43 37 45)(20 36)(21 23 47 39)(22 48 28 40)(48)");
+        System.out.println("Is contained?: " + rubiksGroup.contains(myConfig));
+        int numberOfElements = 2000000;
+        int simplificationRules =850;
+        long start = System.currentTimeMillis();
+        TreeSet<GroupElement> elements = rubiksGroup.elementToWordExtendedNew(myConfig, numberOfElements,simplificationRules,true);
+        long end = System.currentTimeMillis();
+        System.out.println("My word representation of my config with "+elements.size()+" versions! "+(end-start)+" ms");
+        for (GroupElement element : elements) {
+            element.apply(rubiksGroup.getSimplifyingRules(simplificationRules));
+        }
+        List<String> subList = elements.stream().map(GroupElement::toFullWordString).filter(s -> s.length()<100).toList();
+        TreeSet<String> sortedList = new TreeSet<>((o1, o2) -> {
+            if (o1.length() == o2.length())
+                return o1.compareTo(o2);
+            else
+                return o1.length() - o2.length();
+        });
+        sortedList.addAll(subList);
+        int out = 0;
+        for (String s : sortedList) {
+            System.out.println(s.length()+": "+s);
+            out++;
+            if (out==10)
+                break;
+        }
+        System.out.println("Amount of simplification rules: "+rubiksGroup.getSimplifyingRules(simplificationRules).size());
+        rubiksGroup.saveSimplificationRules();;
+    }
+
 
     @Test
     void getDegree() {
@@ -165,48 +251,7 @@ class PermutationGroupRubiksCubeNiceStabChain {
         rubiksGroup.visualizeStabilizerChain();
     }
 
-    @Test
-    void superflip(){
-        //try to get the word of the super flip;
-        int preTraining = 0;
-        int numberOfElements = 8000000;
-        int maxBranching = 1;
-        int simplificationRules = 2840;
-        PermutationGroup rubiksCube = PermutationGroup.RubiksGroup();
-        Permutation superFlip = Permutation.parse("(2 34)(4 10)(6 26)(8 18)(12 38)(14 20)(16 44)(22 28)(24 42)(30 36)(32 46)(40 48)");
-        System.out.println(superFlip);
-        System.out.println("Element test: "+rubiksCube.contains(superFlip));
-        String word = rubiksCube.elementToWord(superFlip,numberOfElements,simplificationRules,true);
-        System.out.println(word+"\nMy word representation of the super flip with "+word.length()+" words: ");
-        GroupElement reconstruction = rubiksCube.wordToElement(word);
-        System.out.println(reconstruction.toFullString());
-        System.out.println(reconstruction.getPermutation());
-    }
 
-
-    @Test
-    void superflipExtended(){
-        //try to get the word of the super flip;
-
-        Permutation superFlip = Permutation.parse("(2 34)(4 10)(6 26)(8 18)(12 38)(14 20)(16 44)(22 28)(24 42)(30 36)(32 46)(40 48)");
-        System.out.println(superFlip);
-        System.out.println("Element test: "+rubiksGroup.contains(superFlip));
-        int preTraining = 0;
-        int numberOfElements = 8000000;
-        int maxBranching = 1;
-        int simplificationRules = 30487;
-        List<GroupElement> elements = rubiksGroup.elementToWordExtended(superFlip,preTraining, numberOfElements,simplificationRules,maxBranching,10,true);
-        System.out.println("My word representation of the super flip with "+elements.size()+" versions! ");
-        for (GroupElement element : elements) {
-            element.apply(rubiksGroup.getSimplifyingRules(simplificationRules));
-        }
-        List<String> subList = elements.stream().map(GroupElement::toFullWordString).filter(s -> s.length()<60).toList();
-        for (String s : subList) {
-            System.out.println(s.length()+": "+s);
-        }
-        System.out.println("Amount of simplification rules: "+rubiksGroup.getSimplifyingRules(simplificationRules).size());
-        rubiksGroup.saveSimplificationRules();;
-    }
 
     @Test
     void getFirst10000Elements  () {

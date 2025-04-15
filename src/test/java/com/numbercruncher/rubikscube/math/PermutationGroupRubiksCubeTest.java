@@ -66,6 +66,34 @@ class PermutationGroupRubiksCubeTest {
     }
 
     @Test
+    void getWordForTestConfiguration() {
+        Permutation perm = Permutation.parse("(12 42 38 24)(13 41 29 31)(14 30)(15 43 37 45)(20 36)(21 23 47 39)(22 48 28 40)(48)");
+        System.out.println("Is contained?: " + rubiksGroup.contains(perm));
+
+        String word = rubiksGroup.elementToWord(perm, 5000000, 850, true);
+        System.out.println("Word: " + word+" with length "+word.length());
+//        int preTraining = 8000000;
+//        int numberOfElements = 8000000;
+//        int maxBranching = 0;
+//        int simplificationRules = 850;
+//        List<GroupElement> elements = rubiksGroup.elementToWordExtended(perm, preTraining, numberOfElements, simplificationRules, maxBranching, 1, true);
+//        System.out.println("My word representation of the permutation with " + elements.size() + " versions! ");
+//
+//        List<String> subList = elements.stream().filter(v -> v.toFullWordString().length() < 100).map(GroupElement::toFullWordString).toList();
+//        for (String s : subList) {
+//            System.out.println(s);
+//        }
+//        for (GroupElement element : elements) {
+//            element.apply(rubiksGroup.getSimplifyingRules(simplificationRules));
+//        }
+//
+//        subList = elements.stream().filter(v -> v.toFullWordString().length() < 60).map(GroupElement::toFullWordString).toList();
+//        for (String s : subList) {
+//            System.out.println(s);
+//        }
+    }
+
+    @Test
     void getBase(){
         byte[] base = rubiksGroup.getBaseAsByteArray();
         assertEquals("[1, 13, 5, 7, 23, 15, 12, 8, 14, 24, 16, 3, 6, 4, 2, 22, 30, 32]", Arrays.toString(base));

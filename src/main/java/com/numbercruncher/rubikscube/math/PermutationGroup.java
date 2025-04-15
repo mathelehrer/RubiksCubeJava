@@ -4,7 +4,6 @@ import com.numbercruncher.rubikscube.logger.Logger;
 import com.numbercruncher.rubikscube.utils.IOUtils;
 import com.numbercruncher.rubikscube.utils.StringUtils;
 
-import javax.swing.*;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
@@ -39,6 +38,17 @@ public class PermutationGroup {
 
     private final Permutation one;
     private TreeMap<String, String> simplifyingRules;
+
+    private Comparator<GroupElement> groupElementWordLengthComparator = (o1, o2) -> {
+        String s1 = o1.getWord();
+        String s2 = o2.getWord();
+        int l1 = s1.length();
+        int l2 = s2.length();
+        if (l1 == l2)
+            return s1.compareTo(s2);
+        else
+            return l1 - l2;
+    };
 
     //load the data of shortest words from a file
     //each list of bytes encodes
@@ -291,7 +301,7 @@ public class PermutationGroup {
 
             if (max>=start)
                 trainSubChain(minkwitzChain,permutation);
-            if (max%20000==0)
+            if (max%1600==0)
                 minkwitzChain.save("_"+max);
 
             max++;
@@ -401,6 +411,11 @@ public class PermutationGroup {
     public List<GroupElement> elementToWordExtended(Permutation permutation,int preTraining, int numberOfElements,int numberOfRules, int maxBranching,int maxDepth,boolean verbose){
         ExtendedMinkwitzChain chain = this.getExtendedMinkwitzChain(preTraining,numberOfElements,numberOfRules,maxBranching,verbose);
         return elementToWordRecursiveExtended(permutation,chain,0,maxDepth);
+    }
+
+    public TreeSet<GroupElement> elementToWordExtendedNew(Permutation permutation, int numberOfElements, int numberOfRules, boolean verbose){
+        ExtendedMinkwitzChain chain = this.getExtendedMinkwitzChain(0,numberOfElements,numberOfRules,1,verbose);
+        return elementToWordRecursiveExtendedNew(permutation,chain);
     }
 
     public String elementToWord(Permutation permutation, int numberOfElements,int numberOfRules){
@@ -785,14 +800,17 @@ public class PermutationGroup {
 
     private void createMinkwitzChain(int numberOfElements, boolean verbose){
         //Try to load existing MinkwitzChain
+
         MinkwitzChain minkwitzChain = MinkwitzChain.load(this.name,numberOfElements);
         if (verbose) System.out.println("Minkwitz chain trained with "+numberOfElements+" is loaded!");
         if (minkwitzChain==null) {
             //Create new Minkwitz chain from the stabilizer chain data
+            long start=System.currentTimeMillis();
             if (verbose) System.out.println("Creating a new Minkwitz chain ...");
             minkwitzChain = new MinkwitzChain(this.getStabilizerChain(),this.groupElementGenerators,this.name);
             trainMinkwitzChain(minkwitzChain, numberOfElements);
-            if (verbose) System.out.println("...done!");
+            long end = System.currentTimeMillis();
+            if (verbose) System.out.println("...done after "+(end-start)+" ms!");
         }
         this.minkwitzChain = minkwitzChain;
     }
@@ -965,7 +983,7 @@ public class PermutationGroup {
                 else{
                     //check whether the g is a better representative
                     if (rep.getWord().length()>g.getWord().length()) {
-                        System.out.println(rep.getWord() + "->" + g.getWord());
+                        System.out.println(omega+" "+gamma+": "+rep.getWord() + "->" + g.getWord());
                         minkwitzChain.addCosetRepresentative(gamma, g);
                         return gamma;
                     }
@@ -1094,8 +1112,6 @@ public class PermutationGroup {
         return null;
     }
 
-
-
     private List<GroupElement> elementToWordRecursiveExtended(Permutation permutation, ExtendedMinkwitzChain chain) {
         return this.elementToWordRecursiveExtended(permutation, chain,0,2);
     }
@@ -1142,13 +1158,13 @@ public class PermutationGroup {
                             if (groupElement.compareTo(next) == 0) {
                                 if (groupElement.getWord().length() > next.getWord().length()) {
                                     this.simplifyingRules.put(groupElement.toFullWordString(),next.toFullWordString());
-                                    //System.out.println(groupElement.toFullWordString()+"->"+next.toFullWordString());
+                                    System.out.println(groupElement.toFullWordString()+"->"+next.toFullWordString());
                                     allElements.remove(groupElement);
                                     allElements.add(next);
                                 }
                                 else if (groupElement.getWord().length() > next.getWord().length()){
                                     this.simplifyingRules.put(next.toFullWordString(),groupElement.toFullString());
-                                    //System.out.println(next.toFullWordString()+"->"+groupElement.toFullWordString());
+                                    System.out.println(next.toFullWordString()+"->"+groupElement.toFullWordString());
                                 }
                                 break;
                             }
@@ -1206,6 +1222,67 @@ public class PermutationGroup {
             return allElements;
         }
     }
+
+    private TreeSet<GroupElement> elementToWordRecursiveExtendedNew(Permutation permutation, ExtendedMinkwitzChain chain) {
+        List<Byte> orbit = chain.getOrbit();
+        GroupElement identity = new GroupElement(one,"");
+
+        TreeSet<GroupElement> rep = new TreeSet<>(groupElementWordLengthComparator);
+
+        if (orbit.isEmpty()) {
+            rep.add(identity);
+        }
+        else {
+            byte omega = orbit.get(0);
+            //System.out.println(omega);
+            byte gamma = permutation.action(omega);
+
+            if (omega != gamma) {
+                TreeSet<GroupElement> reps = chain.getCosetRepresentatives(gamma);
+                // repeat this statement if you want to include more than the first representative
+                rep.addAll(reps);
+//                int count = 0;
+//                for (GroupElement groupElement : reps) {
+//                    rep.add(groupElement);
+//                    count++;
+//                    if (count>24){
+//                        break;
+//                    }
+//                }
+            } else {
+                rep.add(identity);
+            }
+        }
+
+
+        if (chain.isLast()){
+            return rep;
+        }
+        else {
+            TreeSet<GroupElement> allElements =  new TreeSet<>(groupElementWordLengthComparator);
+            for (GroupElement element : rep) {
+                TreeSet<GroupElement> levelLower = elementToWordRecursiveExtendedNew(permutation.multiply(element.getPermutation().inverse()), chain.getStabilizerChain());
+
+                int cutoff = 8;
+                List<GroupElement> toKeep = new ArrayList<>();
+                while(toKeep.size()<cutoff){
+                    GroupElement next = levelLower.pollFirst();
+                    if (next!=null){
+                        toKeep.add(next);
+                    }
+                    else{
+                        break;
+                    }
+                }
+                for (GroupElement part : toKeep) {
+                    GroupElement next = part.multiply(element, simplifyingRules);
+                    allElements.add(next);
+                }
+            }
+            return allElements;
+        }
+    }
+
 
     private boolean loadSimplificationRules(boolean verbose,int numberOfRulesToLoad) {
         URL dirURL = IOUtils.getResourcePath("rules");
