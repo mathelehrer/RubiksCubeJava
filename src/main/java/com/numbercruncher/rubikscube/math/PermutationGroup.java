@@ -12,7 +12,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.numbercruncher.rubikscube.utils.MathUtils.variations;
 import static com.numbercruncher.rubikscube.utils.StringUtils.subWords;
+import static com.numbercruncher.rubikscube.utils.StringUtils.toggleCase;
 
 public class PermutationGroup {
 
@@ -76,17 +78,17 @@ public class PermutationGroup {
                 .collect(Collectors.toMap(i -> labels[i], i -> generators.get(i)));
 
         this.groupElementGenerators = new ArrayList<>();
-        for (Map.Entry<String, Permutation> entry: gens.entrySet()) {
-            this.groupElementGenerators.add(new GroupElement(entry.getValue(),entry.getKey()));
+        for (String generatorName : generatorNames) {
+            this.groupElementGenerators.add(new GroupElement(gens.get(generatorName),generatorName));
         }
 
         this.invGens = IntStream.range(0,labels.length)
                 .boxed()
-                .collect(Collectors.toMap(i -> StringUtils.toggleCase(labels[i]),i -> generators.get(i).inverse()));
+                .collect(Collectors.toMap(i -> toggleCase(labels[i]),i -> generators.get(i).inverse()));
         this.generatorLabels=List.of(labels);
 
-        for (Map.Entry<String, Permutation> entry : invGens.entrySet()) {
-            this.groupElementGenerators.add(new GroupElement(entry.getValue(),entry.getKey()));
+        for (String generatorName : generatorNames) {
+            this.groupElementGenerators.add(new GroupElement(invGens.get(toggleCase(generatorName)),toggleCase(generatorName)));
         }
 
         this.rules=new ArrayList<>();
@@ -98,8 +100,8 @@ public class PermutationGroup {
                 do{
 
                     previous=s;
-                    s=s.replaceAll(label+StringUtils.toggleCase(label),"")
-                            .replaceAll(StringUtils.toggleCase(label)+label,"");
+                    s=s.replaceAll(label+ toggleCase(label),"")
+                            .replaceAll(toggleCase(label)+label,"");
 
                 }while(!s.equals(previous));
                 return s;
@@ -136,6 +138,11 @@ public class PermutationGroup {
         if (this.stabilizerChain==null){
             schreierSims();
         }
+        return this.stabilizerChain;
+    }
+
+    public StabilizerChain getStabilizerChain(List<GroupElement> generators) {
+        schreierSims(generators);
         return this.stabilizerChain;
     }
 
@@ -214,9 +221,7 @@ public class PermutationGroup {
         return wordGeneratorMap;
     }
 
-
-    /*****************************
-     **** Setter    **************
+     /**** Setter    **************
      *****************************/
 
     public void addWordRule(Function<String,String> rule){
@@ -229,9 +234,62 @@ public class PermutationGroup {
 
 
 
-    /*****************************
-     **** public methods *********
+
+     /**** public methods *********
      *****************************/
+
+     public void computeAllStabChains() {
+         TreeMap<StabChainData, List<Byte>> stabchains = new TreeMap<>();
+         List<List<Byte>> generatorsVariations = variations(List.of((byte) 0, (byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5), 6);
+         List<GroupElement> newGenerators = new ArrayList<>();
+
+         int count=0;
+         for (List<Byte> generatorsVariation : generatorsVariations) {
+             newGenerators.clear();
+             for (Byte b : generatorsVariation) {
+                 newGenerators.add(this.groupElementGenerators.get(b));
+             }
+
+             for (int i = 6; i < 12; i++) {
+                 newGenerators.add(this.groupElementGenerators.get(i));
+             }
+
+             StabilizerChain stabChain = getStabilizerChain(newGenerators);
+             StabChainData data = new StabChainData(stabChain);
+             stabchains.put(data, generatorsVariation);
+             System.out.println(count+": "+data + " " + generatorsVariation+" "+newGenerators);
+             count++;
+//            if (count >1000) {
+//                break;
+//            }
+         }
+
+         URL dirURL = IOUtils.getResourcePath("stabchains");
+         String fileName = dirURL.getFile() + "/" + this.name + ".txt";
+
+
+         File file = new File(fileName);
+         if (!file.exists()) {
+             try {
+                 file.createNewFile();
+             } catch (IOException e) {
+                 e.printStackTrace();
+                 Logger.logging(Logger.Level.warning, "Could not create file " + fileName, this);
+                 return;
+             }
+         }
+         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+
+             for (Map.Entry<StabChainData, List<Byte>> stabChainDataListEntry : stabchains.entrySet()) {
+                 writer.write(stabChainDataListEntry.getKey().toString() + " " + stabChainDataListEntry.getValue().toString());
+                 writer.newLine();
+             }
+         } catch (IOException e) {
+             e.printStackTrace();
+             Logger.logging(Logger.Level.warning, "Could not create file " + fileName, this);
+             return;
+         }
+     }
 
     public GroupIterator getIterator(){
         return this.getIterator(-1);
@@ -264,7 +322,7 @@ public class PermutationGroup {
                 Permutation perm = gens.get(label);
                 out=out.multiply(new GroupElement(perm,label));
             } else {
-                label = StringUtils.toggleCase(label);
+                label = toggleCase(label);
                 Permutation perm = invGens.get(label);
                 out=out.multiply(new GroupElement(perm,label));
             }
@@ -566,7 +624,7 @@ public class PermutationGroup {
                     if (baseImageMap.containsKey(ivImage)) {
                         String replacement = baseImageMap.get(ivImage);
                         if (part.length() > replacement.length()) {
-                            replacement = StringUtils.toggleCase(replacement);
+                            replacement = toggleCase(replacement);
                             replacement = new StringBuilder(replacement).reverse().toString();
                             newWord = newWord.replace(part, replacement);
                             replaced = true;
@@ -621,6 +679,14 @@ public class PermutationGroup {
         }
         else{
             return new BigInteger(String.valueOf(chain.getOrbit().size())).multiply(calcGroupSize(chain.getStabilizer()));
+        }
+    }
+
+
+    private void schreierSims(List<GroupElement> generators) {
+        this.stabilizerChain = new StabilizerChain();
+        for (GroupElement generator : generators) {
+            schreierSimsRecursive(this.stabilizerChain, generator.getPermutation());
         }
     }
 
@@ -1234,26 +1300,26 @@ public class PermutationGroup {
         }
         else {
             byte omega = orbit.get(0);
-            //System.out.println(omega);
             byte gamma = permutation.action(omega);
 
             if (omega != gamma) {
                 TreeSet<GroupElement> reps = chain.getCosetRepresentatives(gamma);
+
                 // repeat this statement if you want to include more than the first representative
                 rep.addAll(reps);
+                //Make a small count to get a quick result
 //                int count = 0;
 //                for (GroupElement groupElement : reps) {
 //                    rep.add(groupElement);
 //                    count++;
-//                    if (count>24){
+//                    if (count>0){
 //                        break;
 //                    }
-//                }
+//               }
             } else {
                 rep.add(identity);
             }
         }
-
 
         if (chain.isLast()){
             return rep;
@@ -1261,7 +1327,8 @@ public class PermutationGroup {
         else {
             TreeSet<GroupElement> allElements =  new TreeSet<>(groupElementWordLengthComparator);
             for (GroupElement element : rep) {
-                TreeSet<GroupElement> levelLower = elementToWordRecursiveExtendedNew(permutation.multiply(element.getPermutation().inverse()), chain.getStabilizerChain());
+                Permutation stabilizerElement = permutation.multiply(element.getPermutation().inverse());
+                TreeSet<GroupElement> levelLower = elementToWordRecursiveExtendedNew(stabilizerElement, chain.getStabilizerChain());
 
                 int cutoff = 8;
                 List<GroupElement> toKeep = new ArrayList<>();
@@ -1276,6 +1343,9 @@ public class PermutationGroup {
                 }
                 for (GroupElement part : toKeep) {
                     GroupElement next = part.multiply(element, simplifyingRules);
+                    List<String> factors = part.getFactors();
+                    factors.add(0,element.getWord());
+                    next.setFactors(factors);
                     allElements.add(next);
                 }
             }
@@ -1398,7 +1468,7 @@ public class PermutationGroup {
                 String previous;
                 do{
                     previous=s;
-                    String tL = StringUtils.toggleCase(label);
+                    String tL = toggleCase(label);
                     s=s.replaceAll(label+label+label,tL)
                             .replaceAll(tL+tL+tL,label);
                 }while(!s.equals(previous));

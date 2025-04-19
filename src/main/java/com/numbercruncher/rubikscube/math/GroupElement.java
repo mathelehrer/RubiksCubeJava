@@ -2,6 +2,7 @@ package com.numbercruncher.rubikscube.math;
 
 import com.numbercruncher.rubikscube.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -24,6 +25,8 @@ public class GroupElement implements Comparable<GroupElement> {
      *****************************/
     private final Permutation permutation;
     private String word;
+    private List<String> factors = new ArrayList<>();
+
 
     /*****************************
      **** Constructor *************
@@ -49,9 +52,21 @@ public class GroupElement implements Comparable<GroupElement> {
         return word;
     }
 
+    public List<String> getFactors(){
+        return factors;
+    }
+
     /*****************************
      **** Setter    **************
      *****************************/
+
+    public void addFactor(String factor){
+        this.factors.add(factor);
+    }
+
+    public void setFactors(List<String> factors){
+        this.factors=factors;
+    }
 
     /*****************************
      **** public methods *********

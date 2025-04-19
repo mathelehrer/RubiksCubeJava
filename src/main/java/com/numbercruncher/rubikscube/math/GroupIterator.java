@@ -37,6 +37,7 @@ public class GroupIterator implements Iterator<GroupElement> {
     private TreeMap<Character,GroupElement> generatorMap;
     private GroupElement one;
     private BufferedOutputStream out;
+
     /*****************************
      **** Constructor *************
      *****************************/

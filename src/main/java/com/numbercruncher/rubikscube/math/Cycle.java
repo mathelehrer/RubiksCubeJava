@@ -132,8 +132,11 @@ public class Cycle extends ArrayList<Byte> implements Comparable<Cycle>{
 
     @Override
     public int compareTo(Cycle o) {
-        int one = this.stream().min(Byte::compareTo).orElse((byte)0);
-        int two  =o.stream().min(Byte::compareTo).orElse((byte)0);
-        return one-two;
+        byte one = this.stream().max(Byte::compareTo).orElse((byte)0);
+        byte two  =o.stream().max(Byte::compareTo).orElse((byte)0);
+        int deg = Math.max(one, two);
+        Base base = new Base(deg);
+        return base.action(this).compareTo(base.action(o));
+
     }
 }

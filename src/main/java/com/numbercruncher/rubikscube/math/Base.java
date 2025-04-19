@@ -49,6 +49,14 @@ public class Base implements Comparable<Base>{
         }
     }
 
+    public Base(int deg){
+        this.base = new byte[deg];
+        for (int i = 0; i < deg; i++) {
+            this.base[i]=(byte) i;
+        }
+    }
+
+
     /*************************************
      *********** Getter     ***************
      **************************************/

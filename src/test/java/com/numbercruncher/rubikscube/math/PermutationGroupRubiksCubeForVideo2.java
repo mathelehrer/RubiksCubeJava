@@ -5,12 +5,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PermutationGroupRubiksCubeForVideo {
+class PermutationGroupRubiksCubeForVideo2 {
     private PermutationGroup rubiksGroup;
 
     @BeforeEach
@@ -25,10 +28,12 @@ class PermutationGroupRubiksCubeForVideo {
         //With the following choice of generator sequence the white face is stabilized completely first
         //if you want to try out other variants have a look at
         //PermutationGroupRubiksCubeTest.getNiceStabilizerChain()
-        String[] labels = {"B","F","R","L","T","D"};
-        Permutation[] generators = {b,f,r,l,t,d};
+        //String[] labels = {"B","F","R","L","T","D"};
+        String[] labels = {"B","T","F","L","D","R"};
+        //Permutation[] generators = {b,f,r,l,t,d};
+        Permutation[] generators = {b,t,f,l,d,r};
 
-        rubiksGroup = new PermutationGroup("RubikForVideo",labels,generators);
+        rubiksGroup = new PermutationGroup("RubikForVideo2",labels,generators);
 
         for (String label : labels) {
             rubiksGroup.addWordRule(s->{
@@ -44,14 +49,22 @@ class PermutationGroupRubiksCubeForVideo {
         }
 
         //prefer odd orbit elements (corners) to be stabilized first, when building the stabilizer chain
-        rubiksGroup.addBasisSelectionRule(value->{return value%2!=0;});
+       // rubiksGroup.addBasisSelectionRule(value->{return value%2!=0;});
+        rubiksGroup.addBasisSelectionRule(value->{return value<12;});
 
     }
+
+@Test
+void stabilizerChains(){
+        rubiksGroup.computeAllStabChains();
+}
+
+
 
     @Test
     void getBase(){
         byte[] base = rubiksGroup.getBaseAsByteArray();
-        assertEquals("[1, 5, 3, 7, 15, 23, 22, 6, 24, 14, 8, 30, 13, 2, 12, 4, 16, 32]", Arrays.toString(base));
+        assertEquals("[1, 3, 4, 5, 7, 6, 8, 13, 2, 12, 15, 14, 23, 24, 22, 16, 30, 32]", Arrays.toString(base));
     }
 
     /**
@@ -123,8 +136,13 @@ class PermutationGroupRubiksCubeForVideo {
 
     }
 
+
     /**
      * so far smallest configuration:
+     * elements  length     time        word                                     Factors
+     * 8M           31      11ks        rFbddBfBfrFbrdbDBDLdFbLfBTbtblB          [, , , , , , , LTbtblB, , LdFbLfBl, RdrdbDBD, , , RBfrFbDr, rFbddBfr, , , ]
+     * 100k         39      3.2s        trTFDBRfrbfRlfLrDFRdrBTRtbLrblRDRBdbdrB  [, , , , , , , RBdbdrB, LrblRD, , RdrBTRtb, fRlfLrDF, , , trTFDBRfrb, , , ]
+     * 100k         43      4s          lFRfLrDlfLFRtbrBTrrfDFRlFLfdBRlddrLBLDldfdF
      * with number of elements: 8 000 000
      * TRlbLBrLtl FlBdbDbLfL BlDLTdbtDR FLrdldFDFb lBfLTbdltB RDrdb
      * LbLBfdBdFb DLrblBRdFl bLfLBlbLBf dFFLfBdbdR DBrbrFDRfr f
@@ -141,7 +159,7 @@ class PermutationGroupRubiksCubeForVideo {
         //try to get the word of my configuration
         Permutation myConfig = Permutation.parse("(12 42 38 24)(13 41 29 31)(14 30)(15 43 37 45)(20 36)(21 23 47 39)(22 48 28 40)(48)");
         System.out.println("Is contained?: " + rubiksGroup.contains(myConfig));
-        int numberOfElements = 2000000;
+        int numberOfElements = 8000000;
         int simplificationRules =850;
         long start = System.currentTimeMillis();
         TreeSet<GroupElement> elements = rubiksGroup.elementToWordExtendedNew(myConfig, numberOfElements,simplificationRules,true);
@@ -165,8 +183,12 @@ class PermutationGroupRubiksCubeForVideo {
             if (out==10)
                 break;
         }
-        System.out.println("Amount of simplification rules: "+rubiksGroup.getSimplifyingRules(simplificationRules).size());
-        rubiksGroup.saveSimplificationRules();;
+
+        String shortest = sortedList.first();
+        elements.stream().filter(element -> element.toFullWordString().equals(shortest)).
+                findFirst().
+                ifPresent(element -> System.out.println("Shortest: "+element.getFactors()));
+
     }
 
 
@@ -210,16 +232,23 @@ class PermutationGroupRubiksCubeForVideo {
     void getNiceStabChainData(){
         long start = System.currentTimeMillis();
         int preTraining = 0;
-        int numberOfElements = 800000;
+        int numberOfElements = 100000;
         int maxBranching = 1;
-        int simplificationRules =800;
+        int simplificationRules =850;
         ExtendedMinkwitzChain chain = rubiksGroup.getExtendedMinkwitzChain(preTraining,numberOfElements,simplificationRules,maxBranching,true);
 
         int count = 0;
         while(chain.getOrbit().size()>0){
             Map<Byte,TreeSet<GroupElement>> coset_res = chain.getCosetRepresentativesMap();
             for (Map.Entry<Byte, TreeSet<GroupElement>> entry : coset_res.entrySet()) {
-                System.out.println("("+entry.getKey()+",0,-"+1.5*count+"):"+entry.getValue().first().getWord());
+                int base;
+                if (entry.getValue().first().getWord()==""){
+                    base = 1;
+                }
+                else{
+                    base  =0;
+                }
+                System.out.println("("+entry.getKey()+","+base+",-"+count+"):"+entry.getValue().first().getWord());
             }
             count++;
             chain = chain.getStabilizerChain();
